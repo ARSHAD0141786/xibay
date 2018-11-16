@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UploadFormPage } from '../upload-form/upload-form';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
+import { ERR_CORDOVA_NOT_AVAILABLE } from '../../../node_modules/@ionic-native/core';
 /**
  * Generated class for the SecondaryMainPage page.
  *
@@ -17,6 +18,7 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
   templateUrl: 'secondary-main.html',
 })
 export class SecondaryMainPage {
+  @ViewChild('fileInput') fileInput;
 
   // public image: any
   // public base64Image: string;
@@ -46,7 +48,7 @@ export class SecondaryMainPage {
 
   gotoNextPage(){
     if(this.imageURI){
-      this.navCtrl.push(UploadFormPage,this.imageURI);
+      this.navCtrl.push(UploadFormPage,{image:this.imageURI});
     }else{
       this.notify.presentToast("Your object should have atleast 1 image");
     }
@@ -117,7 +119,22 @@ export class SecondaryMainPage {
       // Handle error
       console.log(err);
       this.notify.presentToast(err);
+      // if(err==ERR_CORDOVA_NOT_AVAILABLE)
+      console.log('Image not loaded from phone');
+      this.fileInput.nativeElement.click();
     });
+  }
+
+  processWebImage(event) {
+    console.log('Opening file input mode...');
+    let reader = new FileReader();
+    reader.onload = (readerEvent) => {
+
+      let imageData = (readerEvent.target as any).result;
+      this.imageURI = imageData;
+      console.log(this.imageURI);
+    };
+    reader.readAsDataURL(event.target.files[0]);
   }
 
   deletePhoto() {

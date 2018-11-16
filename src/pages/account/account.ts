@@ -20,8 +20,8 @@ export class AccountPage {
 
   form: FormGroup;
   /**
-   * branch_name: "Computer Science"
-   * username: "arshad"
+  branch_name: "Computer Science"
+  username: "arshad"
   gender: "M"
   name: "Mohammed Arshad"
   phone_number: "8441975563"
@@ -134,6 +134,7 @@ export class AccountPage {
 
   processWebImage(event) {
     console.log('Opening file input mode...');
+    console.log(event);
     let reader = new FileReader();
     reader.onload = (readerEvent) => {
 

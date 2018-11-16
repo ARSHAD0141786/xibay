@@ -131,11 +131,13 @@ export class UploadFormPage {
   }
  */
   uploadFile(value:any) {
-   this.notify.presentLoading("Uploading data");
+  //  this.notify.presentLoading("Uploading data");
+  //  console.log(this.navParams.get('image'));
+  //  return;
     const fileTransfer: FileTransferObject = this.transfer.create();
     console.log("Form data : "+JSON.stringify(value));
     this.logs.addLog("Form data : "+JSON.stringify(value));
-    let data = {username:this.userAuth.username,token:this.userAuth.token,image:this.navParams.data,form_data:value};
+    let data = {username:this.userAuth.username,token:this.userAuth.token,form_data:value};
     let uploadData = JSON.stringify(data);
     let options: FileUploadOptions = {
       fileKey: 'ionicfile',
@@ -148,13 +150,13 @@ export class UploadFormPage {
       }
     }
   
-    fileTransfer.upload(this.navParams.data, this.networkEngine.BASE_URL + 'post-data', options)
+    fileTransfer.upload(this.navParams.get('image'), this.networkEngine.BASE_URL + 'post-data', options)
       .then((data:any) => {
         this.logs.addLog("File uploading : "+JSON.stringify(data));
         this.notify.closeLoading();
         if(data.message){
           console.log(JSON.stringify(data));
-          console.log(this.navParams.data);
+          console.log(this.navParams.get('image'));
           console.log(" Uploaded Successfully");
           // this.notify.presentToast("Data.message received : "+JSON.stringify(data.message));
           // this.notify.presentToast(JSON.stringify(data));

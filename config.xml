@@ -92,4 +92,5 @@
     </plugin>
     <plugin name="cordova-plugin-firebase" spec="https://github.com/jestcastro/cordova-plugin-firebase.git" />
     <engine name="android" spec="~7.0.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
 </widget>

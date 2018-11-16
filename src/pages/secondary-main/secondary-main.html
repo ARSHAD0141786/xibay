@@ -8,7 +8,11 @@
 
 
 <ion-content padding>
+  
+    <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
   <button ion-button block (click)="chooser()"><ion-icon name="camera"></ion-icon>&nbsp; &nbsp;Add photo</button>
+
+  
   <ion-card class="block" *ngIf="imageURI">
     <ion-icon name="close" class="delete_button" (click)="deletePhoto()"></ion-icon>
     <img [src]="imageURI"  imageViewer>

@@ -1,0 +1,21 @@
+<!--
+  Generated template for the OtpValidationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Xibay Authentication</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-input type="tel" placeholder="Enter phone number" [(ngModel)]="phoneNumber"></ion-input>
+  <button ion-button block (click)="sendOTP()">Send OTP</button>
+  <ion-input type="number" placeholder="Enter OTP" [(ngModel)]="code"></ion-input>
+  <button ion-button block (click)="verifyOTP()">Verifiy OTP</button>
+</ion-content>

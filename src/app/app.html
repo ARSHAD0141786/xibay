@@ -1,0 +1,126 @@
+
+  <!-- logged out menu -->
+  <ion-menu id="loggedOutMenu" [content]="content">
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="outer-content">
+
+      <ion-list>
+        <ion-list-header>
+          Navigate
+        </ion-list-header>
+        <button ion-item menuClose *ngFor="let p of appPagesLogOut" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          Account
+        </ion-list-header>
+        <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          Tutorial
+        </ion-list-header>
+        <button ion-item menuClose (click)="openTutorial()">
+          <ion-icon item-start name="hammer"></ion-icon>
+          Show Tutorial
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          Logs
+        </ion-list-header>
+        <button ion-item menuClose (click)="openLogs()">
+          <ion-icon item-start name="hammer"></ion-icon>
+          Show Logs(Developer)
+        </button>
+      </ion-list>
+    
+
+    </ion-content>
+
+    <!-- <ion-footer>
+      <ion-toolbar>
+        v18.4.0
+      </ion-toolbar>
+    </ion-footer> -->
+
+  </ion-menu>
+
+  <!-- logged in menu -->
+  <ion-menu id="loggedInMenu" [content]="content">
+
+    <ion-header>
+      <ion-toolbar>
+      </ion-toolbar>
+      <ion-item color="secondary" center>
+        <ion-avatar item-start>
+          <img src="assets/imgs/photo.jpg">
+        </ion-avatar>
+        <h3>Mohammed Arshad</h3>
+        <h6>+91 8441975563</h6>
+      </ion-item>
+    </ion-header>
+
+    <ion-content class="outer-content">
+
+      <ion-list>
+        <ion-list-header>
+          Navigate
+        </ion-list-header>
+        <button ion-item menuClose *ngFor="let p of appPagesLogIn" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          Account
+        </ion-list-header>
+        <button ion-item menuClose *ngFor="let p of loggedInPages" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          Tutorial
+        </ion-list-header>
+        <button ion-item menuClose (click)="openTutorial()">
+          <ion-icon item-start name="hammer"></ion-icon>
+          Show Tutorial
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          Logs
+        </ion-list-header>
+        <button ion-item menuClose (click)="openLogs()">
+          <ion-icon item-start name="hammer"></ion-icon>
+          Show Logs(Developer)
+        </button>
+      </ion-list>
+
+    </ion-content>
+
+  </ion-menu>
+
+  <!-- main navigation -->
+  <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main name="app"></ion-nav>

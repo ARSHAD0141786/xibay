@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{account.username}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <!-- design this page later -->
+  <img [src]="account.user_image_url"/>
+  <h3>{{account.name}}</h3>
+  <h4>+91 {{account.phone_number}}</h4>
+  <ion-note>
+    {{account.branch_name}}, {{account.year}}
+  </ion-note>
+</ion-content>

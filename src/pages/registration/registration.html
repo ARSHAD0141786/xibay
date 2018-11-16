@@ -1,0 +1,120 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Create account</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+	<form #signupForm="ngForm" novalidate>
+      <ion-list no-lines>
+          <ion-item>
+              <ion-label stacked color="primary">Username</ion-label>
+              <ion-input [(ngModel)]="signupOptions.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
+                required>
+              </ion-input>
+          </ion-item>
+          <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+            Username is required
+          </p>
+          
+          <ion-item>
+            <ion-label stacked color="primary">Password</ion-label>
+            <ion-input [(ngModel)]="signupOptions.password" name="password" type="password" #password="ngModel" spellcheck="false" autocapitalize="off" 
+            required>
+            </ion-input>
+          </ion-item>
+          <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+            Password is required
+          </p> 
+
+          <ion-item>
+            <ion-label stacked color="primary">Full Name</ion-label>
+            <ion-input [(ngModel)]="signupOptions.name" name="name" type="text" #name="ngModel" spellcheck="false" autocapitalize="off"
+            required>
+          </ion-input>
+          </ion-item>
+          <p ion-text [hidden]="name.valid || submitted == false" color="danger" padding-left>
+            Full name is required
+          </p>
+          
+
+          <ion-item >
+            <ion-label stacked color="primary">Gender</ion-label>
+            <ion-select [(ngModel)]="signupOptions.gender"  cancelText="Cancel" okText="Ok" name="gender" required>
+              <ion-option value="M" selected="true">Male</ion-option>
+              <ion-option value="F">Female</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked color="primary" >Branch</ion-label>
+            <ion-select [(ngModel)]="signupOptions.branch"  cancelText="Cancel" okText="Ok"  name="branch" required>
+              <ion-option *ngFor="let branch of branches" value={{branch.id}}>{{branch.branch_name}}</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked color="primary" >Year</ion-label>
+            <ion-select [(ngModel)]="signupOptions.year" cancelText="Cancel" okText="Ok" name="year" required>
+              <ion-option *ngFor="let year of years" value={{year.year_id}}>{{year.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- <ion-item>
+            <ion-label floating>Username</ion-label>
+            <ion-input type="text" name="username" ngModel required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Password</ion-label>
+            <ion-input type="password" name="password" ngModel required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Phone</ion-label>
+            <ion-input type="number" name="phone_number" ngModel required></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label>Gender</ion-label>
+              <ion-select cancelText="Cancel" okText="Ok" name="gender" ngModel required>
+                <ion-option value="M" selected="true">Male</ion-option>
+                <ion-option value="F">Female</ion-option>
+              </ion-select>
+            </ion-item>
+          <ion-item>
+            <ion-label>Branch</ion-label>
+            <ion-select cancelText="Cancel" okText="Ok"  name="branch" ngModel required>
+              <ion-option *ngFor="let branch of branches" value={{branch.id}}>{{branch.branch_name}}</ion-option>
+              <ion-option value="1" selected="true">Architecture</ion-option>
+              <ion-option value="2">Chemical</ion-option>
+              <ion-option value="3">Civil</ion-option>
+              <ion-option value="4">Computer Science</ion-option>
+              <ion-option value="5">Electrical</ion-option>
+              <ion-option value="6">ECC</ion-option>
+              <ion-option value="7">ECE</ion-option>
+              <ion-option value="8">EEE</ion-option>
+              <ion-option value="9">IT</ion-option>
+              <ion-option value="10">Mechanical</ion-option>
+              <ion-option value="11">Mining</ion-option>
+              <ion-option value="12">P&I</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>Year</ion-label>
+            <ion-select cancelText="Cancel" okText="Ok" name="year" ngModel required>
+              <ion-option *ngFor="let year of years" value={{year.year_id}}>{{year.name}}</ion-option>
+              <ion-option value="1" selected="true">1st</ion-option>
+              <ion-option value="2">2nd</ion-option>
+              <ion-option value="3">3rd</ion-option>
+              <ion-option value="4">Final</ion-option>
+            </ion-select>
+          </ion-item> -->
+        </ion-list>
+
+          <div padding>
+            <button ion-button (click)="onSignup(signupForm)" type="submit" block>Create</button>
+          </div>
+          <!-- <button ion-button full padding type="submit" >Register</button> -->
+  </form>
+</ion-content>

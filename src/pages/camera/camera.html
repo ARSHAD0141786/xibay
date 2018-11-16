@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Camera Page</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <button ion-button primary block (click)="takePhoto()"><ion-icon name="camera" ></ion-icon>&nbsp; &nbsp;Take Photo</button>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6 *ngFor="let photo of photos;let id=index">
+        <ion-card class="block" >
+          <ion-icon name="close" class="delete_button" (click)="deletePhoto(id)"></ion-icon>
+          <img [src]="photo">
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

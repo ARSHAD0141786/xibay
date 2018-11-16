@@ -1,0 +1,19 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Post Something</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <button ion-button block (click)="chooser()"><ion-icon name="camera"></ion-icon>&nbsp; &nbsp;Add photo</button>
+  <ion-card class="block" *ngIf="imageURI">
+    <ion-icon name="close" class="delete_button" (click)="deletePhoto()"></ion-icon>
+    <img [src]="imageURI"  imageViewer>
+  </ion-card>
+  <button ion-button block (click)="gotoNextPage()">Next
+    <ion-icon ios="ios-arrow-forward" md="md-arrow-forward" end></ion-icon>
+  </button>
+</ion-content>

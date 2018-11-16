@@ -1,0 +1,12 @@
+<ion-content>
+  <div *ngIf="logService.logs.length" class="logsArea" (click)="logService.clearLogs()">
+
+    <h2>Logs</h2>
+    <div *ngFor='let log of logService.logs'> 
+      <p>
+          {{log}}
+      </p>
+      <hr/>  
+    </div>
+  </div>
+</ion-content>

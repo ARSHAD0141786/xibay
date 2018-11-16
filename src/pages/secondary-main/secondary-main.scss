@@ -1,0 +1,21 @@
+page-secondary-main {
+    .block{
+        position: relative;
+        .delete_button{
+            position: absolute;
+            margin-left: 85%;
+            margin-top:5px;
+            color: #FFFFFF;
+            padding: 3px;
+            background-color: black;
+        }
+    }
+    .message{
+        margin:100px;
+        p{
+            margin:2px;
+            color:#CE93D8;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+    }
+}

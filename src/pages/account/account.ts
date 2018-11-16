@@ -20,6 +20,7 @@ export class AccountPage {
 
   /**
    * branch_name: "Computer Science"
+   * username: "arshad"
   gender: "M"
   name: "Mohammed Arshad"
   phone_number: "8441975563"

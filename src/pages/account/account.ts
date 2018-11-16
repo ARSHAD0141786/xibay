@@ -1,15 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, ModalController } from 'ionic-angular';
 import { NotifyProvider } from '../../providers/notify/notify';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Camera } from '@ionic-native/camera';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
-
-/**
- * Generated class for the AccountPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -17,8 +12,13 @@ import { UserDataProvider } from '../../providers/user-data/user-data';
   templateUrl: 'account.html',
 })
 export class AccountPage {
+  @ViewChild('fileInput') fileInput;
 
-  isReadyToSave:boolean = true;
+  isReadyToSave: boolean;
+
+  item: any;
+
+  form: FormGroup;
   /**
    * branch_name: "Computer Science"
    * username: "arshad"
@@ -51,7 +51,17 @@ export class AccountPage {
     private userData: UserDataProvider,
     private mdlCtrl: ModalController,
     private networkEngine: NetworkEngineProvider,
+    formBuilder: FormBuilder, public camera: Camera,
     public navParams: NavParams) {
+      this.form = formBuilder.group({
+        profilePic: [''],
+        name: ['', Validators.required],
+        about: ['']
+      });
+
+      this.form.valueChanges.subscribe((v) => {
+        this.isReadyToSave = this.form.valid;
+      });
     this.notify.presentLoading("Loading...");
     this.userData.getUsername().then((username: string) => {
       this.userData.getToken().then((token: string) => {
@@ -105,5 +115,41 @@ export class AccountPage {
   done(){
     console.log('update user details...')
     console.log('Not yet implemented');
+  }
+  getPicture() {
+    if (Camera['installed']()) {
+      this.camera.getPicture({
+        destinationType: this.camera.DestinationType.DATA_URL,
+        targetWidth: 96,
+        targetHeight: 96
+      }).then((data) => {
+        this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' + data });
+      }, (err) => {
+        alert('Unable to take photo');
+      })
+    } else {
+      this.fileInput.nativeElement.click();
+    }
+  }
+
+  processWebImage(event) {
+    console.log('Opening file input mode...');
+    let reader = new FileReader();
+    reader.onload = (readerEvent) => {
+
+      let imageData = (readerEvent.target as any).result;
+      this.form.patchValue({ 'profilePic': imageData });
+      console.log(imageData);
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  getProfileImageStyle() {
+    return 'url(' + this.form.controls['profilePic'].value + ')'
+  }
+  
+  save(){
+    console.log(this.form.value);
   }
 }

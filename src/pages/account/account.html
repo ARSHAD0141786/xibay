@@ -1,16 +1,22 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{account.username}}</ion-title>
+      <ion-buttons end>
+        <button ion-button (click)="done()" [disabled]="!isReadyToSave" strong>
+          <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
   <!-- design this page later -->
-  <img [src]="account.user_image_url"/>
-  <h3>{{account.name}}</h3>
-  <h4>+91 {{account.phone_number}}</h4>
+  <img [src]="account.user_image_url" (click)="seeFullImage(account.user_image_url)"/>
+  <h3>{{account.name}}   <ion-icon ios="ios-create" md="md-create"></ion-icon>
+  </h3>
+  <h4>+91 {{account.phone_number}} <ion-icon ios="ios-create" md="md-create"></ion-icon></h4>
   <ion-note>
-    {{account.branch_name}}, {{account.year}}
+    {{account.branch_name}}, {{account.year}} <ion-icon ios="ios-create" md="md-create"></ion-icon>
   </ion-note>
 </ion-content>

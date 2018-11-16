@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, MenuController, ModalController } from 'ionic-angular';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
@@ -18,6 +18,7 @@ import { UserDataProvider } from '../../providers/user-data/user-data';
 })
 export class AccountPage {
 
+  isReadyToSave:boolean = true;
   /**
    * branch_name: "Computer Science"
    * username: "arshad"
@@ -48,6 +49,7 @@ export class AccountPage {
     private notify: NotifyProvider,
     public menu: MenuController,
     private userData: UserDataProvider,
+    private mdlCtrl: ModalController,
     private networkEngine: NetworkEngineProvider,
     public navParams: NavParams) {
     this.notify.presentLoading("Loading...");
@@ -94,4 +96,14 @@ export class AccountPage {
     console.log('ionViewDidLoad AccountPage');
   }
 
+  seeFullImage(url:string){
+    let modal = this.mdlCtrl.create('FullImagePage',{image:url});
+    console.log('image_url : '+url);
+    modal.present();
+  }
+
+  done(){
+    console.log('update user details...')
+    console.log('Not yet implemented');
+  }
 }

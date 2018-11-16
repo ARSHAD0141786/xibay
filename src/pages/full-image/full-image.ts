@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the FullImagePage page.
@@ -15,11 +15,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class FullImagePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  image_url:string;
+
+  //this page just show the full image by url send in navParams from other page in {image: url} format;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+    this.image_url = navParams.get('image');
+    console.log(this.image_url);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FullImagePage');
+  }
+
+  goBack(){
+    this.viewCtrl.dismiss();
   }
 
 }

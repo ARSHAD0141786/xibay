@@ -21,6 +21,8 @@ export class WelcomePage {
       console.log(value);
       if(value==true){
         console.log('Open OTP Modal');
+        let otp_modal = this.modalCtrl.create('OtpValidationPage');
+        otp_modal.present();
       }
     })
     tc_modal.present();

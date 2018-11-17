@@ -14,7 +14,6 @@ import { LoginPage } from '../pages/login/login';
 import { RegistrationPage } from '../pages/registration/registration';
 import { TutorialsPage } from '../pages/tutorials/tutorials';
 import { DebugLogsPage } from '../pages/debug-logs/debug-logs';
-import { TermsAndConditionPage } from '../pages/terms-and-condition/terms-and-condition';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,7 +34,6 @@ import { Push } from '@ionic-native/push';
 
 import * as firebase from 'firebase';
 import { OtpValidationPage } from '../pages/otp-validation/otp-validation';
-import { OtpValidationPageModule } from '../pages/otp-validation/otp-validation.module';
 import { DeveloperPage } from '../pages/developer/developer';
 firebase.initializeApp({
   apiKey: "AIzaSyDOH8r5j6evr4npYDYFVUd5wleuUuH_cz4",

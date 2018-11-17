@@ -16,6 +16,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { DebugLogsPage } from '../pages/debug-logs/debug-logs';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { OtpValidationPage } from '../pages/otp-validation/otp-validation';
+import { DeveloperPage } from '../pages/developer/developer';
 
 
 export interface PageInterface {
@@ -190,7 +191,7 @@ export class Xibay {
   }
 
   openLogs(){
-    this.nav.push(DebugLogsPage);
+    this.nav.push(DeveloperPage);
   }
   enableMenu(loggedIn: boolean) {
     this.menu.enable(loggedIn, 'loggedInMenu');

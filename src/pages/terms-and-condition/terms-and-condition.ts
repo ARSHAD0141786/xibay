@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -8,11 +8,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TermsAndConditionPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,public viewCtrl: ViewController, public navParams: NavParams, private modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TermsAndConditionPage');
   }
 
+  onAgree(){
+    //open otp modal
+    console.log('User agreed on terms and conditions.')
+    this.viewCtrl.dismiss(true);
+  }
+  onCancel(){
+    this.viewCtrl.dismiss(false);
+  }
 }

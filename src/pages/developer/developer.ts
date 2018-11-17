@@ -9,6 +9,7 @@ import { TermsAndConditionPage } from '../terms-and-condition/terms-and-conditio
 import { NotifyProvider } from '../../providers/notify/notify';
 import { CameraPage } from '../camera/camera';
 import { OtpValidationPage } from '../otp-validation/otp-validation';
+import { DebugLogsPage } from '../debug-logs/debug-logs';
 
 /**
  * Generated class for the DeveloperPage page.
@@ -47,6 +48,9 @@ export class DeveloperPage {
   openTutorials(){
     this.logs.addLog("Pushing tutorials page.");
     this.navCtrl.push(TutorialsPage);
+  }
+  showLogs(){
+    this.navCtrl.push(DebugLogsPage);
   }
   loadLoginPage(){
     this.logs.addLog("Pushing login page");

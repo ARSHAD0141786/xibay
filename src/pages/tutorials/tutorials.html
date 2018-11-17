@@ -10,11 +10,10 @@
       <h2 class="slide-title" [innerHTML]="slide.title"></h2>
       <p [innerHTML]="slide.description"></p>
     </ion-slide>
-    <ion-slide>
-      <ion-toolbar>
-      </ion-toolbar>
-      <h2 class="slide-title">Ready to Play?</h2>
-      <button ion-button large clear icon-end color="primary" (click)="startApp()">
+    <ion-slide class="last-slide" style="background-color:#25aae2;">
+      <img src="assets/imgs/tuts/phone.jpg" class="slide-image" />
+      <h2 class="slide-title">Get ready to Start</h2>
+      <button ion-button icon-end large clear (click)="startApp()">
         Continue
         <ion-icon name="arrow-forward"></ion-icon>
       </button>

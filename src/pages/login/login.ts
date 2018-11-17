@@ -91,9 +91,9 @@ export class LoginPage {
   forgotCredentials(){
     console.log('forgot credentials tapped....')
     let otp_modal = this.modalCtrl.create('OtpValidationPage');
-    otp_modal.onDidDismiss(isVerified => {
-      console.log('OTP Verified : ' + isVerified);
-      if(isVerified==true){
+    otp_modal.onDidDismiss(phoneNumber => {
+      console.log('OTP Verified : ' + phoneNumber);
+      if(phoneNumber){
         //load forgotcredential modal
         let forgot_credential_modal = this.modalCtrl.create('ForgotCredentialsPage');
         forgot_credential_modal.present();

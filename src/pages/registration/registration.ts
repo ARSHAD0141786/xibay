@@ -17,7 +17,20 @@ export class RegistrationPage {
 
   // these are dynamic arrays which will fill at runtime from database
   years: any;
-  branches: any;
+  branches: any = [
+    'ARC',
+    'CH',
+    'CIV',
+    'CSE',
+    'EE',
+    'ECC',
+    'ECE',
+    'EEE',
+    'IT',
+    'ME',
+    'MI',
+    'P&I'
+  ];
 
   defaultFormData  = {
     "name":"Mohammed Arshad",
@@ -25,7 +38,7 @@ export class RegistrationPage {
     "password":"arshad01",
     "phone_number":"8441975563",
     "gender":"M",
-    "branch":"4",
+    "branch":"CSE",
     "year":"3"
   };
 
@@ -33,7 +46,7 @@ export class RegistrationPage {
     username:'',
     name:'',
     // phone_number come from OTP activity
-    phone_number:'8441975563',
+    phone_number:'',
     password:'',
     gender:'',
     branch:'',
@@ -51,29 +64,9 @@ export class RegistrationPage {
     private notify: NotifyProvider,
     private storage: Storage,
     private logs: LogsServiceProvider) {
+      this.signupOptions.phone_number = this.navParams.get('phone');
+      console.log('phone number : ' + this.signupOptions.phone_number);
       this.notify.presentLoading("Please wait...");
-      this.networkEngine.get('get-year-category-branch').then((result:string) =>{
-        let data = JSON.parse(result);
-        this.notify.closeLoading();
-        if(data._body){
-          this.storage.get('FCM_TOKEN').then((FCM_TOKEN:String)=>{
-            this.signupOptions.FCM_TOKEN = FCM_TOKEN;
-          });
-          let response = JSON.parse(data._body);
-          if(response.branch){
-            this.branches = response.branch;
-          }
-          console.log(this.branches);
-          if(response.year){
-            this.years = response.year;
-          }
-          console.log(this.years);
-        }
-      },
-      (err:any)=>{
-        this.notify.closeLoading();
-        console.log(err);
-      });
   }
 
   ionViewDidLoad() {

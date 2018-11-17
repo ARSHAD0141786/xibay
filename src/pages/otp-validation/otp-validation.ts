@@ -47,7 +47,7 @@ export class OtpValidationPage {
 
   //remove this method in production mode
   verifyWithoutOtp(){
-    this.viewCtrl.dismiss(true);
+    this.viewCtrl.dismiss(this.phoneNumber);
   }
 
   ionViewDidLoad() {

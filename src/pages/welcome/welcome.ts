@@ -23,10 +23,10 @@ export class WelcomePage {
       if(value==true){
         console.log('Open OTP Modal');
         let otp_modal = this.modalCtrl.create('OtpValidationPage');
-        otp_modal.onDidDismiss(isVerified => {
-          console.log('is user verified through OTP : ' + isVerified);
-          if(isVerified==true){
-            this.navCtrl.push(RegistrationPage);
+        otp_modal.onDidDismiss(phoneNumber => {
+          console.log('user verified through OTP : ' + phoneNumber);
+          if(phoneNumber){
+            this.navCtrl.push(RegistrationPage,{phone:phoneNumber});
           }
         });
         otp_modal.present();

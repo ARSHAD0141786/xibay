@@ -52,14 +52,28 @@
           <ion-item>
             <ion-label stacked color="primary" >Branch</ion-label>
             <ion-select [(ngModel)]="signupOptions.branch"  cancelText="Cancel" okText="Ok"  name="branch" required>
-              <ion-option *ngFor="let branch of branches" value={{branch.id}}>{{branch.branch_name}}</ion-option>
+              <ion-option value="branches[0]" selected="true">Architecture</ion-option>
+              <ion-option value="branches[1]">Chemical</ion-option>
+              <ion-option value="branches[2]">Civil</ion-option>
+              <ion-option value="branches[3]">Computer Science</ion-option>
+              <ion-option value="branches[4]">Electrical</ion-option>
+              <ion-option value="branches[5]">ECC</ion-option>
+              <ion-option value="branches[6]">ECE</ion-option>
+              <ion-option value="branches[7]">EEE</ion-option>
+              <ion-option value="branches[8]">Information Technology</ion-option>
+              <ion-option value="branches[9]">Mechanical</ion-option>
+              <ion-option value="branches[10]">Mining</ion-option>
+              <ion-option value="branches[11]">Production & Industrial</ion-option>
             </ion-select>
           </ion-item>
 
           <ion-item>
             <ion-label stacked color="primary" >Year</ion-label>
             <ion-select [(ngModel)]="signupOptions.year" cancelText="Cancel" okText="Ok" name="year" required>
-              <ion-option *ngFor="let year of years" value={{year.year_id}}>{{year.name}}</ion-option>
+              <ion-option value="1">1st</ion-option>
+              <ion-option value="2">2nd</ion-option>
+              <ion-option value="3">3rd</ion-option>
+              <ion-option value="4">Final</ion-option>
             </ion-select>
           </ion-item>
 

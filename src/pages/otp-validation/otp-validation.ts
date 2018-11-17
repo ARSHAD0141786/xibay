@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import * as firebase from 'firebase';
 /**
@@ -19,7 +19,7 @@ export class OtpValidationPage {
   code: string="";
   phoneNumber: string="";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private logs:LogsServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private logs:LogsServiceProvider,private viewCtrl: ViewController) {
   }
 
   sendOTP(){
@@ -38,9 +38,15 @@ export class OtpValidationPage {
     firebase.auth().signInWithCredential(signInCredential).then((info)=>{
     console.log(info);
     this.logs.addLog(""+info);
+    this.viewCtrl.dismiss(true);
     },(error)=>{
       this.logs.addLog(error);
     });
+  }
+
+  //remove this method in production mode
+  verifyWithoutOtp(){
+    this.viewCtrl.dismiss(true);
   }
 
   ionViewDidLoad() {

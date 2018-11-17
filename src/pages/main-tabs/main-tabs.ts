@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { AlertController, App, FabContainer, ItemSliding, List, ModalController, ToastController, LoadingController } from 'ionic-angular';
 import { PrimaryMainPage } from '../primary-main/primary-main';
 import { SecondaryMainPage } from '../secondary-main/secondary-main';
 import { NotifyProvider } from '../../providers/notify/notify';
@@ -18,18 +17,18 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 })
 export class MainTabsPage {
 
-  @ViewChild('scheduleList', { read: List }) scheduleList: List;
+  // @ViewChild('scheduleList', { read: List }) scheduleList: List;
 
-  dayIndex = 0;
-  queryText = '';
-  segment = 'all';
-  excludeTracks: any = [];
-  shownSessions: any = [];
-  groups: any = [];
-  confDate: string;
+  // dayIndex = 0;
+  // queryText = '';
+  // segment = 'all';
+  // excludeTracks: any = [];
+  // shownSessions: any = [];
+  // groups: any = [];
+  // confDate: string;
 
-  tab1Root = PrimaryMainPage;
-  tab2Root = SecondaryMainPage;
+  // tab1Root = PrimaryMainPage;
+  // tab2Root = SecondaryMainPage;
   public photos: any;
   public noRecords: boolean;
   public base64Image: string;

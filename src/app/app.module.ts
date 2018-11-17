@@ -35,6 +35,7 @@ import { Push } from '@ionic-native/push';
 import * as firebase from 'firebase';
 import { OtpValidationPage } from '../pages/otp-validation/otp-validation';
 import { DeveloperPage } from '../pages/developer/developer';
+import { OtpValidationPageModule } from '../pages/otp-validation/otp-validation.module';
 firebase.initializeApp({
   apiKey: "AIzaSyDOH8r5j6evr4npYDYFVUd5wleuUuH_cz4",
   authDomain: "xibay-64286.firebaseapp.com",

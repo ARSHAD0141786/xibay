@@ -1,12 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ForgotCredentialsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -15,11 +8,27 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ForgotCredentialsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  isUserFound:boolean = false;
+  newPassword:string;
+  cnfNewPassword:string;
+  username:string;
+  constructor(public navCtrl: NavController, public navParams: NavParams,private viewCtrl:ViewController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ForgotCredentialsPage');
+  }
+
+  findUser(){
+    console.log('Find user : '+this.username);
+    this.isUserFound = true;
+  }
+  resetPassword(){
+    if(this.newPassword == this.cnfNewPassword){
+      console.log('Password : '+this.newPassword);
+    }
+    this.viewCtrl.dismiss();
+
   }
 
 }

@@ -1,15 +1,14 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>Login</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
-
+  <div class="logo-icon">
+    
+  </div>
     <form #loginForm="ngForm" novalidate>
         <ion-list no-lines>
           <ion-item>
@@ -31,7 +30,7 @@
             Password is required
           </p>
         </ion-list>
-    
+
         <ion-row responsive-sm>
           <ion-col>
             <button ion-button (click)="onLogin(loginForm)" type="submit" round outline>
@@ -45,22 +44,4 @@
           </ion-col>
         </ion-row>
       </form>
-
-
-    <!-- <ion-list>
-      <ion-item>
-        <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="userData.username" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="userData.password" required></ion-input>
-      </ion-item>
-    </ion-list>
-    <button ion-button full (click)="login()" >Login</button> -->
-  
-  
-    <!-- <page-debug-logs></page-debug-logs> -->
-
-
   </ion-content>

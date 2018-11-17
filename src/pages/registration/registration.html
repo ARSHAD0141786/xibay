@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content padding>
+  <h3 align="center">Sign Up Form<hr/></h3>
 	<form #signupForm="ngForm" novalidate>
       <ion-list no-lines>
           <ion-item>
@@ -18,6 +19,9 @@
           </ion-item>
           <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
             Username is required
+          </p>
+          <p ion-text [hidden]="!this.isUsernameExists || submitted == false" color="danger" padding-left>
+            Username already exists
           </p>
           
           <ion-item>
@@ -41,9 +45,9 @@
           </p>
           
 
-          <ion-item >
-            <ion-label stacked color="primary">Gender</ion-label>
-            <ion-select [(ngModel)]="signupOptions.gender"  cancelText="Cancel" okText="Ok" name="gender" required>
+          <ion-item style="margin-bottom: 10px;">
+            <ion-label color="primary">Gender</ion-label>
+            <ion-select [(ngModel)]="signupOptions.gender"  cancelText="Cancel" interface="popover" okText="Ok" name="gender" required>
               <ion-option value="M" selected="true">Male</ion-option>
               <ion-option value="F">Female</ion-option>
               <ion-option value="O">Other</ion-option>
@@ -53,9 +57,9 @@
               Gender is required
           </p>
 
-          <ion-item>
-            <ion-label stacked color="primary" >Branch</ion-label>
-            <ion-select [(ngModel)]="signupOptions.branch"  cancelText="Cancel" okText="Ok"  name="branch" required>
+          <ion-item style="margin-bottom: 10px;">
+            <ion-label color="primary" >Branch</ion-label>
+            <ion-select [(ngModel)]="signupOptions.branch"  cancelText="Cancel" interface="popover" okText="Ok"  name="branch" required>
               <ion-option value="{{this.branches[0]}}" selected="true">Architecture</ion-option>
               <ion-option value="{{this.branches[1]}}">Chemical</ion-option>
               <ion-option value="{{this.branches[2]}}">Civil</ion-option>
@@ -74,9 +78,9 @@
               Branch is required
           </p>
 
-          <ion-item>
-            <ion-label stacked color="primary" >Year</ion-label>
-            <ion-select [(ngModel)]="signupOptions.year" cancelText="Cancel" okText="Ok" name="year" required>
+          <ion-item style="margin-bottom: 10px;">
+            <ion-label color="primary" >Year</ion-label>
+            <ion-select [(ngModel)]="signupOptions.year" cancelText="Cancel" interface="popover" okText="Ok" name="year" required>
               <ion-option value="1">1st</ion-option>
               <ion-option value="2">2nd</ion-option>
               <ion-option value="3">3rd</ion-option>

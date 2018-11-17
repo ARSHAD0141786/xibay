@@ -32,6 +32,8 @@ export class RegistrationPage {
     'P&I'
   ];
 
+  isUsernameExists:boolean = false;
+
   defaultFormData  = {
     "name":"Mohammed Arshad",
     "username":"arshad0141786",
@@ -107,6 +109,7 @@ export class RegistrationPage {
           if(error == '23000'){
             let field = this.responseData.Error.split('key ')[1];
             console.log(field);
+            this.isUsernameExists = true;
             this.notify.presentToast(field + " already registered");    
           }else if(error == 'HY000'){
             this.notify.presentToast("General error");

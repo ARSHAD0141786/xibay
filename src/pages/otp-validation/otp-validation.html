@@ -14,9 +14,28 @@
 
 
 <ion-content padding>
-  <ion-input type="tel" placeholder="Enter phone number" [(ngModel)]="phoneNumber"></ion-input>
-  <button ion-button block (click)="sendOTP()">Send OTP</button>
-  <ion-input type="number" placeholder="Enter OTP" [(ngModel)]="code"></ion-input>
-  <button ion-button block (click)="verifyOTP()">Verifiy OTP</button>
+  <div *ngIf="!isOTPSent" align="center">
+    <p>Please enter your phone number <b>without</b> using country code and click on SEND OTP button. After that an OTP will be send on your phone number to validate the correct user.<br/><span style="font-size: 10px;">*Charges may apply.</span></p>
+    <ion-note align="left">Like : "9290XXXXXX"</ion-note>
+    <ion-input style="margin-top: 40px;" type="tel" placeholder="Phone number" [(ngModel)]="phoneNumber"></ion-input>
+    <button style="margin-top: 40px;" ion-button (click)="sendOTP()" round outline>Send OTP</button>    
+  </div>
+
+  <div *ngIf="isOTPSent">
+    <p>We have sent an OTP to the phone number "{{this.phoneNumber}}". In case OTP not received then click on Resend OTP button or change phone number in case of wrong number entered.</p>
+    <ion-input type="number" placeholder="Enter OTP" [(ngModel)]="code"></ion-input>
+    <ion-row>
+      <ion-col>
+        <button ion-button block (click)="verifyOTP()" round outline>Verifiy OTP</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button block (click)="sendOTP()" round outline>Resend OTP</button>
+        </ion-col>
+    </ion-row>
+    <p><a (click)="editPhoneNumber()">Change phone number?</a></p>
+  </div>
+
+
+  
   <button ion-button block (click)="verifyWithoutOtp()">Developer</button>
 </ion-content>

@@ -28,7 +28,6 @@ export class ForgotCredentialsPage {
       console.log('Password : '+this.newPassword);
     }
     this.viewCtrl.dismiss();
-
   }
 
 }

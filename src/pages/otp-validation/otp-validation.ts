@@ -18,14 +18,15 @@ export class OtpValidationPage {
   verificationId: any;
   code: string="";
   phoneNumber: string="";
+  isOTPSent:boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private logs:LogsServiceProvider,private viewCtrl: ViewController) {
   }
 
   sendOTP(){
     this.logs.addLog("Sending OTP...");
+    this.isOTPSent = true;
     (<any>window).FirebasePlugin.verifyPhoneNumber("+91" + this.phoneNumber,60,(credentials)=>{
-      alert("SMS Sent successfullly");
       this.logs.addLog("Firebase Auth : "+credentials);
       this.verificationId = credentials.verificationId;
     },(error)=>{
@@ -51,6 +52,10 @@ export class OtpValidationPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OtpValidationPage');
+  }
+
+  editPhoneNumber(){
+    this.isOTPSent = false;
   }
 
 

@@ -22,7 +22,7 @@
   </div>
 
   <div *ngIf="isOTPSent">
-    <p>We have sent an OTP to the phone number "{{this.phoneNumber}}". In case OTP not received then click on Resend OTP button or change phone number in case of wrong number entered.</p>
+    <p>We have sent an OTP to the phone number <b>"{{this.phoneNumber}}"</b>. In case OTP not received then click on Resend OTP button or change phone number in case of wrong number entered.</p>
     <ion-input type="number" placeholder="Enter OTP" [(ngModel)]="code"></ion-input>
     <ion-row>
       <ion-col>

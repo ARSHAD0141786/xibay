@@ -6,3 +6,4 @@
 // export const MainPage = 'TabsPage';
 
 export const FullImagePage = 'FullImagePage';
+export const DeveloperPage = 'DeveloperPage';

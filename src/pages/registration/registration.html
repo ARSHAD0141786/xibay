@@ -46,26 +46,33 @@
             <ion-select [(ngModel)]="signupOptions.gender"  cancelText="Cancel" okText="Ok" name="gender" required>
               <ion-option value="M" selected="true">Male</ion-option>
               <ion-option value="F">Female</ion-option>
+              <ion-option value="O">Other</ion-option>
             </ion-select>
           </ion-item>
+          <p ion-text [hidden]="this.signupOptions.gender || submitted == false" color="danger" padding-left>
+              Gender is required
+          </p>
 
           <ion-item>
             <ion-label stacked color="primary" >Branch</ion-label>
             <ion-select [(ngModel)]="signupOptions.branch"  cancelText="Cancel" okText="Ok"  name="branch" required>
-              <ion-option value="branches[0]" selected="true">Architecture</ion-option>
-              <ion-option value="branches[1]">Chemical</ion-option>
-              <ion-option value="branches[2]">Civil</ion-option>
-              <ion-option value="branches[3]">Computer Science</ion-option>
-              <ion-option value="branches[4]">Electrical</ion-option>
-              <ion-option value="branches[5]">ECC</ion-option>
-              <ion-option value="branches[6]">ECE</ion-option>
-              <ion-option value="branches[7]">EEE</ion-option>
-              <ion-option value="branches[8]">Information Technology</ion-option>
-              <ion-option value="branches[9]">Mechanical</ion-option>
-              <ion-option value="branches[10]">Mining</ion-option>
-              <ion-option value="branches[11]">Production & Industrial</ion-option>
+              <ion-option value="{{this.branches[0]}}" selected="true">Architecture</ion-option>
+              <ion-option value="{{this.branches[1]}}">Chemical</ion-option>
+              <ion-option value="{{this.branches[2]}}">Civil</ion-option>
+              <ion-option value="{{this.branches[3]}}">Computer Science</ion-option>
+              <ion-option value="{{this.branches[4]}}">Electrical</ion-option>
+              <ion-option value="{{this.branches[5]}}">ECC</ion-option>
+              <ion-option value="{{this.branches[6]}}">ECE</ion-option>
+              <ion-option value="{{this.branches[7]}}">EEE</ion-option>
+              <ion-option value="{{this.branches[8]}}">Information Technology</ion-option>
+              <ion-option value="{{this.branches[9]}}">Mechanical</ion-option>
+              <ion-option value="{{this.branches[10]}}">Mining</ion-option>
+              <ion-option value="{{this.branches[11]}}">Production & Industrial</ion-option>
             </ion-select>
           </ion-item>
+          <p ion-text [hidden]="this.signupOptions.branch || submitted == false" color="danger" padding-left>
+              Branch is required
+          </p>
 
           <ion-item>
             <ion-label stacked color="primary" >Year</ion-label>
@@ -76,54 +83,9 @@
               <ion-option value="4">Final</ion-option>
             </ion-select>
           </ion-item>
-
-          <!-- <ion-item>
-            <ion-label floating>Username</ion-label>
-            <ion-input type="text" name="username" ngModel required></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>Password</ion-label>
-            <ion-input type="password" name="password" ngModel required></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>Phone</ion-label>
-            <ion-input type="number" name="phone_number" ngModel required></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label>Gender</ion-label>
-              <ion-select cancelText="Cancel" okText="Ok" name="gender" ngModel required>
-                <ion-option value="M" selected="true">Male</ion-option>
-                <ion-option value="F">Female</ion-option>
-              </ion-select>
-            </ion-item>
-          <ion-item>
-            <ion-label>Branch</ion-label>
-            <ion-select cancelText="Cancel" okText="Ok"  name="branch" ngModel required>
-              <ion-option *ngFor="let branch of branches" value={{branch.id}}>{{branch.branch_name}}</ion-option>
-              <ion-option value="1" selected="true">Architecture</ion-option>
-              <ion-option value="2">Chemical</ion-option>
-              <ion-option value="3">Civil</ion-option>
-              <ion-option value="4">Computer Science</ion-option>
-              <ion-option value="5">Electrical</ion-option>
-              <ion-option value="6">ECC</ion-option>
-              <ion-option value="7">ECE</ion-option>
-              <ion-option value="8">EEE</ion-option>
-              <ion-option value="9">IT</ion-option>
-              <ion-option value="10">Mechanical</ion-option>
-              <ion-option value="11">Mining</ion-option>
-              <ion-option value="12">P&I</ion-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label>Year</ion-label>
-            <ion-select cancelText="Cancel" okText="Ok" name="year" ngModel required>
-              <ion-option *ngFor="let year of years" value={{year.year_id}}>{{year.name}}</ion-option>
-              <ion-option value="1" selected="true">1st</ion-option>
-              <ion-option value="2">2nd</ion-option>
-              <ion-option value="3">3rd</ion-option>
-              <ion-option value="4">Final</ion-option>
-            </ion-select>
-          </ion-item> -->
+          <p ion-text [hidden]="this.signupOptions.year || submitted == false" color="danger" padding-left>
+              Year is required
+          </p>
         </ion-list>
 
           <div padding>

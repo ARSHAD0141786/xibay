@@ -24,6 +24,9 @@ export class WelcomePage {
         let otp_modal = this.modalCtrl.create('OtpValidationPage');
         otp_modal.present();
       }
+      if(value==false){
+        
+      }
     })
     tc_modal.present();
   }

@@ -8,7 +8,7 @@ import * as firebase from 'firebase';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+@IonicPage()
 @Component({
   selector: 'page-otp-validation',
   templateUrl: 'otp-validation.html',

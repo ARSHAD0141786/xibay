@@ -17,6 +17,8 @@ import { DebugLogsPage } from '../pages/debug-logs/debug-logs';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { OtpValidationPage } from '../pages/otp-validation/otp-validation';
 import { DeveloperPage } from '../pages/developer/developer';
+import { RequestsPage } from '../pages/requests/requests';
+import { PostedProductsPage } from '../pages/posted-products/posted-products';
 
 
 export interface PageInterface {
@@ -41,7 +43,9 @@ export class Xibay {
 
   appPagesLogIn:PageInterface[]=[
     {title:'Home',name:'home',component:MainTabsPage,icon:"home"},
-    {title:'Papers',name:'papers',component:CameraPage,icon:'paper'}
+    {title:'Papers',name:'papers',component:CameraPage,icon:'paper'},
+    {title: 'Requests' , name:'total_requests_from_others',component:RequestsPage,icon:'md-chatbubbles'},
+    {title: 'Posted Products' , name:'users_posted_product',component:PostedProductsPage,icon:'md-cloud-done'}
   ];
 
   appPagesLogOut:PageInterface[]=[

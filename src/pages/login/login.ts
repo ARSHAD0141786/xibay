@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
@@ -29,6 +29,7 @@ export class LoginPage {
     public navParams: NavParams,
     private networkEngine: NetworkEngineProvider,
     private notify: NotifyProvider,
+    private modalCtrl: ModalController,
     private logs: LogsServiceProvider) {
   }
 
@@ -85,6 +86,17 @@ export class LoginPage {
 
   onSignUp(){
     this.navCtrl.push(RegistrationPage);
+  }
+
+  forgotCredentials(){
+    let otp_modal = this.modalCtrl.create('OtpValidationPage');
+    otp_modal.onDidDismiss(isVerified => {
+      console.log('OTP Verified : ' + isVerified);
+      if(isVerified==true){
+        //load forgotcredential modal
+      }
+      otp_modal.present();
+    });
   }
 
 }

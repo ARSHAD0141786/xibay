@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { item } from '../../interfaces/posted_item';
+import { UserProductDescriptionPage } from '../user-product-description/user-product-description';
 
 @IonicPage()
 @Component({
@@ -41,13 +42,14 @@ export class PostedProductsPage {
       category_name:'Books',
       image_url:'http://localhost/xibay/public_html/photo/img-20180712-5b47c082a1c53ionicfile.jpg',
       is_hidden:0,
-      useful_year:'["3rd","Final"] ',
-      useful_branch:'["Computer Science","ECC","Information Technology"]',
+      useful_year:["3rd","Final"],
+      useful_branch:["Computer Science","ECC","Information Technology"],
       total_requests:0,
-      posted_on:'1531428994',
+      created:	1531428907,
       sold_on:null,
       sold_to:null
     }
+    this.posted_products.push(item1);
     this.posted_products.push(item1);
   }
 
@@ -57,6 +59,7 @@ export class PostedProductsPage {
 
   openItem(item:item){
     console.log('open item');
+    this.navCtrl.push(UserProductDescriptionPage,{product:item});
   }
   deleteItem(item:item){
     console.log('delete item');

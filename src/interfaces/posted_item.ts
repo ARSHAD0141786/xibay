@@ -4,10 +4,10 @@ export interface item{
     category_name:string,
     image_url:string,
     is_hidden:number,
-    useful_year:string,
-    useful_branch:string,
+    useful_year:Array<string>,
+    useful_branch:Array<string>,
     total_requests:number,
-    posted_on:string,
-    sold_on?:string,
+    created:number,
+    sold_on?:number,
     sold_to?:string
 }

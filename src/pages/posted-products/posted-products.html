@@ -10,7 +10,7 @@
 <ion-content padding>
 
   <ion-list>
-      <ion-item-sliding *ngFor="let item of items">
+      <ion-item-sliding *ngFor="let item of posted_products">
           <button ion-item (click)="openItem(item)">
             <ion-avatar item-start>
               <img [src]="item.image_url" />

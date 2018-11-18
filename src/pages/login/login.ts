@@ -43,13 +43,11 @@ export class LoginPage {
     if (form.valid) {
       this.notify.presentLoading("Please wait...");
       this.logs.addLog(JSON.stringify(this.loginOptions));
-      this.networkEngine.post(this.loginOptions, "login-for-xibay").then((result:string) => {
+      this.networkEngine.post(this.loginOptions, "login-for-xibay").then((result:any) => {
         this.notify.closeLoading();
-        this.responseData = JSON.parse(JSON.parse(result)._body);
-        console.log(this.responseData);
+        this.responseData = result;
         if (this.responseData.user_data) {
           this.userData.login(this.responseData);
-          // this.notify.presentToast('Login success');
           this.navCtrl.setRoot(MainTabsPage);
         }
         else {

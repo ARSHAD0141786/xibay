@@ -1,18 +1,26 @@
-<!--
-  Generated template for the RequestsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>requests</ion-title>
+    <ion-title>Sent requests</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+    <ion-list>
+        <ion-item *ngFor="let request of this.requests">
+          <ion-thumbnail item-start>
+            <img [src]="request.image_url" (click)="openImage()">
+          </ion-thumbnail>
+          <h2>{{request.title}}</h2>
+          <p>{{request.description}}</p>
+          <p style="color:#ff4000;" *ngIf="request.status==-1">Rejected</p>
+          <p style="color:#0080ff;" *ngIf="request.status==0">In Progress</p>
+          <p style="color:#00ff40;" *ngIf="request.status==1">Accepted</p>
+          <button ion-button clear item-end>View</button>
+        </ion-item>
+    </ion-list>
 
 </ion-content>

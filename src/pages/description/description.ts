@@ -45,7 +45,8 @@ year: "4"
   private userPostData = {
     token:'',
     username:'',
-    item_id:''
+    item_id:'',
+    to_username:''
   };
 
   private content:{
@@ -76,6 +77,7 @@ year: "4"
 
     let item:any  = navParams.data;
     this.content = item;
+    this.userPostData.to_username = this.content.username;
     this.branches = this.content.useful_branch.split(',');
     this.years = this.content.useful_year.split(',');
     this.notify.presentLoading("Please wait...");
@@ -107,14 +109,7 @@ year: "4"
 
   sendRequest(){
       this.notify.presentLoading("Sending request...");
-      this.network.post(this.userPostData,'send-request').then((response:string)=>{
-        console.log(response);
-        let data = JSON.parse(response);
-        console.log(data);
-        if(data._body){
-          console.log(data._body);
-          let d = JSON.parse(data._body);
-          console.log(d);
+      this.network.post(this.userPostData,'send-request').then((d:any)=>{
           if(d.message){
             this.notify.presentToast('Request sent succesfully');
           }else if(d.error){
@@ -131,7 +126,6 @@ year: "4"
           }else{
             this.notify.presentToast("Something went wrong");
           }
-        }
       },(err)=>{
         this.notify.presentToast("error : "+JSON.stringify(err));
       });

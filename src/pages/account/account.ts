@@ -69,18 +69,16 @@ export class AccountPage {
         this.notify.presentLoading("Please wait..");
         this.userAuth.username = username;
         this.userAuth.token = token;
+        
         this.networkEngine.post(this.userAuth, 'get-user-data').then(
-          (result: string) => {
+          (result: any) => {
             this.notify.closeLoading();
-            let data = JSON.parse(result);
-            if (data._body) {
-              data = JSON.parse(data._body).data[0];
+              let data = result.data[0];
               console.log('Data from get-user-detaisl : ');
               console.log(data);
               if (data) {
                 this.account = data;
               }
-            }
           },
           (err) => {
             this.notify.closeLoading();

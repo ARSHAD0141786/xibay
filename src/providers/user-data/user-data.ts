@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { NotifyProvider } from '../notify/notify';
-import { LogsServiceProvider } from '../logs-service/logs-service';
-import { NetworkEngineProvider } from '../network-engine/network-engine';
 
 @Injectable()
 export class UserDataProvider {
+  public userPostData:any = {
+    username:'',
+    token:'',
+  };
+
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
   constructor(
@@ -22,6 +24,8 @@ export class UserDataProvider {
     // set storage data
     this.storage.set('username',user_data.username);
     this.storage.set('token',result.token);
+    this.userPostData.username = user_data.username;
+    this.userPostData.token = result.token;
     this.storage.set('user_data',user_data);
     this.storage.set(this.HAS_LOGGED_IN, true);
 
@@ -47,14 +51,20 @@ export class UserDataProvider {
 
   getUsername(): Promise<string>{
     return this.storage.get('username').then((value:string) => {
+      this.userPostData.username = value;
       return value;
     });
   };
   getToken(): Promise<string>{
     return this.storage.get('token').then((value:string) => {
+      this.userPostData.token = value;
       return value;
     });
   };
+
+  getUserPostData(){
+    return this.userPostData;
+  }
 
   hasLoggedIn(): Promise<boolean> {
     console.log(this.storage.get(this.HAS_LOGGED_IN));

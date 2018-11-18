@@ -101,23 +101,16 @@ year: "4"
   fetchMainContent() {
     this.notify.presentLoading("Loading main content...");
     this.logs.addLog('Fetching main content');
-    this.network.post(this.userPostData, 'fetch-main-content').then((result: string) => {
+    this.network.post(this.userPostData, 'fetch-main-content').then((fetchData:any) => {
       this.notify.closeLoading();
       if (this.refresher_is_present) {
         this.refresher.complete();
       }
-      console.log(result);
-      let data = JSON.parse(result);
-      if (data._body) {
-        let fetchData = JSON.parse(data._body);
-        console.log(fetchData);
-        console.log(fetchData.data);
-        if (fetchData.data) {
-          this.items = fetchData.data;
-          let dataLength = this.items.length;
-          this.userPostData.lastCreated = this.items[dataLength - 1].created;
-          console.log("Last created : " + this.userPostData.lastCreated);
-        }
+      if (fetchData.data) {
+        this.items = fetchData.data;
+        let dataLength = this.items.length;
+        this.userPostData.lastCreated = this.items[dataLength - 1].created;
+        console.log("Last created : " + this.userPostData.lastCreated);
       }
     }, (err) => {
       if (this.refresher_is_present) {
@@ -133,24 +126,17 @@ year: "4"
     return new Promise((resolve) => {
       setTimeout(() => {
         console.log("Start fetching more data : " + this.userPostData.lastCreated);
-        this.network.post(this.userPostData, 'fetch-main-content').then((result: string) => {
-          // console.log(result);
-          let data = JSON.parse(result);
-          if (data._body) {
-            let fetchData = JSON.parse(data._body);
-            console.log(fetchData);
-            console.log(fetchData.data);
-            if (fetchData.data.length) {
-              const newData = fetchData.data;
-              this.userPostData.lastCreated = newData[newData.length - 1].created;
-              console.log("Last created : " + this.userPostData.lastCreated);
-              for (let i = 0; i < newData.length; i++) {
-                this.items.push(newData[i]);
-              }
-            } else {
-              this.noRecords = true;
-              console.log("No more records.");
+        this.network.post(this.userPostData, 'fetch-main-content').then((fetchData: any) => {
+          if (fetchData.data.length) {
+            const newData = fetchData.data;
+            this.userPostData.lastCreated = newData[newData.length - 1].created;
+            console.log("Last created : " + this.userPostData.lastCreated);
+            for (let i = 0; i < newData.length; i++) {
+              this.items.push(newData[i]);
             }
+          } else {
+            this.noRecords = true;
+            console.log("No more records.");
           }
         }, (err) => {
           console.log(err);

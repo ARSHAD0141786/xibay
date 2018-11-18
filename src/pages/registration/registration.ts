@@ -83,8 +83,8 @@ export class RegistrationPage {
 
       this.notify.presentLoading("Please wait...");
       this.logs.addLog(JSON.stringify(this.signupOptions));
-      this.networkEngine.post(this.signupOptions, "create-user-for-xibay").then((result:string) => {
-        this.responseData = JSON.parse(JSON.parse(result)._body);
+      this.networkEngine.post(this.signupOptions, "create-user-for-xibay").then((result:any) => {
+        this.responseData = result;
         this.logs.addLog("Response :"+JSON.stringify(this.responseData));
         console.log(this.responseData);
         if (this.responseData.User) {

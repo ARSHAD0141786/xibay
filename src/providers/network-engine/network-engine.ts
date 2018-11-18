@@ -71,10 +71,16 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       this.logs.addLog(JSON.stringify(params));
       this.http.post(this.BASE_URL+endingUrl,params, {headers: headers}).
       subscribe(res =>{
-        console.log('network engine res');
-        this.logs.addLog("res");
+        console.log('Entered into network engine');
         this.notify.closeLoading();
-        resolve(JSON.stringify(res));
+        let response:any = JSON.parse(JSON.stringify(res));
+        if(response.status == 200){
+          console.log(JSON.parse(response._body));
+          resolve(JSON.parse(response._body));
+        }else{
+          console.log('status : '+response.status);
+          resolve(response._body);
+        }
       }, (err) =>{
         console.log('network engine err');
         this.logs.addLog("err");        

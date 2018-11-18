@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Item } from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 
@@ -29,7 +29,7 @@ export class RequestsPage {
     console.log('ionViewDidLoad RequestsPage');
   }
 
-  openImage(image_url:string){
+  openImage(image_url:any){
     let full_image_modal = this.modalCtrl.create('FullImagePage',{image:image_url});
     full_image_modal.present();
   }

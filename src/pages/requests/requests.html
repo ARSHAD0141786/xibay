@@ -12,14 +12,14 @@
     <ion-list>
         <ion-item *ngFor="let request of this.requests">
           <ion-thumbnail item-start>
-            <img [src]="request.image_url" (click)="openImage()">
+            <img [src]="request.image_url" (click)="openImage($event.srcElement.currentSrc)">
           </ion-thumbnail>
           <h2>{{request.title}}</h2>
           <p>{{request.description}}</p>
           <p style="color:#ff4000;" *ngIf="request.status==-1">Rejected</p>
           <p style="color:#0080ff;" *ngIf="request.status==0">In Progress</p>
           <p style="color:#00ff40;" *ngIf="request.status==1">Accepted</p>
-          <button ion-button clear item-end>View</button>
+          <button ion-button clear item-end *ngIf="request.status == 1">View</button>
         </ion-item>
     </ion-list>
 

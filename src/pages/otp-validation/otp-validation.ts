@@ -25,6 +25,7 @@ export class OtpValidationPage {
 
   sendOTP(){
     this.logs.addLog("Sending OTP...");
+    console.log('OTP SEND : '+this.phoneNumber);
     this.isOTPSent = true;
     (<any>window).FirebasePlugin.verifyPhoneNumber("+91" + this.phoneNumber,60,(credentials)=>{
       this.logs.addLog("Firebase Auth : "+credentials);

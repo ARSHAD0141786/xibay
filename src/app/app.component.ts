@@ -109,12 +109,7 @@ export class Xibay {
       });
 
       this.listenToLoginEvents();
-    // used for an example of ngFor and navigation
-    // this.pages = [
-    //   { title: 'Home', component: WelcomePage },
-    //   { title: 'List', component: ListPage },
-    //   { title: 'Login', component: LoginPage}
-    // ];
+
   }
 
   pushSetup(){

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { PrimaryMainPage } from '../primary-main/primary-main';
 import { SecondaryMainPage } from '../secondary-main/secondary-main';
 import { NotifyProvider } from '../../providers/notify/notify';
-import { NavController, PopoverController, Refresher } from 'ionic-angular';
+import { NavController, PopoverController, Refresher } from 'ionic-angular/umd';
 import { WelcomePage } from '../welcome/welcome';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';

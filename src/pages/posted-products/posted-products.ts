@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular/umd';
 
 @IonicPage()
 @Component({
@@ -7,19 +7,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'posted-products.html',
 })
 
-export interface item{
-    title:string,
-    description:string,
-    category_name:string,
-    image_url:string,
-    is_hidden:number,
-    useful_year:string,
-    useful_branch:string,
-    total_requests:number,
-    posted_on:string,
-    sold_on?:string,
-    sold_to?:string
-}
+
 
 export class PostedProductsPage {
 

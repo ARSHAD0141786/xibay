@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Events } from 'ionic-angular';
+import { Events } from 'ionic-angular/umd';
 import { Storage } from '@ionic/storage';
 import { NotifyProvider } from '../notify/notify';
 import { LogsServiceProvider } from '../logs-service/logs-service';

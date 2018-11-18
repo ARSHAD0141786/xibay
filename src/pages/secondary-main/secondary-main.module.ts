@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import { IonicPageModule } from 'ionic-angular/umd';
 import { SecondaryMainPage } from './secondary-main';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoadingController,ToastController,AlertController } from 'ionic-angular';
+import { LoadingController,ToastController,AlertController } from 'ionic-angular/umd';
 import { LogsServiceProvider } from '../logs-service/logs-service';
 
 @Injectable()

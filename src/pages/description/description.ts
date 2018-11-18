@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular/umd';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UserDataProvider } from '../../providers/user-data/user-data';

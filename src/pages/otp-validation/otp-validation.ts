@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular/umd';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import * as firebase from 'firebase';
 /**

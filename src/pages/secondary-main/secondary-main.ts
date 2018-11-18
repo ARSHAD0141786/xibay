@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular/umd';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UploadFormPage } from '../upload-form/upload-form';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
-import { ERR_CORDOVA_NOT_AVAILABLE } from '../../../node_modules/@ionic-native/core';
+import { ERR_CORDOVA_NOT_AVAILABLE } from '@ionic-native/core';
 /**
  * Generated class for the SecondaryMainPage page.
  *

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network';
-import { Platform } from 'ionic-angular';
+import { Platform } from 'ionic-angular/umd';
 
 
 declare var navigator: any;

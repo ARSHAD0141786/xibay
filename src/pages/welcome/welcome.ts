@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular/umd';
 import { LoginPage } from '../login/login';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { RegistrationPage } from '../registration/registration';

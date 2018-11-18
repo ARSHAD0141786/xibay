@@ -1,13 +1,20 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>posted-products</ion-title>
+    <ion-title>Posted Products</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+  <div *ngIf="posted_products.length == 0" align="center">
+    <h3>OOPs!</h3>
+    <p>It Seems you do not post any product yet</p>
+    <img src="../../assets/imgs/sad_boy.jpg"/>
+    <ion-note bottom>Note: You have to post some products if you want to send more than 5 requests to other users</ion-note>
+  </div>
 
   <ion-list>
       <ion-item-sliding *ngFor="let item of posted_products">
@@ -16,7 +23,11 @@
               <img [src]="item.image_url" />
             </ion-avatar>
             <h2>{{item.title}}</h2>
-            <p>{{item.about}}</p>
+            <p style="font-size: 8px;font-style: italic">POSTED ON : {{this.convertTime(item.created) | date:'short'}}</p>
+            <p style="font-size: 8px;color: royalblue; " *ngIf="item.total_requests"><ion-icon ios="ios-arrow-down" md="md-arrow-down"></ion-icon>&nbsp;{{item.total_requests}} request</p>
+            <div style="width:10px;height:10px; border-radius:50%;background-color: chartreuse;" *ngIf="!item.is_hidden" item-end></div>
+            <div style="width:10px;height:10px; border-radius:50%;background-color:orangered;" *ngIf="item.is_hidden" item-end></div>
+          
           </button>
     
           <ion-item-options>

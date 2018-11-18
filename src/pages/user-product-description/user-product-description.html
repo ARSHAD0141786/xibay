@@ -15,29 +15,27 @@
 
 <ion-content padding>
 
-  <div class="image">
-    <img [src]="this.item.image_url"/>
-  </div>
-  <div class="detail">
-    <p><i>Posted on :{{this.convertTime(this.item.created) | date:'short'}}</i><span>LIVE</span></p>
-    
-  </div>
+
+    <div>
+        <ion-thumbnail align="left" style="width:50px;height:80px;">
+            <img [src]="item.image_url" (click)="openImage($event.srcElement.currentSrc)">
+        </ion-thumbnail>
+        <h3 style="color:chartreuse">LIVE</h3>
+    </div>
+
+    <p ><b>Description :</b></p>
+    <p style="font-style: oblique">{{this.item.description}}</p>
+    <p><b>Category :</b> {{item.category_name}}</p>
+    <p><b>Requests for this product :</b>{{requests.length}} <span align="right" item-end><button ion-button clear>Refresh</button></span></p>
   <ion-list no-lines>
-    <ion-list-header>Description</ion-list-header>
-      <p>{{this.item.description}}</p>
-
-    <ion-list-header>Category</ion-list-header>
-    <p>{{this.item.category_name}}</p>
-    <ion-list-header>Useful for branches</ion-list-header>
-    <ion-item *ngFor="let branch of this.item.useful_branch">
-      <p>{{branch}}</p>
+    <ion-item *ngFor="let request of requests">
+      <ion-avatar item-start>
+        <img [src]="request.user_image_url" (click)="openImage($event.srcElement.currentSrc)"/>
+      </ion-avatar>
+      <p>{{request.full_name}}</p>
+      <p>{{request.user_branch}}, {{request.user_year}}</p>
+      <button ion-button clear item-end>Accept</button>
     </ion-item>
-
-    <ion-list-header>Useful for year</ion-list-header>
-    <ion-item *ngFor="let year of this.item.useful_year">
-      <p>{{year}}</p>
-    </ion-item>
-    
   </ion-list>
 
 </ion-content>

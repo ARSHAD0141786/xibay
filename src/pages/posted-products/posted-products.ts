@@ -12,8 +12,8 @@ import { UserProductDescriptionPage } from '../user-product-description/user-pro
 export class PostedProductsPage {
 
   /**
-   * data item array element from server
-   * {
+   data item array element from server
+   {
             "id": "13",
             "title": "ashad",
             "description": "This is nice pic",
@@ -55,6 +55,11 @@ export class PostedProductsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PostedProductsPage');
+  }
+
+  convertTime(time) {
+    let date = new Date(time * 1000);
+    return date;
   }
 
   openItem(item:item){

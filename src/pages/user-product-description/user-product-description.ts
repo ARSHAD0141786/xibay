@@ -50,6 +50,15 @@ export class UserProductDescriptionPage {
     full_image_modal.present();
   }
 
+  refresh(){
+    console.log('refresh');
+    //only refresh list when found list with more requests
+  }
+
+  accept(request:any){
+    console.log('accepting request of : ');
+    console.log(request);
+  }
 
   
 }

@@ -21,14 +21,17 @@ export class UserProductDescriptionPage {
   private itemIndex:number;
   public callbackFunction;
   public isRequestAccepted:boolean = false;
+  
   private requests:Array<
   {
     user_image_url:string,
-    user_branch_code:string,
+    branch:string,
     user_year:string,
-    username:string;
-    full_name:string
+    username:string,
+    name:string,
+    request_id:number
   }>=[];
+
   private user_choosen:any = {
     user_image_url:'http://localhost/xibay/public_html/photo/img-20180513-5af7d3c05ba4eionicfile.jpg',
     user_branch:'CSE',
@@ -40,16 +43,8 @@ export class UserProductDescriptionPage {
     this.item = this.navParams.get('product');
     console.log(this.item);
     this.itemIndex = this.navParams.get('index');
+    console.log(this.itemIndex);
     this.callbackFunction = this.navParams.get('callbackFunction');
-
-    let request:any = {
-      request_id:12,
-      user_image_url:'http://localhost/xibay/public_html/photo/img-20180513-5af7d3c05ba4eionicfile.jpg',
-      user_branch:'CSE',
-      user_year:'3rd',
-      username:'u',
-      full_name:'Mohammed Arshad'
-    }
     this.fetchRequests();
   }
 
@@ -60,7 +55,7 @@ export class UserProductDescriptionPage {
       item_id:this.item.id
     }
     this.networkEngine.post(postData,'fetch-requests-for-a-product').then( (result:any) => {
-
+      this.requests = result.data;
     },err => {
       console.error(err);
     });
@@ -99,7 +94,7 @@ export class UserProductDescriptionPage {
           handler: ()=> {
             console.log('Accepet request : '+request);
             //call api here
-            this.acceptApiCall(this.item.item_id,request.request_id,request.username);
+            this.acceptApiCall(this.item.id,request.request_id,request.username);
             this.isRequestAccepted = true;
             this.callbackFunction(this.isRequestAccepted,this.itemIndex).then( ()=> {
               // this.navCtrl.pop();

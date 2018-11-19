@@ -29,8 +29,7 @@
     
     <div *ngIf="!isRequestAccepted">
       <ion-item>
-        <p>
-          <b>Requests for this product :</b> {{requests.length}}</p>
+        <p><b>Requests for this product :</b> {{requests.length}}</p>
         <button ion-button clear item-end (click)="refresh()">
           <ion-icon ios="ios-refresh" md="md-refresh"></ion-icon>&nbsp;&nbsp;Refresh</button>
       </ion-item>
@@ -39,8 +38,8 @@
           <ion-avatar item-start>
             <img [src]="request.user_image_url" (click)="openImage($event.srcElement.currentSrc)" />
           </ion-avatar>
-          <p>{{request.full_name}}</p>
-          <p>{{request.user_branch}}, {{request.user_year}}</p>
+          <p>{{request.name}}</p>
+          <p>{{request.branch}}, {{request.year}}</p>
           <button ion-button clear item-end (click)="accept(request)">Accept</button>
         </ion-item>
       </ion-list>

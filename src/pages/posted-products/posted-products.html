@@ -17,7 +17,7 @@
   </div>
 
   <ion-list>
-      <ion-item-sliding *ngFor="let item of posted_products;i as index">
+      <ion-item-sliding *ngFor="let item of posted_products;let i as index">
           <button ion-item (click)="openItem(item,i)">
             <ion-avatar item-start>
               <img [src]="item.image_url" />

@@ -60,7 +60,7 @@ export class PostedProductsPage {
   }
 
   openItem(item:item,index:number){
-    console.log('open item');
+    console.log('open item idex : '+index);
     this.navCtrl.push(UserProductDescriptionPage,{index:index,product:item , callbackFunction : this.requestCallBackFunction});
   }
   deleteItem(item:item){

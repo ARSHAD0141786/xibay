@@ -17,16 +17,16 @@
   </div>
 
   <ion-list>
-      <ion-item-sliding *ngFor="let item of posted_products">
-          <button ion-item (click)="openItem(item)">
+      <ion-item-sliding *ngFor="let item of posted_products;i as index">
+          <button ion-item (click)="openItem(item,i)">
             <ion-avatar item-start>
               <img [src]="item.image_url" />
             </ion-avatar>
             <h2>{{item.title}}</h2>
             <p style="font-size: 8px;font-style: italic">POSTED ON : {{this.convertTime(item.created) | date:'short'}}</p>
-            <p style="font-size: 8px;color: royalblue; " *ngIf="item.total_requests"><ion-icon ios="ios-arrow-down" md="md-arrow-down"></ion-icon>&nbsp;{{item.total_requests}} request</p>
-            <div style="width:10px;height:10px; border-radius:50%;background-color: chartreuse;" *ngIf="!item.is_hidden" item-end></div>
-            <div style="width:10px;height:10px; border-radius:50%;background-color:orangered;" *ngIf="item.is_hidden" item-end></div>
+            <p style="font-size: 8px;color: royalblue; " *ngIf="item.total_requests > 0"><ion-icon ios="ios-arrow-down" md="md-arrow-down"></ion-icon>&nbsp;{{item.total_requests}} request</p>
+            <div style="width:10px;height:10px; border-radius:50%;background-color: chartreuse;" *ngIf="item.is_hidden == 0" item-end></div>
+            <div style="width:10px;height:10px; border-radius:50%;background-color:orangered;" *ngIf="item.is_hidden == 1" item-end></div>
           
           </button>
     

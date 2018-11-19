@@ -46,6 +46,7 @@
       </ion-list>
     </div>
     <div *ngIf="isRequestAccepted">
+      <h3>Accepted User</h3>
       <ion-item *ngIf="user_choosen">
         <ion-avatar item-start>
           <img [src]="user_choosen.user_image_url" (click)="openImage($event.srcElement.currentSrc)" />

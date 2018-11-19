@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { item } from '../../interfaces/posted_item';
 import { UserProductDescriptionPage } from '../user-product-description/user-product-description';
+import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { UserDataProvider } from '../../providers/user-data/user-data';
 
 @IonicPage()
 @Component({
@@ -31,28 +33,22 @@ export class PostedProductsPage {
         }
    */
 
-   posted_products:item[] = [];
-
+  posted_products:item[] = [];
   
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    let item1 = {
-      item_id : 12,
-      title:'OPERATING SYSTEM',
-      description:'By William Stallings',
-      category_name:'Books',
-      image_url:'http://localhost/xibay/public_html/photo/img-20180712-5b47c082a1c53ionicfile.jpg',
-      is_hidden:0,
-      useful_year:["3rd","Final"],
-      useful_branch:["Computer Science","ECC","Information Technology"],
-      total_requests:0,
-      created:	1531428907,
-      sold_on:null,
-      sold_to:null
-    }
-    this.posted_products.push(item1);
-    this.posted_products.push(item1);
+  constructor(public navCtrl: NavController,private userPostData:UserDataProvider, public navParams: NavParams,private networkEngine:NetworkEngineProvider) {
+    
+    this.fetchProducts();
   }
+
+  fetchProducts(){
+    this.networkEngine.post(this.userPostData.getUserPostData(),'fetch-my-posted-products').then( (result:any) => {
+      this.posted_products = result.data;
+    },err => {
+      console.error(err);
+    });
+  }
+
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PostedProductsPage');
@@ -63,17 +59,16 @@ export class PostedProductsPage {
     return date;
   }
 
-  openItem(item:item){
+  openItem(item:item,index:number){
     console.log('open item');
-    this.navCtrl.push(UserProductDescriptionPage,{product:item , callbackFunction : this.requestCallBackFunction});
+    this.navCtrl.push(UserProductDescriptionPage,{index:,product:item , callbackFunction : this.requestCallBackFunction});
   }
   deleteItem(item:item){
     console.log('delete item');
   }
 
   //this function will be called from next pushing page which is user-product page
-  requestCallBackFunction = function(params){
-    console.log(params);
+  requestCallBackFunction = function(isAccepted,index){
     return new Promise( (resolve , reject ) => {
       resolve();
     });

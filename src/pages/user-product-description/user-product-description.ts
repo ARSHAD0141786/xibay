@@ -18,6 +18,7 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
 })
 export class UserProductDescriptionPage {
   private item:item;
+  private itemIndex:number;
   public callbackFunction;
   public isRequestAccepted:boolean = false;
   private requests:Array<
@@ -37,7 +38,10 @@ export class UserProductDescriptionPage {
   }
   constructor(public navCtrl: NavController,private userData:UserDataProvider,private networkEngine:NetworkEngineProvider, private alertCtrl:AlertController, public navParams: NavParams,private modalCtrl:ModalController) {
     this.item = this.navParams.get('product');
+    console.log(this.item);
+    this.itemIndex = this.navParams.get('index');
     this.callbackFunction = this.navParams.get('callbackFunction');
+
     let request:any = {
       request_id:12,
       user_image_url:'http://localhost/xibay/public_html/photo/img-20180513-5af7d3c05ba4eionicfile.jpg',
@@ -46,12 +50,20 @@ export class UserProductDescriptionPage {
       username:'u',
       full_name:'Mohammed Arshad'
     }
-    this.requests.push(request);
-    this.requests.push(request);
-    this.requests.push(request);
-    this.requests.push(request);
-    this.requests.push(request);
-    this.requests.push(request);
+    this.fetchRequests();
+  }
+
+  fetchRequests(){
+    let postData:any = {
+      username:this.userData.getUserPostData().username,
+      token:this.userData.getUserPostData().token,
+      item_id:this.item.id
+    }
+    this.networkEngine.post(postData,'fetch-requests-for-a-product').then( (result:any) => {
+
+    },err => {
+      console.error(err);
+    });
   }
 
   ionViewDidLoad() {
@@ -89,7 +101,7 @@ export class UserProductDescriptionPage {
             //call api here
             this.acceptApiCall(this.item.item_id,request.request_id,request.username);
             this.isRequestAccepted = true;
-            this.callbackFunction(this.isRequestAccepted).then( ()=> {
+            this.callbackFunction(this.isRequestAccepted,this.itemIndex).then( ()=> {
               // this.navCtrl.pop();
             });
           }

@@ -66,7 +66,8 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
     return new Promise((resolve, reject) =>{
       let headers = new Headers();
       console.log("POST:"+this.BASE_URL+endingUrl);
-      console.log("PARAMS:"+JSON.stringify(params));
+      console.log('Parameters are : ');
+      console.log(params);
       this.logs.addLog("postRequest : "+this.BASE_URL+""+endingUrl);
       this.logs.addLog(JSON.stringify(params));
       this.http.post(this.BASE_URL+endingUrl,params, {headers: headers}).

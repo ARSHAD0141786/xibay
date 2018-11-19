@@ -111,7 +111,7 @@ year: "4"
       this.notify.presentLoading("Sending request...");
       this.network.post(this.userPostData,'send-request').then((d:any)=>{
           if(d.message){
-            this.notify.presentToast('Request sent succesfully');
+            this.notify.presentToast(d.message);
           }else if(d.error){
             console.log("D.code : " + d.code);
             if(d.code == 1){ // SQL error

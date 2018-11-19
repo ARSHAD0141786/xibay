@@ -61,7 +61,7 @@ export class PostedProductsPage {
 
   openItem(item:item,index:number){
     console.log('open item');
-    this.navCtrl.push(UserProductDescriptionPage,{index:,product:item , callbackFunction : this.requestCallBackFunction});
+    this.navCtrl.push(UserProductDescriptionPage,{index:index,product:item , callbackFunction : this.requestCallBackFunction});
   }
   deleteItem(item:item){
     console.log('delete item');
@@ -69,6 +69,9 @@ export class PostedProductsPage {
 
   //this function will be called from next pushing page which is user-product page
   requestCallBackFunction = function(isAccepted,index){
+    if(isAccepted){
+      this.posted_products[index].is_hidden = 1;
+    }
     return new Promise( (resolve , reject ) => {
       resolve();
     });

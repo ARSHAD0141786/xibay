@@ -9,7 +9,7 @@
 
 <ion-content padding>
 
-  <div *ngIf="posted_products.length == 0" align="center">
+  <div *ngIf="classReference.posted_products.length == 0" align="center">
     <h3>OOPs!</h3>
     <p>It Seems you do not post any product yet</p>
     <img src="../../assets/imgs/sad_boy.jpg"/>
@@ -17,7 +17,7 @@
   </div>
 
   <ion-list>
-      <ion-item-sliding *ngFor="let item of posted_products;let i as index">
+      <ion-item-sliding *ngFor="let item of classReference.posted_products;let i = index">
           <button ion-item (click)="openItem(item,i)">
             <ion-avatar item-start>
               <img [src]="item.image_url" />

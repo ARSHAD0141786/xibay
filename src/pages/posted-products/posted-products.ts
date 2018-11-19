@@ -13,6 +13,7 @@ import { UserDataProvider } from '../../providers/user-data/user-data';
 
 export class PostedProductsPage {
 
+  public classReference = PostedProductsPage;
   /**
    data item array element from server
    {
@@ -33,7 +34,7 @@ export class PostedProductsPage {
         }
    */
 
-  posted_products:item[] = [];
+ static posted_products:item[] = [];
   
   constructor(public navCtrl: NavController,private userPostData:UserDataProvider, public navParams: NavParams,private networkEngine:NetworkEngineProvider) {
     
@@ -42,7 +43,7 @@ export class PostedProductsPage {
 
   fetchProducts(){
     this.networkEngine.post(this.userPostData.getUserPostData(),'fetch-my-posted-products').then( (result:any) => {
-      this.posted_products = result.data;
+      PostedProductsPage.posted_products = result.data;
     },err => {
       console.error(err);
     });
@@ -70,9 +71,11 @@ export class PostedProductsPage {
   //this function will be called from next pushing page which is user-product page
   requestCallBackFunction = function(isAccepted,index){
     if(isAccepted){
-      this.posted_products[index].is_hidden = 1;
+      
+      // this.posted_products[index].is_hidden = 1;
     }
     return new Promise( (resolve , reject ) => {
+      PostedProductsPage.posted_products[index].is_hidden = isAccepted;
       resolve();
     });
   }

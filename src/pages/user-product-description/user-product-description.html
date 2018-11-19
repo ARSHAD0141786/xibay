@@ -20,14 +20,14 @@
         <ion-thumbnail align="left" style="width:50px;height:80px;">
             <img [src]="item.image_url" (click)="openImage($event.srcElement.currentSrc)">
         </ion-thumbnail>
-        <h3 style="color:chartreuse" *ngIf="!isRequestAccepted">LIVE</h3>
+        <h3 style="color:chartreuse" *ngIf="item.is_hidden==0">LIVE</h3>
     </div>
 
     <p ><b>Description :</b></p>
     <p style="font-style: oblique">{{this.item.description}}</p>
     <p><b>Category :</b> {{item.category_name}}</p>
     
-    <div *ngIf="!isRequestAccepted">
+    <div *ngIf="item.is_hidden==0">
       <ion-item>
         <p><b>Requests for this product :</b> {{requests.length}}</p>
         <button ion-button clear item-end (click)="refresh()">
@@ -44,7 +44,8 @@
         </ion-item>
       </ion-list>
     </div>
-    <div *ngIf="isRequestAccepted">
+
+    <div *ngIf="item.is_hidden==1">
       <h3>Accepted User</h3>
       <ion-item *ngIf="user_choosen">
         <ion-avatar item-start>

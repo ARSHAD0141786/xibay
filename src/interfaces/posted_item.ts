@@ -1,4 +1,5 @@
 export interface item{
+    item_id:number,
     title:string,
     description:string,
     category_name:string,

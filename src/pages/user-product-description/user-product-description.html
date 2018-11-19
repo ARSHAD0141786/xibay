@@ -20,25 +20,40 @@
         <ion-thumbnail align="left" style="width:50px;height:80px;">
             <img [src]="item.image_url" (click)="openImage($event.srcElement.currentSrc)">
         </ion-thumbnail>
-        <h3 style="color:chartreuse">LIVE</h3>
+        <h3 style="color:chartreuse" *ngIf="!isRequestAccepted">LIVE</h3>
     </div>
 
     <p ><b>Description :</b></p>
     <p style="font-style: oblique">{{this.item.description}}</p>
     <p><b>Category :</b> {{item.category_name}}</p>
-    <ion-item>
-        <p><b>Requests for this product :</b> {{requests.length}}</p>
-        <button ion-button clear item-end (click)="refresh()"><ion-icon ios="ios-refresh" md="md-refresh"></ion-icon>&nbsp;&nbsp;Refresh</button>
-    </ion-item>
-  <ion-list no-lines>
-    <ion-item *ngFor="let request of requests">
-      <ion-avatar item-start>
-        <img [src]="request.user_image_url" (click)="openImage($event.srcElement.currentSrc)"/>
-      </ion-avatar>
-      <p>{{request.full_name}}</p>
-      <p>{{request.user_branch}}, {{request.user_year}}</p>
-      <button ion-button clear item-end (click)="accept(request)">Accept</button>
-    </ion-item>
-  </ion-list>
+    
+    <div *ngIf="!isRequestAccepted">
+      <ion-item>
+        <p>
+          <b>Requests for this product :</b> {{requests.length}}</p>
+        <button ion-button clear item-end (click)="refresh()">
+          <ion-icon ios="ios-refresh" md="md-refresh"></ion-icon>&nbsp;&nbsp;Refresh</button>
+      </ion-item>
+      <ion-list no-lines>
+        <ion-item *ngFor="let request of requests">
+          <ion-avatar item-start>
+            <img [src]="request.user_image_url" (click)="openImage($event.srcElement.currentSrc)" />
+          </ion-avatar>
+          <p>{{request.full_name}}</p>
+          <p>{{request.user_branch}}, {{request.user_year}}</p>
+          <button ion-button clear item-end (click)="accept(request)">Accept</button>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngIf="isRequestAccepted">
+      <ion-item *ngIf="user_choosen">
+        <ion-avatar item-start>
+          <img [src]="user_choosen.user_image_url" (click)="openImage($event.srcElement.currentSrc)" />
+        </ion-avatar>
+        <p>{{user_choosen.full_name}}</p>
+        <p>{{user_choosen.user_branch}}, {{user_choosen.user_year}}</p>
+        <p>Contact details : {{user_choosen.contact_details}}</p>
+      </ion-item>
+    </div>
 
 </ion-content>

@@ -37,6 +37,7 @@ export class PostedProductsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     let item1 = {
+      item_id : 12,
       title:'OPERATING SYSTEM',
       description:'By William Stallings',
       category_name:'Books',
@@ -64,10 +65,18 @@ export class PostedProductsPage {
 
   openItem(item:item){
     console.log('open item');
-    this.navCtrl.push(UserProductDescriptionPage,{product:item});
+    this.navCtrl.push(UserProductDescriptionPage,{product:item , callbackFunction : this.requestCallBackFunction});
   }
   deleteItem(item:item){
     console.log('delete item');
+  }
+
+  //this function will be called from next pushing page which is user-product page
+  requestCallBackFunction = function(params){
+    console.log(params);
+    return new Promise( (resolve , reject ) => {
+      resolve();
+    });
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { item } from '../../interfaces/posted_item';
 import { UserProductDescriptionPage } from '../user-product-description/user-product-description';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
@@ -36,7 +36,7 @@ export class PostedProductsPage {
 
  static posted_products:item[] = [];
   
-  constructor(public navCtrl: NavController,private userPostData:UserDataProvider, public navParams: NavParams,private networkEngine:NetworkEngineProvider) {
+  constructor(public navCtrl: NavController,private userPostData:UserDataProvider, public navParams: NavParams,private networkEngine:NetworkEngineProvider,private alertCtrl:AlertController) {
     
     this.fetchProducts();
   }
@@ -64,8 +64,37 @@ export class PostedProductsPage {
     console.log('open item idex : '+index);
     this.navCtrl.push(UserProductDescriptionPage,{index:index,product:item , callbackFunction : this.requestCallBackFunction});
   }
-  deleteItem(item:item){
-    console.log('delete item');
+  deleteItem(item:item,index:number){
+    let alert = this.alertCtrl.create({
+      title:'Are you sure, you want to delete this product ?',
+      subTitle:item.title,
+      buttons:[
+        {
+          text:'Nah',
+          role:'cancel',
+          handler : () => {
+            console.log('Alert canceled');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: ()=> {
+            console.log('deleting item...');
+            let postData:any = {
+              username : this.userPostData.getUserPostData().username,
+              token : this.userPostData.getUserPostData().token,
+              item_id : item.id
+            }
+            this.networkEngine.post(postData,'delete-a-posted-product').then( (result:any) => {
+              PostedProductsPage.posted_products.splice(index,1);
+            },error => {
+              console.error(error);
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   //this function will be called from next pushing page which is user-product page

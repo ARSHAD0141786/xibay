@@ -45,7 +45,25 @@ export class UserProductDescriptionPage {
     this.itemIndex = this.navParams.get('index');
     console.log(this.itemIndex);
     this.callbackFunction = this.navParams.get('callbackFunction');
-    this.fetchRequests();
+    if(this.item.is_hidden == 0){
+      this.fetchRequests();
+    }else{
+      this.fetchChoosenUser(this.item.id);
+    }
+    
+  }
+
+  fetchChoosenUser(item_id:number){
+    let postData:any = {
+      username:this.userData.getUserPostData().username,
+      token : this.userData.getUserPostData().token,
+      item_id:item_id
+    }
+    this.networkEngine.post(postData,'fetch-choosen-user-for-a-produc').then( (result:any) => {
+      
+    },err => {
+      console.error(err);
+    });
   }
 
   fetchRequests(){
@@ -78,7 +96,7 @@ export class UserProductDescriptionPage {
     console.log('accepting request of : ');
     console.log(request);
     let alert = this.alertCtrl.create({
-      title: 'Are you sure you want to accept request from '+request.full_name +' ?',
+      title: 'Are you sure, you want to accept request from '+request.full_name +' ?',
       subTitle: 'After accepting this request all remaining requests are rejected automatically !',
       enableBackdropDismiss:false,
       buttons:[

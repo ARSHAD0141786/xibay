@@ -2,14 +2,11 @@
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
-import { Storage } from '@ionic/storage';
 
 import 'rxjs/add/operator/timeout'
 import 'rxjs/add/operator/map';
 import { NotifyProvider } from '../notify/notify';
-import { UserDataProvider } from '../user-data/user-data';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
-import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/util';
 
 
 @Injectable()

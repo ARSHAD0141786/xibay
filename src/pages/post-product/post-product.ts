@@ -46,9 +46,15 @@ export class PostProductPage {
       token:this.userData.getUserPostData().token
     }
     let imageFile:any = this.form.controls['productPic'].value;
-    this.form.removeControl('productPic');
+    let postFormData:any = {
+      title:this.form.value.title,
+      description:this.form.value.description,
+      category:this.form.value.category,
+      useful_year:this.form.value.useful_year,
+      useful_branch:this.form.value.useful_branch
+    }
     this.logs.addLog('Tapped on post product.....');
-    this.networkEngine.uploadFile(imageFile,userAuth,this.form.value).then( (result:any) => {
+    this.networkEngine.uploadFile(imageFile,userAuth,postFormData).then( (result:any) => {
       console.log('Product uploaded successfully!');
       this.navCtrl.pop();
     },err => {

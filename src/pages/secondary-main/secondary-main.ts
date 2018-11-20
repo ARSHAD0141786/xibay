@@ -4,13 +4,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UploadFormPage } from '../upload-form/upload-form';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
-import { ERR_CORDOVA_NOT_AVAILABLE } from '../../../node_modules/@ionic-native/core';
-/**
- * Generated class for the SecondaryMainPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -20,8 +13,6 @@ import { ERR_CORDOVA_NOT_AVAILABLE } from '../../../node_modules/@ionic-native/c
 export class SecondaryMainPage {
   @ViewChild('fileInput') fileInput;
 
-  // public image: any
-  // public base64Image: string;
 
   imageURI:any;
   
@@ -95,7 +86,6 @@ export class SecondaryMainPage {
 
 
   getImage(sourceType:number) {
-    // console.log("Taking photo from camera");
     const options: CameraOptions = {
       quality: 100,
       allowEdit: true,
@@ -119,7 +109,6 @@ export class SecondaryMainPage {
       // Handle error
       console.log(err);
       this.notify.presentToast(err);
-      // if(err==ERR_CORDOVA_NOT_AVAILABLE)
       console.log('Image not loaded from phone');
       this.fileInput.nativeElement.click();
     });

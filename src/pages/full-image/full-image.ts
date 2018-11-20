@@ -16,13 +16,17 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 export class FullImagePage {
 
   image_url:string;
+  image_data:string;//base64 image
 
   //this page just show the full image by url send in navParams from other page in {image: url} format;
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
     this.image_url = navParams.get('image');
-    console.log(this.image_url);
+    this.image_data = navParams.get('image_data');
   }
 
+  getImageUrl(){
+    return 'url(' + this.image_data.toString() + ')'
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad FullImagePage');
   }

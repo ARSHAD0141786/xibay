@@ -19,6 +19,7 @@ import { OtpValidationPage } from '../pages/otp-validation/otp-validation';
 import { DeveloperPage } from '../pages/developer/developer';
 import { RequestsPage } from '../pages/requests/requests';
 import { PostedProductsPage } from '../pages/posted-products/posted-products';
+import { PostProductPage } from '../pages/post-product/post-product';
 
 
 export interface PageInterface {
@@ -109,6 +110,9 @@ export class Xibay {
       });
 
       this.listenToLoginEvents();
+
+      
+      
 
   }
 

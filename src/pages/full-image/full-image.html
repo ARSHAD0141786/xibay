@@ -2,7 +2,8 @@
   
   <div class="bg">
     <div class="item_image">
-        <img [src]="image_url"/>
+        <img *ngIf="this.image_url" [src]="image_url"/>
+        <div class="profile_image"  [style.backgroundImage]="getImageUrl()"></div>
     </div>
   </div>
   

@@ -8,6 +8,8 @@ import 'rxjs/add/operator/timeout'
 import 'rxjs/add/operator/map';
 import { NotifyProvider } from '../notify/notify';
 import { UserDataProvider } from '../user-data/user-data';
+import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
+import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/util';
 
 
 @Injectable()
@@ -23,6 +25,7 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
 
   constructor(public http: Http,
     private notify: NotifyProvider,
+    private transfer:FileTransfer,
     private logs:LogsServiceProvider) {
     console.log('Hello NetworkEngineProvider Provider');
       // this.getAuthentication();
@@ -99,8 +102,51 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
     if(url != ""){
       this.BASE_URL = 'http://'+url+'/xibay/public_html/';
       this.logs.addLog('Base url changed to : '+this.BASE_URL);
-    }
+    } 
+  }
+
+  uploadFile(uploadFile:any,userAuth:any,formData?:any) {
+    return new Promise( (resolve,reject) => {
+      
+      console.log(uploadFile);
+      console.log(userAuth);
+      if(formData){
+        console.log(formData);
+      }
+      const fileTransfer: FileTransferObject = this.transfer.create();
+      
+      let data = {
+        form_data:formData,
+        username:userAuth.username,
+        token:userAuth.token
+      };
+      let uploadData = JSON.stringify(data);
+      let options: FileUploadOptions = {
+        fileKey: 'ionicfile',
+        fileName: 'ionicfile',
+        chunkedMode: false,
+        mimeType: "image/jpeg",
+        headers: {},
+        params:{
+          uploadData
+        }
+      }
+      fileTransfer.upload(uploadFile, this.BASE_URL + 'post-data', options)
+        .then((data:any) => {
+          if(data.message){
+            console.log(JSON.stringify(data));
+            console.log(" Uploaded Successfully");
+            resolve(JSON.parse(data));
+          }else if(data.error){
+            console.log(data.error);
+            reject(JSON.parse(data));
+          }
+      }, (err) => {
+        console.log(err);
+        reject(err);
+      });
     
+    });
   }
 
 }

@@ -17,7 +17,7 @@
         <ion-label stacked color="primary">Description</ion-label>
         <ion-textarea name="description" placeholder="atleast 30 characters" rows="6" ngModel required></ion-textarea>
       </ion-item>
-      <ion-item>
+      <ion-item>  
           <ion-label stacked color="primary">Choose category</ion-label>
           <ion-select name="category" placeholder="tap to select" ngModel>
               <ion-option *ngFor="let category of categories" value={{category.id}}>{{category.name}}</ion-option>

@@ -39,6 +39,7 @@ import { OtpValidationPageModule } from '../pages/otp-validation/otp-validation.
 import { PostedProductsPage } from '../pages/posted-products/posted-products';
 import { RequestsPage } from '../pages/requests/requests';
 import { UserProductDescriptionPage } from '../pages/user-product-description/user-product-description';
+import { PostProductPage } from '../pages/post-product/post-product';
 firebase.initializeApp({
   apiKey: "AIzaSyDOH8r5j6evr4npYDYFVUd5wleuUuH_cz4",
   authDomain: "xibay-64286.firebaseapp.com",
@@ -66,7 +67,8 @@ firebase.initializeApp({
     DeveloperPage,
     PostedProductsPage,
     RequestsPage,
-    UserProductDescriptionPage
+    UserProductDescriptionPage,
+    PostProductPage
   ],
   imports: [
     BrowserModule,
@@ -96,7 +98,8 @@ firebase.initializeApp({
     DeveloperPage,
     PostedProductsPage,
     RequestsPage,
-    UserProductDescriptionPage
+    UserProductDescriptionPage,
+    PostProductPage
   ],
   providers: [
     Push,

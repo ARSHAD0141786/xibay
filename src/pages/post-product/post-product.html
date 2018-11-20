@@ -1,0 +1,83 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Post Product</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <form *ngIf="form" [formGroup]="form">
+        <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
+        <div class="profile-image-wrapper" >
+          <div class="profile-image-placeholder" *ngIf="!this.form.controls['productPic'].value" (click)="getPicture()">
+            <ion-icon name="add"></ion-icon>
+            <div>
+              Add Image
+            </div>
+          </div>
+          <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" (click)="viewFullImage()" *ngIf="this.form.controls.productPic.value"></div>
+        </div>
+        <p align="center" style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.productPic.value">*Image is required</p>
+        <div align="center">
+            <button ion-button clear *ngIf="this.form.controls.productPic.value" (click)="getPicture()">Change Image</button>
+        </div>
+        
+        <ion-list>
+          <ion-item>
+            <ion-label stacked color="primary">Title</ion-label>
+            <ion-input type="text" placeholder="title space" formControlName="title"></ion-input>
+          </ion-item>
+          <p style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.title.valid">*Title is required</p>
+          <ion-item>
+            <ion-label stacked color="primary">Description</ion-label>
+            <ion-textarea name="description" placeholder="atleast 30 characters" rows="6" formControlName="description"></ion-textarea>
+          </ion-item>
+          <p style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.description.valid">*Description is not valid</p>
+          <ion-item>
+            <ion-label stacked color="primary">Choose category</ion-label>
+            <ion-select formControlName="category">
+              <ion-option value="1">Books</ion-option>
+              <ion-option value="2">Papers</ion-option>
+              <ion-option value="3">Accessories</ion-option>
+              <ion-option value="4">Notes</ion-option>
+              <ion-option value="5">Others</ion-option>
+            </ion-select>
+          </ion-item>
+          <p style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.category.valid">*Category is required</p>
+          <ion-item>
+              <ion-label stacked color="primary">Useful for which year :</ion-label>
+              <ion-select name=""  multiple="true" formControlName="useful_year">
+                <ion-option value="1">1st</ion-option>
+                <ion-option value="2">2nd</ion-option>
+                <ion-option value="3">3rd</ion-option>
+                <ion-option value="4">Final</ion-option>
+              </ion-select>
+          </ion-item>
+          <p style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.useful_year.valid">*Year is required</p>
+          <ion-item>
+              <ion-label stacked color="primary">Useful for which branch :</ion-label>
+              <ion-select name="" multiple="true" formControlName="useful_branch">
+                  <ion-option value="Architecture">Architecture</ion-option>
+                  <ion-option value="Chemical">Chemical</ion-option>
+                  <ion-option value="Civil">Civil</ion-option>
+                  <ion-option value="Computer Science">Computer Science</ion-option>
+                  <ion-option value="Electrical">Electrical</ion-option>
+                  <ion-option value="ECC">ECC</ion-option>
+                  <ion-option value="ECE">ECE</ion-option>
+                  <ion-option value="EEE">EEE</ion-option>
+                  <ion-option value="IT">IT</ion-option>
+                  <ion-option value="Mechanical">Mechanical</ion-option>
+                  <ion-option value="Mining">Mining</ion-option>
+                  <ion-option value="Production & Industrial">P&I</ion-option>
+              </ion-select>
+          </ion-item>
+          <p style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.useful_branch.valid">*Branch is required</p>
+        </ion-list>
+        <div align="center" style="margin-bottom: 20px">
+            <button ion-button round outline type="submit" (click)="postProduct()" >POST&nbsp;&nbsp;&nbsp;&nbsp;<ion-icon ios="ios-done-all" md="md-done-all"></ion-icon></button>
+        </div>
+    
+      </form>
+</ion-content>

@@ -1,15 +1,13 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { PrimaryMainPage } from '../primary-main/primary-main';
-import { SecondaryMainPage } from '../secondary-main/secondary-main';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { NavController, PopoverController, Refresher } from 'ionic-angular';
 import { WelcomePage } from '../welcome/welcome';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
-import { DebugLogsPage } from '../debug-logs/debug-logs';
 import { DescriptionPage } from '../description/description';
-import { AccountPage } from '../account/account';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
+import { PostProductPage } from '../post-product/post-product';
 // import { CameraOptions,Camera } from '@ionic-native/camera';
 
 @Component({
@@ -228,8 +226,7 @@ year: "4"
   }
 
   gotoSecondaryPage() {
-    this.logs.addLog('goto Secondary Page method in main-tabs.ts');
-    this.navCtrl.push(SecondaryMainPage);
+    this.navCtrl.push(PostProductPage);
   }
 
 }

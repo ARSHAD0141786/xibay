@@ -12,6 +12,16 @@ page-full-image {
                 transform: translate(-50%, -50%);
                 margin:auto;
             }
+            .profile_image{
+                border : 2px solid;
+                margin:auto;
+                align-content: center;
+                background-clip: border-box;
+                height:500px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
         }
     }
     

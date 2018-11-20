@@ -114,7 +114,6 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       this.logs.addLog(JSON.stringify(userAuth));
       this.logs.addLog(JSON.stringify(formData));
       const fileTransfer: FileTransferObject = this.transfer.create();
-      
       let data = {
         form_data:formData,
         username:userAuth.username,
@@ -131,8 +130,14 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
           uploadData
         }
       }
-      fileTransfer.upload(uploadFile, this.BASE_URL + 'upload-file-with-data', options)
+      this.logs.addLog(JSON.stringify(options));
+      console.log(JSON.stringify(options));
+      console.log(options);
+      fileTransfer.upload(uploadFile,  this.BASE_URL + 'upload-file-with-data', options)
         .then((data:any) => {
+          console.log('Data coming');
+          this.logs.addLog('Data coming...');
+          
           if(data.message){
             console.log(JSON.stringify(data));
             console.log(" Uploaded Successfully");
@@ -148,6 +153,11 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
         this.logs.addLog('Error in uploading data......');
         this.logs.addLog(JSON.stringify(err));
         reject(err);
+      });
+
+      fileTransfer.onProgress( (progressevent) => {
+        console.log(progressevent);
+        console.log('Progress');
       });
     
     });

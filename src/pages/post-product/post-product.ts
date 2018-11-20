@@ -4,6 +4,7 @@ import { Camera } from '@ionic-native/camera';
 import { IonicPage, NavController, ViewController, ActionSheetController, ModalController } from 'ionic-angular';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 @IonicPage()
 @Component({
   selector: 'page-post-product',
@@ -15,9 +16,9 @@ export class PostProductPage {
   isFormSubmitted:boolean = false;
   item: any;
 
-  public form: FormGroup;
+  form: FormGroup;
 
-  constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, private userData:UserDataProvider ,public mdlCtrl:ModalController, public actionSheetCtrl: ActionSheetController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
+  constructor(public navCtrl: NavController,private logs:LogsServiceProvider ,private networkEngine:NetworkEngineProvider, private userData:UserDataProvider ,public mdlCtrl:ModalController, public actionSheetCtrl: ActionSheetController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
     this.form = formBuilder.group({
       productPic: [''],
       title: ['', Validators.required],
@@ -26,7 +27,7 @@ export class PostProductPage {
       useful_year:['',Validators.required],
       useful_branch:['',Validators.required],
     });
-
+    this.logs.addLog('Entered into post product');
     // Watch the form for changes, and
     this.form.valueChanges.subscribe((v) => {
       
@@ -39,14 +40,14 @@ export class PostProductPage {
 
   postProduct(){
     this.isFormSubmitted = true;
-    
+    this.logs.addLog('Tapped on post product');
     let userAuth:any = {
       username:this.userData.getUserPostData().username,
       token:this.userData.getUserPostData().token
     }
     let imageFile:any = this.form.controls['productPic'].value;
     this.form.removeControl('productPic');
-
+    this.logs.addLog('Tapped on post product.....');
     this.networkEngine.uploadFile(imageFile,userAuth,this.form.value).then( (result:any) => {
       console.log('Product uploaded successfully!');
       this.navCtrl.pop();

@@ -106,13 +106,16 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
   }
 
   uploadFile(uploadFile:any,userAuth:any,formData?:any) {
+    this.logs.addLog('Uploading file....');
     return new Promise( (resolve,reject) => {
-      
+      this.logs.addLog('Uploading file 2....');
       console.log(uploadFile);
       console.log(userAuth);
       if(formData){
         console.log(formData);
       }
+      this.logs.addLog(JSON.stringify(userAuth));
+      this.logs.addLog(JSON.stringify(formData));
       const fileTransfer: FileTransferObject = this.transfer.create();
       
       let data = {
@@ -131,11 +134,13 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
           uploadData
         }
       }
-      fileTransfer.upload(uploadFile, this.BASE_URL + 'post-data', options)
+      fileTransfer.upload(uploadFile, this.BASE_URL + 'upload-file-with-data', options)
         .then((data:any) => {
           if(data.message){
             console.log(JSON.stringify(data));
             console.log(" Uploaded Successfully");
+            this.logs.addLog(JSON.stringify(data));
+            this.logs.addLog('Data uploaded successfully');
             resolve(JSON.parse(data));
           }else if(data.error){
             console.log(data.error);
@@ -143,6 +148,8 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
           }
       }, (err) => {
         console.log(err);
+        this.logs.addLog('Error in uploading data......');
+        this.logs.addLog(JSON.stringify(err));
         reject(err);
       });
     

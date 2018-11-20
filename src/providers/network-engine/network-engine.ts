@@ -106,7 +106,6 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
     this.logs.addLog('Uploading file....');
     return new Promise( (resolve,reject) => {
       this.logs.addLog('Uploading file 2....');
-      console.log(uploadFile);
       console.log(userAuth);
       if(formData){
         console.log(formData);

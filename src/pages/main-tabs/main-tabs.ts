@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PrimaryMainPage } from '../primary-main/primary-main';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { NavController, PopoverController, Refresher } from 'ionic-angular';
 import { WelcomePage } from '../welcome/welcome';
@@ -215,10 +214,6 @@ year: "4"
   //   });
   // }
 
-  presentPopover(index) {
-    let popover = this.popoverCtrl.create(PrimaryMainPage, this.items[index]);
-    popover.present();
-  }
 
   showDescription(item) {
     this.logs.addLog('show description method in main-tabs.ts');

@@ -21,11 +21,8 @@ import { NetworkEngineProvider } from '../providers/network-engine/network-engin
 import { HttpModule } from '@angular/http';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { NotifyProvider } from '../providers/notify/notify';
-import { PrimaryMainPage } from '../pages/primary-main/primary-main';
-import { SecondaryMainPage } from '../pages/secondary-main/secondary-main';
 import { MainTabsPage } from '../pages/main-tabs/main-tabs';
 import { CameraPage } from '../pages/camera/camera';
-import { UploadFormPage } from '../pages/upload-form/upload-form';
 import { UserDataProvider } from '../providers/user-data/user-data';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { DescriptionPage } from '../pages/description/description';
@@ -59,10 +56,7 @@ firebase.initializeApp({
     TutorialsPage,
     DebugLogsPage,
     MainTabsPage,
-    PrimaryMainPage,
-    SecondaryMainPage,
     CameraPage,
-    UploadFormPage,
     DescriptionPage,
     AccountPage,
     DeveloperPage,
@@ -91,10 +85,7 @@ firebase.initializeApp({
     TutorialsPage,
     DebugLogsPage,
     MainTabsPage,
-    PrimaryMainPage,
-    SecondaryMainPage,
     CameraPage,
-    UploadFormPage,
     DescriptionPage,
     AccountPage,
     DeveloperPage,

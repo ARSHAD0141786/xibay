@@ -122,6 +122,7 @@ export class PostProductPage {
       reader.readAsDataURL(event.target.files[0]);
     }
     catch(err){
+      alert('Unable to take photo');
       console.error(err);
     }
   }
@@ -131,7 +132,6 @@ export class PostProductPage {
   }
 
   viewFullImage(){
-    console.log('View full image');
     let modal = this.mdlCtrl.create('FullImagePage',{image_data:this.form.controls['productPic'].value});
     modal.present();
   }

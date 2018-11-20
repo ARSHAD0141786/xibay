@@ -5,6 +5,7 @@ import { IonicPage, NavController, ViewController, ActionSheetController, ModalC
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
+import { ResourceLoader } from '../../../node_modules/@angular/compiler';
 @IonicPage()
 @Component({
   selector: 'page-post-product',
@@ -40,7 +41,6 @@ export class PostProductPage {
 
   postProduct(){
     this.isFormSubmitted = true;
-    this.logs.addLog('Tapped on post product');
     let userAuth:any = {
       username:this.userData.getUserPostData().username,
       token:this.userData.getUserPostData().token
@@ -53,10 +53,8 @@ export class PostProductPage {
       useful_year:this.form.value.useful_year,
       useful_branch:this.form.value.useful_branch
     }
-    this.logs.addLog('Tapped on post product.....');
     this.networkEngine.uploadFile(imageFile,userAuth,postFormData).then( (result:any) => {
-      console.log('Product uploaded successfully!');
-      this.navCtrl.pop();
+        this.navCtrl.pop();
     },err => {
       console.error(err);
     });

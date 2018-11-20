@@ -135,18 +135,11 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       console.log(options);
       fileTransfer.upload(uploadFile,  this.BASE_URL + 'upload-file-with-data', options)
         .then((data:any) => {
-          console.log('Data coming');
-          this.logs.addLog('Data coming...');
-          
-          if(data.message){
-            console.log(JSON.stringify(data));
-            console.log(" Uploaded Successfully");
-            this.logs.addLog(JSON.stringify(data));
-            this.logs.addLog('Data uploaded successfully');
-            resolve(JSON.parse(data));
-          }else if(data.error){
-            console.log(data.error);
-            reject(JSON.parse(data));
+          console.log(data);
+          if(data.code == 786){
+            resolve(data);
+          }else{
+            reject(data);
           }
       }, (err) => {
         console.log(err);
@@ -158,6 +151,7 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       fileTransfer.onProgress( (progressevent) => {
         console.log(progressevent);
         console.log('Progress');
+        this.logs.addLog(progressevent.toString());
       });
     
     });

@@ -143,17 +143,21 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       this.logs.addLog(JSON.stringify(options));
       console.log(JSON.stringify(options));
       console.log(options);
-      if(!uploadLink){
-        uploadLink = 'upload-file-with-data';
+      let link:string = 'upload-file-with-data';
+      if(uploadLink){
+        link = uploadLink;
       }
-      fileTransfer.upload(uploadFile,  this.BASE_URL + uploadLink, options)
+      console.log('Upload link : '+this.BASE_URL+link);
+      this.logs.addLog('Upload link : '+this.BASE_URL+link);
+      fileTransfer.upload(uploadFile,  this.BASE_URL + link, options)
         .then((data:any) => {
           console.log(data);
+          let response:any = JSON.parse(data.response);
           this.logs.addLog('File uploaded : '+data);
-          if(data.code == 786){
-            resolve(data);
+          if(response.code == 786){
+            resolve(response);
           }else{
-            reject(data);
+            reject(response);
           }
       }, (err) => {
         console.log(err);

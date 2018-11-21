@@ -15,7 +15,7 @@
     <div class="user-profile-pic" align="center">
       <input type="file" #fileInput style="visibility: hidden;width: 0px; height: 0px;" name="files[]" (change)="processWebImage($event)" />
       <img [src]="account.user_image_url" style="width:96px;height:96px;border-radius: 50%;display: inline-block;" imageViewer/><br/>
-      <button ion-button clear (click)="getPicture()">Change Image</button>
+      <button ion-button clear (click)="getPicture()" [disabled]="isProfilePicUploading">Change Image</button>
     </div>
 
     <div class="user-data" align="center">

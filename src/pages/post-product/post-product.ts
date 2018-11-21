@@ -53,7 +53,7 @@ export class PostProductPage {
         useful_year:this.form.value.useful_year,
         useful_branch:this.form.value.useful_branch
       }
-      this.networkEngine.uploadFile(imageFile,userAuth,postFormData).then( (result:any) => {
+      this.networkEngine.uploadFile(imageFile,userAuth,null,postFormData).then( (result:any) => {
           this.navCtrl.pop();
       },err => {
         console.error(err);

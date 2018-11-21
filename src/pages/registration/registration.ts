@@ -4,7 +4,6 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { NgForm } from '@angular/forms';
-import { Storage } from '@ionic/storage';
 
 // import { WelcomePage } from '../welcome/welcome';
 
@@ -34,16 +33,6 @@ export class RegistrationPage {
 
   isUsernameExists:boolean = false;
 
-  defaultFormData  = {
-    "name":"Mohammed Arshad",
-    "username":"arshad0141786",
-    "password":"arshad01",
-    "phone_number":"8441975563",
-    "gender":"M",
-    "branch":"CSE",
-    "year":"3"
-  };
-
   signupOptions:any = {
     username:'',
     name:'',
@@ -57,14 +46,11 @@ export class RegistrationPage {
   };
 
   submitted=false;
-
-  responseData:any;
   
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public networkEngine: NetworkEngineProvider,
     private notify: NotifyProvider,
-    private storage: Storage,
     private logs: LogsServiceProvider) {
       this.signupOptions.phone_number = this.navParams.get('phone');
       console.log('phone number : ' + this.signupOptions.phone_number);
@@ -83,12 +69,13 @@ export class RegistrationPage {
 
       this.notify.presentLoading("Please wait...");
       this.logs.addLog(JSON.stringify(this.signupOptions));
+      let responseData:any;
       this.networkEngine.post(this.signupOptions, "create-user-for-xibay").then((result:any) => {
-        this.responseData = result;
-        this.logs.addLog("Response :"+JSON.stringify(this.responseData));
-        console.log(this.responseData);
-        if (this.responseData.User) {
-          this.notify.presentToast("User registered successfully");
+        responseData = result;
+        this.logs.addLog("Response :"+JSON.stringify(responseData));
+        console.log(responseData);
+        if (responseData.User) {
+          this.notify.presentToast("We welcome you");
           this.navCtrl.pop();
         }
         else {
@@ -98,18 +85,21 @@ export class RegistrationPage {
         //Connection failed message
         console.log(err.status);
         if(err.status != 0){
-          this.responseData = JSON.parse(err._body);
+          responseData = JSON.parse(err._body);
         }else{
-          this.responseData = err;
+          responseData = err;
         }
-        console.log(this.responseData);
-        if(this.responseData.Error){
-          let error = this.responseData.Error.split(':')[0].split('[')[1].split(']')[0];
+        console.log(responseData);
+        if(responseData.Error){
+          let error = responseData.Error.split(':')[0].split('[')[1].split(']')[0];
           console.log(error);
           if(error == '23000'){
-            let field = this.responseData.Error.split('key ')[1];
+            let field = responseData.Error.split('key ')[1];
             console.log(field);
-            this.isUsernameExists = true;
+            if(field == "username"){
+              this.isUsernameExists = true;
+            }
+            
             this.notify.presentToast(field + " already registered");    
           }else if(error == 'HY000'){
             this.notify.presentToast("General error");

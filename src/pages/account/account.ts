@@ -18,7 +18,7 @@ export class AccountPage {
 
   item: any;
 
-  form: FormGroup;
+  // form: FormGroup;
   /**
   branch_name: "Computer Science"
   username: "arshad"
@@ -45,24 +45,13 @@ export class AccountPage {
 
   constructor(
     public navCtrl: NavController,
-    private notify: NotifyProvider,
     public menu: MenuController,
     private userData: UserDataProvider,
-    private mdlCtrl: ModalController,
     private networkEngine: NetworkEngineProvider,
     private actionSheetCtrl:ActionSheetController,
-    formBuilder: FormBuilder, public camera: Camera,
+    public camera: Camera,
     public navParams: NavParams) {
-      this.form = formBuilder.group({
-        profilePic: [''],
-        name: ['', Validators.required],
-        about: ['']
-      });
-
-      this.form.valueChanges.subscribe((v) => {
-        this.isReadyToSave = this.form.valid;
-      });
-
+      
       let userAuth:any = {
         username:this.userData.getUserPostData().username,
         token:this.userData.getUserPostData().token
@@ -93,7 +82,7 @@ export class AccountPage {
       this.account.user_image_url = this.profilePicData;
     },(error) => {
       this.isProfilePicUploading = false;
-      alert('Unable to upload photo');
+      alert('Unable to upload photo'+error);
     });
   }
   
@@ -109,12 +98,6 @@ export class AccountPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountPage');
-  }
-
-  seeFullImage(url:string){
-    let modal = this.mdlCtrl.create('FullImagePage',{image:url});
-    console.log('image_url : '+url);
-    modal.present();
   }
 
   getPicture() {
@@ -184,15 +167,11 @@ export class AccountPage {
     }catch(err){
       alert('Unable to take photo');
       console.log(err);
-    }
-    
+    } 
   }
 
   getProfileImageStyle(value) {
     return 'url(' + value + ')'
   }
   
-  save(){
-    console.log(this.form.value);
-  }
 }

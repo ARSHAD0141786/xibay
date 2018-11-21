@@ -99,6 +99,7 @@ year: "4"
         this.refresher.complete();
       }
       if (result.data.length > 0) {
+        this.items = [];
         this.items = result.data;
         this.noRecords = false;
         this.userPostData.lastCreated = this.items[this.items.length - 1].created;
@@ -116,7 +117,7 @@ year: "4"
     return new Promise((resolve,reject) => {
         console.log("Start fetching more data : " + this.userPostData.lastCreated);
         this.network.post(this.userPostData, 'fetch-main-content').then((result: any) => {
-          if (result.data.length) {
+          if (result.data.length > 0) {
             for (let entry of result.data) {
               this.items.push(entry);
             }

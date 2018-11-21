@@ -77,7 +77,8 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
         let response:any = JSON.parse(JSON.stringify(res));
         if(response.status == 200){
           console.log(JSON.parse(response._body));
-          resolve(JSON.parse(response._body));
+          let result = JSON.parse(response._body);
+          resolve(result);
         }else{
           console.log('status : '+response.status);
           resolve(response._body);

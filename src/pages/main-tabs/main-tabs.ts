@@ -45,7 +45,7 @@ username: "u"
 year: "4"
    */
 
-  items: Array<{
+  public items: Array<{
     username:string,
     year:string,
     branch:string,
@@ -56,7 +56,7 @@ year: "4"
     useful_year?: string,
     useful_branch?: string,
     created: string,
-  }>;
+  }> = [];
 
   refresher: Refresher;
   public refresher_is_present: boolean = false;

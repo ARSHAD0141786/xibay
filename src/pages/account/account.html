@@ -3,7 +3,7 @@
     <ion-title>{{account.username}}</ion-title>
       <ion-buttons end>
         <button ion-button (click)="done()" [disabled]="!isReadyToSave" strong>
-          <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+          Save
         </button>
       </ion-buttons>
   </ion-navbar>
@@ -12,7 +12,20 @@
 
 <ion-content padding>
 
-    <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
+    <div class="user-profile-pic" align="center">
+      <input type="file" #fileInput style="visibility: hidden;width: 0px; height: 0px;" name="files[]" (change)="processWebImage($event)" />
+      <img [src]="account.user_image_url" style="width:96px;height:96px;border-radius: 50%;display: inline-block;" imageViewer/><br/>
+      <button ion-button clear (click)="getPicture()">Change Image</button>
+    </div>
+
+    <div class="user-data" align="center">
+      <h3>{{account.name}}&nbsp;&nbsp;&nbsp;&nbsp;<ion-icon ios="ios-create" md="md-create"></ion-icon></h3>
+      <p>+91&nbsp;&nbsp;{{account.phone_number}}&nbsp;&nbsp;&nbsp;<ion-icon ios="ios-create" md="md-create"></ion-icon></p>
+      
+    </div>
+
+
+    <!-- <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
         <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
         <div class="profile-image-wrapper" (click)="getPicture()">
           <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
@@ -34,15 +47,9 @@
         </ion-list>
       </form>
 
-      <button ion-button full (click)="save()">Save</button>
+      <button ion-button full (click)="save()">Save</button> -->
 
 
   <!-- design this page later -->
-  <img [src]="account.user_image_url" (click)="seeFullImage(account.user_image_url)"/>
-  <h3>{{account.name}}   <ion-icon ios="ios-create" md="md-create"></ion-icon>
-  </h3>
-  <h4>+91 {{account.phone_number}} <ion-icon ios="ios-create" md="md-create"></ion-icon></h4>
-  <ion-note>
-    {{account.branch_name}}, {{account.year}} <ion-icon ios="ios-create" md="md-create"></ion-icon>
-  </ion-note>
+
 </ion-content>

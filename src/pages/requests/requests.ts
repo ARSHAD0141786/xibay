@@ -10,7 +10,7 @@ import { UserDataProvider } from '../../providers/user-data/user-data';
 })
 export class RequestsPage {
 
-  private requests:Array<{
+  public requests:Array<{
     image_url:'',
     title:'',
     status:number,

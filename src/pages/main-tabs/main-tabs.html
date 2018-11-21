@@ -38,13 +38,18 @@
   </ion-refresher>
 
   
+  <div *ngIf="this.items.length == 0 " align="center">
+    <h3>OOPs!</h3>
+    <ion-note>Sorry! We are currently running out of stock</ion-note>
+    <img src="../assets/imgs/empty.jpg"/>
+  </div>
 
   <div>
     <ion-card *ngFor="let item of items, let id=index" (click)="showDescription(item)">
         
       <ion-item>
           <ion-avatar item-start>
-            <img [src]="item.user_image_url">
+            <img [src]="item.user_image_url" imageViewer>
           </ion-avatar>
           <h2>{{item.username}}</h2>
           <p>{{item.year}}, {{item.branch}}</p>

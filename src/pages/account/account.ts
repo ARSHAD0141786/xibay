@@ -39,11 +39,6 @@ export class AccountPage {
     branch_name:''
   }
 
-  private requests = {
-
-  }
-  private userAuth: any = { username: '', token: '' };
-
   constructor(
     public navCtrl: NavController,
     private notify: NotifyProvider,
@@ -62,32 +57,24 @@ export class AccountPage {
       this.form.valueChanges.subscribe((v) => {
         this.isReadyToSave = this.form.valid;
       });
-    this.notify.presentLoading("Loading...");
-    this.userData.getUsername().then((username: string) => {
-      this.userData.getToken().then((token: string) => {
-        this.notify.closeLoading();
-        this.notify.presentLoading("Please wait..");
-        this.userAuth.username = username;
-        this.userAuth.token = token;
-        
-        this.networkEngine.post(this.userAuth, 'get-user-data').then(
-          (result: any) => {
-            this.notify.closeLoading();
-              let data = result.data[0];
-              console.log('Data from get-user-detaisl : ');
-              console.log(data);
-              if (data) {
-                this.account = data;
-              }
-          },
-          (err) => {
-            this.notify.closeLoading();
-            console.log(err);
-          }
-        );
-      });
-    });
 
+      let userAuth:any = {
+        username:this.userData.getUserPostData().username,
+        token:this.userData.getUserPostData().token
+      }
+        
+      this.networkEngine.post(userAuth, 'get-user-data').then(
+        (result: any) => {
+          console.log(result);
+            let data = result.data[0];
+            if (data) {
+              this.account = data;
+            }
+            console.log(this.account);
+        },
+        (err) => {
+          console.error(err);
+        });
   }
 
   ionViewDidEnter() {
@@ -137,15 +124,15 @@ export class AccountPage {
     reader.onload = (readerEvent) => {
 
       let imageData = (readerEvent.target as any).result;
-      this.form.patchValue({ 'profilePic': imageData });
+      this.account.user_image_url = imageData;
       console.log(imageData);
     };
 
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  getProfileImageStyle() {
-    return 'url(' + this.form.controls['profilePic'].value + ')'
+  getProfileImageStyle(value) {
+    return 'url(' + value + ')'
   }
   
   save(){

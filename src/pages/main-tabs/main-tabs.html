@@ -34,9 +34,8 @@
 <ion-content>
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingIcon="arrow-dropdown"
+    <ion-refresher-content
     pullingText="Pull to refresh"
-    refreshingSpinner="circles"
     refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
@@ -54,25 +53,26 @@
           <ion-avatar item-start>
             <img [src]="item.user_image_url" imageViewer>
           </ion-avatar>
-          <h2>{{item.username}}</h2>
-          <p>{{item.year}}, {{item.branch}}</p>
+          <h2>{{item.username_fk}}</h2>
+          <p>{{item.user_year}}, {{item.user_branch}}</p>
           <ion-note>{{this.convertTime(item.created) | amTimeAgo}}</ion-note>
       </ion-item>
 
       <img [src]="item.image_url">
 
       <ion-card-content>
-        <p>{{item.title}}</p>
+        <p style="font-size:18px;" align="center"><b>{{item.title}}</b></p>
+        <ion-icon ios="ios-star" md="md-star" color="primary"></ion-icon>
       </ion-card-content>
     </ion-card>
 
-    <p *ngIf="noRecords" padding>
-      No more items present
+    <p *ngIf="noRecords" padding align="center">
+      No more products !
     </p>
   </div>
 
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" *ngIf="!noRecords">
-    <ion-infinite-scroll-content loadingSpinner="bubbles"
+    <ion-infinite-scroll-content 
     loadingText="Loading more data..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

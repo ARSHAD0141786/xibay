@@ -113,7 +113,7 @@ year: "4"
   }
 
   doInfinite(): Promise<any> { //this function is called to load more data not from scratch
-    return new Promise((resolve) => {
+    return new Promise((resolve,reject) => {
         console.log("Start fetching more data : " + this.userPostData.lastCreated);
         this.network.post(this.userPostData, 'fetch-main-content').then((result: any) => {
           if (result.data.length) {
@@ -121,15 +121,16 @@ year: "4"
               this.items.push(entry);
             }
             this.userPostData.lastCreated = result.data[result.data.length - 1].created;
+            resolve();
           } else {
             this.noRecords = true;
             console.log("No more records.");
+            reject();
           }
         }, (err) => {
           console.log(err);
+          reject();
         });
-        console.log('Async operation has ended');
-        resolve();
     })
   }
 

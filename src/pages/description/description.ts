@@ -12,7 +12,9 @@ import { item } from '../../interfaces/posted_item';
 })
 export class DescriptionPage {
   
-  private item:item;  
+  private item:item; 
+  private useful_branch:Array<String>;
+  private useful_year:Array<string>=[];
 
   constructor(
     public navCtrl: NavController,
@@ -23,6 +25,16 @@ export class DescriptionPage {
     public navParams: NavParams) {
 
     this.item  = navParams.get('item');
+    this.useful_branch = JSON.parse(this.item.useful_branch.toString());
+    this.useful_year = JSON.parse(this.item.useful_year.toString());
+    if(this.useful_branch.length == 12){
+      this.useful_branch = ['ALL'];
+    }
+    if(this.useful_year.length == 4){
+      this.useful_year = ['ALL'];
+    }
+    console.log(this.useful_branch);
+    console.log(this.useful_year);
   }
 
   ionViewDidEnter() {

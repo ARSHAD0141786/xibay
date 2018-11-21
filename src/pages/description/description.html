@@ -1,9 +1,14 @@
 <ion-header>
   <ion-navbar *ngIf="item">
-    <ion-avatar>
-      <img [src]="item.user_image_url" imageViewer/>
-    </ion-avatar>
-    <ion-title>{{item.username_fk}}</ion-title>
+    <div class="nav-header">
+      <div class="user-image">
+          <img [src]="item.user_image_url" imageViewer/>  
+      </div>
+      <div class="username">
+          <p>{{item.username_fk}}</p>
+      </div>
+    </div>
+    
     <ion-buttons end>
       <button ion-button icon-only (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
@@ -12,10 +17,9 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
   <div class="about-header" *ngIf="item">
-    <img [src]="content.image_url" [alt]="Image" imageViewer/>
+    <img [src]="item.image_url" [alt]="Image" imageViewer/>
   </div>
   <div padding class="about-info" *ngIf="item">
     <h2>{{item.title}}</h2>
@@ -23,23 +27,11 @@
       {{item.description}}
     </p>
     <h4>Useful for : </h4>
+    
     <h5>Branches : </h5>
-    <ion-item *ngFor="let b of item.useful_branch">
-      <ion-list>
-        <ion-item>
-          <p>{{b}}</p>
-        </ion-item>
-      </ion-list>
-    </ion-item>
-
+    <p> <span *ngFor="let b of useful_branch">&nbsp;&nbsp;{{b}}&nbsp;&nbsp;</span></p>
     <h5>Year : </h5>
-    <ion-item *ngFor="let b of item.useful_year">
-      <ion-list>
-        <ion-item>
-          <p>{{b}}</p>
-        </ion-item>
-      </ion-list>
-    </ion-item>
+    <p><span *ngFor="let b of useful_year">&nbsp;&nbsp;{{b}}&nbsp;&nbsp;</span></p>
   </div>
 </ion-content>
 

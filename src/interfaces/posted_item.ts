@@ -10,5 +10,9 @@ export interface item{
     total_requests:number,
     created:number,
     sold_on?:number,
-    sold_to?:string
+    sold_to?:string,
+    username_fk?:string,
+    user_image_url?:string,
+    user_branch?:string,
+    user_year?:string
 }

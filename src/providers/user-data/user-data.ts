@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class UserDataProvider {
-  public userPostData:any = {
+  static userPostData:any = {
     username:'',
     token:'',
   };
@@ -24,10 +24,11 @@ export class UserDataProvider {
     // set storage data
     this.storage.set('username',user_data.username);
     this.storage.set('token',result.token);
-    this.userPostData.username = user_data.username;
-    this.userPostData.token = result.token;
-    this.storage.set('user_data',user_data);
+    UserDataProvider.userPostData.username = user_data.username;
+    UserDataProvider.userPostData.token = result.token;
     this.storage.set(this.HAS_LOGGED_IN, true);
+    //there is no use of user_data remove below line as it is wasting storage in future production mode
+    this.storage.set('user_data',user_data);
 
     this.events.publish('user:login');
   };
@@ -45,36 +46,23 @@ export class UserDataProvider {
     this.storage.remove('username');
     this.storage.remove('token');
     this.storage.remove('user_data');
-
     this.events.publish('user:logout');
   };
 
-  getUsername(): Promise<string>{
-    return this.storage.get('username').then((value:string) => {
-      this.userPostData.username = value;
-      return value;
-    });
-  };
-  getToken(): Promise<string>{
-    return this.storage.get('token').then((value:string) => {
-      this.userPostData.token = value;
-      return value;
-    });
-  };
-
   getUserPostData(){
-    return this.userPostData;
+    return UserDataProvider.userPostData;
   }
 
   hasLoggedIn(): Promise<boolean> {
-    console.log(this.storage.get(this.HAS_LOGGED_IN));
     return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-      return value === true;
+      console.log('User logged in : '+value);
+      return value;
     });
   };
 
   checkHasSeenTutorial(): Promise<string> {
     return this.storage.get(this.HAS_SEEN_TUTORIAL).then((value) => {
+      console.log('User has seen tutorials : '+ value);
       return value;
     });
   };

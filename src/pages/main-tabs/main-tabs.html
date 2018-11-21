@@ -34,14 +34,17 @@
 <ion-content>
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content>Refreshing...</ion-refresher-content>
+    <ion-refresher-content pullingIcon="arrow-dropdown"
+    pullingText="Pull to refresh"
+    refreshingSpinner="circles"
+    refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
   
   <div *ngIf="this.items.length == 0 " align="center">
     <h3>OOPs!</h3>
     <ion-note>Sorry! We are currently running out of stock</ion-note>
-    <img src="../assets/imgs/empty.jpg"/>
+    <img src="assets/imgs/empty.jpg"/>
   </div>
 
   <div>
@@ -68,8 +71,9 @@
     </p>
   </div>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="!noRecords">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" *ngIf="!noRecords">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"
+    loadingText="Loading more data..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
 

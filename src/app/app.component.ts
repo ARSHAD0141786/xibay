@@ -75,45 +75,34 @@ export class Xibay {
     private push: Push,
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen) {
-      this.logs.addLog('Inside app.component constructor');
 
-      this.storage.get('hasSeenTutorial')
-      .then((hasSeenTutorial) => {
+      this.userData.checkHasSeenTutorial().then((hasSeenTutorial) => {
         if (hasSeenTutorial) {
-          this.logs.addLog('user has seen tutorials');
           this.userData.hasLoggedIn().then((hasLoggedIn) => {
             this.enableMenu(hasLoggedIn === true);
-            console.log(hasLoggedIn);
+            console.log('App Component : ' + hasLoggedIn);
             if(hasLoggedIn){
-              
-              this.rootPage = MainTabsPage;
-              this.storage.get('username').then((value:string)=>{
-                this.logs.addLog('user is logged in with username : '+value);
-                // this.network.authentication.username = value;
-                this.storage.get('token').then((value:string)=>{
-                  this.logs.addLog('and token : '+value);
-                  // this.network.authentication.token = value;
-                  this.platformReady();
+              // this line will run only single time when app loaded so we get user data from storage at this time
+              this.storage.get('username').then( (username:string) => {
+                console.log('Username : '+username);
+                UserDataProvider.userPostData.username = username;
+                this.storage.get('token').then( (token:string) => {
+                  console.log('Token : '+token);
+                  UserDataProvider.userPostData.token = token;
+                  this.rootPage = MainTabsPage;
                 });
               });
             }else{
-              this.logs.addLog('user not logged in');
               this.rootPage = WelcomePage;
-              this.platformReady();
             }
+            this.platformReady();
           });
         } else {
-          this.logs.addLog('user not seen tutorials');
           this.rootPage = TutorialsPage;
           this.platformReady();
         }
       });
-
       this.listenToLoginEvents();
-
-      
-      
-
   }
 
   pushSetup(){

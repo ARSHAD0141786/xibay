@@ -7,6 +7,7 @@ import 'rxjs/add/operator/timeout'
 import 'rxjs/add/operator/map';
 import { NotifyProvider } from '../notify/notify';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
+import { database } from '../../../node_modules/firebase';
 
 
 @Injectable()
@@ -78,6 +79,19 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
         if(response.status == 200){
           console.log(JSON.parse(response._body));
           let result = JSON.parse(response._body);
+          if(result.data){
+            if(result.data.length>0){
+              for(let entry of result.data){
+                if(entry.image_url){
+                  entry.image_url = this.BASE_URL+entry.image_url;
+                }
+                if(entry.user_image_url){
+                  entry.user_image_url = this.BASE_URL+entry.user_image_url;
+                }
+                
+              }
+            }
+          }
           resolve(result);
         }else{
           console.log('status : '+response.status);
@@ -88,10 +102,6 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
         this.logs.addLog("err");        
         this.notify.closeLoading();
         reject(err);
-      }, () => {
-        console.log('Success');
-        this.logs.addLog("Clean");        
-        this.notify.closeLoading();
       });
     });
   }

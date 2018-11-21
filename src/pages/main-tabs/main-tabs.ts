@@ -7,6 +7,7 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
 import { DescriptionPage } from '../description/description';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { PostProductPage } from '../post-product/post-product';
+import { item } from '../../interfaces/posted_item';
 // import { CameraOptions,Camera } from '@ionic-native/camera';
 
 @Component({
@@ -26,7 +27,7 @@ export class MainTabsPage {
 
   // tab1Root = PrimaryMainPage;
   // tab2Root = SecondaryMainPage;
-  public photos: any;
+  // public photos: any;
   public noRecords: boolean;
   public base64Image: string;
 
@@ -45,26 +46,28 @@ username: "u"
 year: "4"
    */
 
-  public items: Array<{
-    username:string,
-    year:string,
-    branch:string,
-    user_image_url:string,
-    title: string,
-    description: string,
-    image_url: string,
-    useful_year?: string,
-    useful_branch?: string,
-    created: string,
-  }> = [];
+  // public items: Array<{
+  //   username:string,
+  //   year:string,
+  //   branch:string,
+  //   user_image_url:string,
+  //   title: string,
+  //   description: string,
+  //   image_url: string,
+  //   useful_year?: string,
+  //   useful_branch?: string,
+  //   created: string,
+  // }> = [];
+
+  public items:Array<item> = [];
 
   refresher: Refresher;
   public refresher_is_present: boolean = false;
 
-  userPostData = {
+  userPostData:any = {
     username: '',
     token: '',
-    lastCreated: '',
+    lastCreated: 0,
   }
 
   constructor(
@@ -74,20 +77,15 @@ year: "4"
     private network: NetworkEngineProvider,
     private logs: LogsServiceProvider,
     public popoverCtrl: PopoverController) {
-    this.notify.presentLoading('Please wait...');
-    this.logs.addLog('inside main-tabs constructor');
-    this.userData.getUsername().then((username: string) => {
-      this.userPostData.username = username;
-      this.userData.getToken().then((token) => {
-        this.notify.closeLoading();
-        this.userPostData.token = token;
-        // if all variables are initialised
-        this.fetchMainContent();
-        this.userPostData.lastCreated = '';
-        this.noRecords = false;
-      });
-    });
 
+      
+      this.userPostData.username = this.userData.getUserPostData().username;
+      this.userPostData.token = this.userData.getUserPostData().token;
+      this.userPostData.lastCreated = 0;
+      this.noRecords = false;
+      this.fetchMainContent();
+      
+    
   }
 
   convertTime(time) {
@@ -95,42 +93,34 @@ year: "4"
     return date;
   }
 
-  fetchMainContent() {
-    this.notify.presentLoading("Loading main content...");
-    this.logs.addLog('Fetching main content');
-    this.network.post(this.userPostData, 'fetch-main-content').then((fetchData:any) => {
-      this.notify.closeLoading();
+  fetchMainContent() { // when this function is called then it starts loading items from scratch
+    this.network.post(this.userPostData, 'fetch-main-content').then((result:any) => {
       if (this.refresher_is_present) {
         this.refresher.complete();
       }
-      if (fetchData.data) {
-        this.items = fetchData.data;
-        let dataLength = this.items.length;
-        this.userPostData.lastCreated = this.items[dataLength - 1].created;
+      if (result.data) {
+        this.items = result.data;
+        this.noRecords = false;
+        this.userPostData.lastCreated = this.items[this.items.length - 1].created;
         console.log("Last created : " + this.userPostData.lastCreated);
       }
     }, (err) => {
       if (this.refresher_is_present) {
         this.refresher.complete();
       }
-      console.log(err);
+      console.error(err);
     });
   }
 
-  doInfinite(e): Promise<any> {
-    console.log('Begin async operation');
-
+  doInfinite(): Promise<any> { //this function is called to load more data not from scratch
     return new Promise((resolve) => {
-      setTimeout(() => {
         console.log("Start fetching more data : " + this.userPostData.lastCreated);
-        this.network.post(this.userPostData, 'fetch-main-content').then((fetchData: any) => {
-          if (fetchData.data.length) {
-            const newData = fetchData.data;
-            this.userPostData.lastCreated = newData[newData.length - 1].created;
-            console.log("Last created : " + this.userPostData.lastCreated);
-            for (let i = 0; i < newData.length; i++) {
-              this.items.push(newData[i]);
+        this.network.post(this.userPostData, 'fetch-main-content').then((result: any) => {
+          if (result.data.length) {
+            for (let entry of result.data) {
+              this.items.push(entry);
             }
+            this.userPostData.lastCreated = result.data[result.data.length - 1].created;
           } else {
             this.noRecords = true;
             console.log("No more records.");
@@ -140,47 +130,31 @@ year: "4"
         });
         console.log('Async operation has ended');
         resolve();
-      }, 500);
     })
   }
 
   doRefresh(refresher: Refresher) {
-    this.userPostData.lastCreated = '';
+    this.userPostData.lastCreated = 0;
     this.refresher_is_present = true;
-    this.items = [];
     this.refresher = refresher;
     this.fetchMainContent();
-    // this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
-    //   this.shownSessions = data.shownSessions;
-    //   this.groups = data.groups;
-    //   // simulate a network request that would take longer
-    //   // than just pulling from out local json file
-    //   setTimeout(() => {
-    //     refresher.complete();
-
-    //     const toast = this.toastCtrl.create({
-    //       message: 'Sessions have been updated.',
-    //       duration: 3000
-    //     });
-    //     toast.present();
-    //   }, 1000);
-    // });
   }
 
   // showPopOver(){
   //   let popover = this.popoverCtrl.create(MyPopOverPage);
   //   popover.present();
   // }
+
   ngOnInit() {
-    this.photos = [];
+    this.items = [];
   }
 
-  clearLocalStorage() {
-    this.logs.addLog('clear local storage');
-    localStorage.clear();
-    this.notify.presentLoading("Logging out...");
-    setTimeout(() => this.logout(), 1000);
-  }
+  // clearLocalStorage() {
+  //   this.logs.addLog('clear local storage');
+  //   localStorage.clear();
+  //   this.notify.presentLoading("Logging out...");
+  //   setTimeout(() => this.logout(), 1000);
+  // }
 
   logout() {
     this.logs.addLog('Logging out...');
@@ -194,30 +168,9 @@ year: "4"
     root.popToRoot(); */
   }
 
-  // takePhoto() {
-  //   console.log("Taking photo");
-  //   const options: CameraOptions = {
-  //     quality: 50,
-  //     destinationType: this.camera.DestinationType.DATA_URL,
-  //     encodingType: this.camera.EncodingType.JPEG,
-  //     mediaType: this.camera.MediaType.PICTURE
-  //   }
 
-  //   this.camera.getPicture(options).then((imageData) => {
-  //     // imageData is either a base64 encoded string or a file URI
-  //     // If it's base64:
-  //     this.base64Image = 'data:image/jpeg;base64,' + imageData;
-  //     this.photos.push(this.base64Image);
-  //     this.photos.reverse();
-  //   }, (err) => {
-  //     // Handle error
-  //   });
-  // }
-
-
-  showDescription(item) {
-    this.logs.addLog('show description method in main-tabs.ts');
-    this.navCtrl.push(DescriptionPage, item);
+  showDescription(item:item) {
+    this.navCtrl.push(DescriptionPage,{item : item});
   }
 
   gotoSecondaryPage() {

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angul
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UserDataProvider } from '../../providers/user-data/user-data';
+import { item } from '../../interfaces/posted_item';
 
 @IonicPage()
 @Component({
@@ -10,62 +11,8 @@ import { UserDataProvider } from '../../providers/user-data/user-data';
   templateUrl: 'description.html',
 })
 export class DescriptionPage {
-
-  /* branch: "Array"
-  category_fk: "5"
-  created: "1526101255"
-  description: "Cute person
-  "id: "41"
-  image_url: "http://192.168.43.50/xibay/public_html/photo/img-20180512-5af675074d09cionicfile.jpg"
-  is_hidden: "0"
-  title: "ARSHAD"
-  total_requests: "0"
-  username_fk: "u"
-  year: "Array" */
-
-
-
-  /**
-   * // data from SERVER
-  /**
-   * branch: "4"
-created: "1531428994"
-description: "By William Stallings"
-image_url: "http://localhost/xibay/public_html/photo/img-20180712-5b47c082a1c53ionicfile.jpg"
-is_hidden: "0"
-title: "OPERATING SYSTEM"
-useful_branch: "["Computer Science","ECC","Information Technology"]"
-useful_year: "["3rd","Final"]"
-user_image_url: null
-username: "u"
-year: "4"
-   */
-
   
-  private userPostData = {
-    token:'',
-    username:'',
-    item_id:'',
-    to_username:''
-  };
-
-  private content:{
-    username:string,
-    year:string,
-    branch:string,
-    user_image_url:string,
-    title: string,
-    description: string,
-    image_url: string,
-    useful_year?: string,
-    useful_branch?: string,
-    created: string,
-  };
-
-  private branches:Array<string>
-  private years:Array<string>
-
-  
+  private item:item;  
 
   constructor(
     public navCtrl: NavController,
@@ -75,22 +22,7 @@ year: "4"
     private notify:NotifyProvider,
     public navParams: NavParams) {
 
-    let item:any  = navParams.data;
-    this.content = item;
-    this.userPostData.to_username = this.content.username;
-    this.branches = this.content.useful_branch.split(',');
-    this.years = this.content.useful_year.split(',');
-    this.notify.presentLoading("Please wait...");
-    this.userData.getUsername().then((username)=>{
-      this.userPostData.username = username;
-      this.userData.getToken().then((token)=>{
-        this.notify.closeLoading();
-        this.userPostData.token = token;
-        this.userPostData.item_id = item.id;
-      });
-    });
-
-    console.log(this.content);
+    this.item  = navParams.get('item');
   }
 
   ionViewDidEnter() {
@@ -108,8 +40,13 @@ year: "4"
   }
 
   sendRequest(){
-      this.notify.presentLoading("Sending request...");
-      this.network.post(this.userPostData,'send-request').then((d:any)=>{
+      let userPostData:any = {
+        username:this.userData.getUserPostData().username,
+        token : this.userData.getUserPostData().token,
+        item_id : this.item.id,
+        to_username : this.item.username_fk
+      }
+      this.network.post(userPostData,'send-request').then((d:any)=>{
           if(d.message){
             this.notify.presentToast(d.message);
           }else if(d.error){

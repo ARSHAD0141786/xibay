@@ -1,6 +1,9 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>{{content.username}}</ion-title>
+  <ion-navbar *ngIf="item">
+    <ion-avatar>
+      <img [src]="item.user_image_url" imageViewer/>
+    </ion-avatar>
+    <ion-title>{{item.username_fk}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
@@ -11,36 +14,17 @@
 
 
 <ion-content>
-  <div class="about-header" *ngIf="content">
-    <img [src]="content.image_url" [alt]="content.title">
+  <div class="about-header" *ngIf="item">
+    <img [src]="content.image_url" [alt]="Image" imageViewer/>
   </div>
-  <div padding class="about-info">
-    <!-- <ion-list no-lines>
-      <ion-item>
-        <ion-icon name="calendar" item-start></ion-icon>
-        <ion-label>Date</ion-label>
-        <ion-datetime displayFormat="MMM DD, YYYY" max="2056" [(ngModel)]="conferenceDate"></ion-datetime>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="pin" item-start></ion-icon>
-        <ion-label>Location</ion-label>
-        <ion-select>
-          <ion-option value="madison" selected>Madison, WI</ion-option>
-          <ion-option value="austin">Austin, TX</ion-option>
-          <ion-option value="chicago">Chicago, IL</ion-option>
-          <ion-option value="seattle">Seattle, WA</ion-option>
-        </ion-select>
-      </ion-item>
-    </ion-list>
- -->
- <h2>{{content.title}}</h2>
+  <div padding class="about-info" *ngIf="item">
+    <h2>{{item.title}}</h2>
     <p>
-      {{content.description}}
+      {{item.description}}
     </p>
-    <h3>Useful for : </h3>
+    <h4>Useful for : </h4>
     <h5>Branches : </h5>
-    <ion-item *ngFor="let b of branches">
+    <ion-item *ngFor="let b of item.useful_branch">
       <ion-list>
         <ion-item>
           <p>{{b}}</p>
@@ -49,7 +33,7 @@
     </ion-item>
 
     <h5>Year : </h5>
-    <ion-item *ngFor="let b of years">
+    <ion-item *ngFor="let b of item.useful_year">
       <ion-list>
         <ion-item>
           <p>{{b}}</p>

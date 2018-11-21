@@ -49,10 +49,10 @@
           <ion-item>
               <ion-label stacked color="primary">Useful for which year :</ion-label>
               <ion-select name=""  multiple="true" formControlName="useful_year">
-                <ion-option value="1">1st</ion-option>
-                <ion-option value="2">2nd</ion-option>
-                <ion-option value="3">3rd</ion-option>
-                <ion-option value="4">Final</ion-option>
+                <ion-option value="1st">1st</ion-option>
+                <ion-option value="2nd">2nd</ion-option>
+                <ion-option value="3rd">3rd</ion-option>
+                <ion-option value="Final">Final</ion-option>
               </ion-select>
           </ion-item>
           <p style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.useful_year.valid">*Year is required</p>

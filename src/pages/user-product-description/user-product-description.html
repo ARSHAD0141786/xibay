@@ -36,7 +36,7 @@
       <ion-list no-lines>
         <ion-item *ngFor="let request of requests">
           <ion-avatar item-start>
-            <img [src]="request.user_image_url" (click)="openImage($event.srcElement.currentSrc)" />
+            <img [src]="request.user_image_url" imageViewer/>
           </ion-avatar>
           <p>{{request.name}}</p>
           <p>{{request.branch}}, {{request.year}}</p>

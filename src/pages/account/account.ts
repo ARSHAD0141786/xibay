@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, ModalController, ActionSheetController } from 'ionic-angular';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
@@ -39,6 +39,10 @@ export class AccountPage {
     branch_name:''
   }
 
+  isProfilePicUploading:boolean = false;
+  profilePicUploadingPercentage:number=0;
+  private profilePicData:any;
+
   constructor(
     public navCtrl: NavController,
     private notify: NotifyProvider,
@@ -46,6 +50,7 @@ export class AccountPage {
     private userData: UserDataProvider,
     private mdlCtrl: ModalController,
     private networkEngine: NetworkEngineProvider,
+    private actionSheetCtrl:ActionSheetController,
     formBuilder: FormBuilder, public camera: Camera,
     public navParams: NavParams) {
       this.form = formBuilder.group({
@@ -77,6 +82,21 @@ export class AccountPage {
         });
   }
 
+  uploadProfilePic(){
+    this.isProfilePicUploading = true;
+    let userAuth:any = {
+      username:this.userData.getUserPostData().username,
+      token:this.userData.getUserPostData().token
+    }
+    this.networkEngine.uploadFile(this.profilePicData,userAuth,'upload-profile-picture').then( (result) => {
+      this.isProfilePicUploading = false;
+      this.account.user_image_url = this.profilePicData;
+    },(error) => {
+      this.isProfilePicUploading = false;
+      alert('Unable to upload photo');
+    });
+  }
+  
   ionViewDidEnter() {
     // the root left menu should be disabled on the tutorial page
     this.menu.enable(false);
@@ -97,20 +117,52 @@ export class AccountPage {
     modal.present();
   }
 
-  done(){
-    console.log('update user details...')
-    console.log('Not yet implemented');
-  }
   getPicture() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Add photo From',
+      buttons: [
+        {
+          text: 'Camera',
+          handler: () => {
+            console.log('Camera');
+            this.openCamera(this.camera.PictureSourceType.CAMERA);
+          }
+        }, {
+          text: 'Gallery',
+          handler: () => {
+            console.log('Gallery');
+            this.openCamera(this.camera.PictureSourceType.PHOTOLIBRARY);
+          }
+        }, {
+          text: 'Cancel',
+          role: 'destructive',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  openCamera(sourceType:number) {
     if (Camera['installed']()) {
       this.camera.getPicture({
         destinationType: this.camera.DestinationType.DATA_URL,
-        targetWidth: 96,
-        targetHeight: 96
+        quality: 100,
+        allowEdit: true,
+        sourceType:sourceType,
+        targetWidth: 500,
+        targetHeight: 500,
+        correctOrientation:true,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
       }).then((data) => {
-        this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' + data });
+        this.profilePicData = 'data:image/jpg;base64,' + data;
+        this.uploadProfilePic();
       }, (err) => {
         alert('Unable to take photo');
+        console.log(err);
       })
     } else {
       this.fileInput.nativeElement.click();
@@ -124,11 +176,16 @@ export class AccountPage {
     reader.onload = (readerEvent) => {
 
       let imageData = (readerEvent.target as any).result;
-      this.account.user_image_url = imageData;
-      console.log(imageData);
+      this.profilePicData = imageData;
+      this.uploadProfilePic();
     };
-
-    reader.readAsDataURL(event.target.files[0]);
+    try{
+      reader.readAsDataURL(event.target.files[0]);
+    }catch(err){
+      alert('Unable to take photo');
+      console.log(err);
+    }
+    
   }
 
   getProfileImageStyle(value) {

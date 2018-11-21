@@ -29,9 +29,4 @@ export class RequestsPage {
     console.log('ionViewDidLoad RequestsPage');
   }
 
-  openImage(image_url:any){
-    let full_image_modal = this.modalCtrl.create('FullImagePage',{image:image_url});
-    full_image_modal.present();
-  }
-
 }

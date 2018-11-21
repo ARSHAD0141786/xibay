@@ -17,7 +17,9 @@
               Add Image
             </div>
           </div>
-          <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" (click)="viewFullImage()" *ngIf="this.form.controls.productPic.value"></div>
+          <div class="profile-image" *ngIf="this.form.controls.productPic.value">
+            <img [src]="getProfileImage()" imageViewer/>
+          </div>
         </div>
         <p align="center" style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.productPic.value">*Image is required</p>
         <div align="center">

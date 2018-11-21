@@ -98,7 +98,7 @@ year: "4"
       if (this.refresher_is_present) {
         this.refresher.complete();
       }
-      if (result.data) {
+      if (result.data.length > 0) {
         this.items = result.data;
         this.noRecords = false;
         this.userPostData.lastCreated = this.items[this.items.length - 1].created;

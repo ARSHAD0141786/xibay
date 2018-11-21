@@ -113,7 +113,7 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
     } 
   }
 
-  uploadFile(uploadFile:any,userAuth:any,formData?:any) {
+  uploadFile(uploadFile:any,userAuth:any,uploadLink?:string,formData?:any) {
     this.logs.addLog('Uploading file....');
     return new Promise( (resolve,reject) => {
       this.logs.addLog('Uploading file 2....');
@@ -143,9 +143,13 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       this.logs.addLog(JSON.stringify(options));
       console.log(JSON.stringify(options));
       console.log(options);
-      fileTransfer.upload(uploadFile,  this.BASE_URL + 'upload-file-with-data', options)
+      if(!uploadLink){
+        uploadLink = 'upload-file-with-data';
+      }
+      fileTransfer.upload(uploadFile,  this.BASE_URL + uploadLink, options)
         .then((data:any) => {
           console.log(data);
+          this.logs.addLog('File uploaded : '+data);
           if(data.code == 786){
             resolve(data);
           }else{

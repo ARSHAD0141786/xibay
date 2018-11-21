@@ -20,7 +20,7 @@
       <ion-item-sliding *ngFor="let item of classReference.posted_products;let i = index">
           <button ion-item (click)="openItem(item,i)">
             <ion-avatar item-start>
-              <img [src]="item.image_url" />
+              <img [src]="item.image_url" imageViewer/>
             </ion-avatar>
             <h2>{{item.title}}</h2>
             <p style="font-size: 8px;font-style: italic">POSTED ON : {{this.convertTime(item.created) | date:'short'}}</p>

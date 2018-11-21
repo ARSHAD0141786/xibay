@@ -5,7 +5,6 @@ import { IonicPage, NavController, ViewController, ActionSheetController, ModalC
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
-import { ResourceLoader } from '../../../node_modules/@angular/compiler';
 @IonicPage()
 @Component({
   selector: 'page-post-product',
@@ -21,7 +20,7 @@ export class PostProductPage {
 
   constructor(public navCtrl: NavController,private logs:LogsServiceProvider ,private networkEngine:NetworkEngineProvider, private userData:UserDataProvider ,public mdlCtrl:ModalController, public actionSheetCtrl: ActionSheetController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
     this.form = formBuilder.group({
-      productPic: [''],
+      productPic: ['', Validators.required],
       title: ['', Validators.required],
       description:['',Validators.required],
       category:['',Validators.required],
@@ -41,23 +40,25 @@ export class PostProductPage {
 
   postProduct(){
     this.isFormSubmitted = true;
-    let userAuth:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token
+    if(this.form.valid){
+      let userAuth:any = {
+        username:this.userData.getUserPostData().username,
+        token:this.userData.getUserPostData().token
+      }
+      let imageFile:any = this.form.controls['productPic'].value;
+      let postFormData:any = {
+        title:this.form.value.title,
+        description:this.form.value.description,
+        category:this.form.value.category,
+        useful_year:this.form.value.useful_year,
+        useful_branch:this.form.value.useful_branch
+      }
+      this.networkEngine.uploadFile(imageFile,userAuth,postFormData).then( (result:any) => {
+          this.navCtrl.pop();
+      },err => {
+        console.error(err);
+      });
     }
-    let imageFile:any = this.form.controls['productPic'].value;
-    let postFormData:any = {
-      title:this.form.value.title,
-      description:this.form.value.description,
-      category:this.form.value.category,
-      useful_year:this.form.value.useful_year,
-      useful_branch:this.form.value.useful_branch
-    }
-    this.networkEngine.uploadFile(imageFile,userAuth,postFormData).then( (result:any) => {
-        this.navCtrl.pop();
-    },err => {
-      console.error(err);
-    });
   }
 
   getPicture() {
@@ -127,8 +128,8 @@ export class PostProductPage {
     }
   }
 
-  getProfileImageStyle() {
-    return 'url(' + this.form.controls['productPic'].value + ')'
+  getProfileImage() {
+    return this.form.controls['productPic'].value;
   }
 
   viewFullImage(){

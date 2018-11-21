@@ -98,8 +98,8 @@ year: "4"
       if (this.refresher_is_present) {
         this.refresher.complete();
       }
+      this.items = [];
       if (result.data.length > 0) {
-        this.items = [];
         this.items = result.data;
         this.noRecords = false;
         this.userPostData.lastCreated = this.items[this.items.length - 1].created;

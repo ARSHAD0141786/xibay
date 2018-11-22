@@ -67,6 +67,7 @@ export class AccountPage {
       token:this.userData.getUserPostData().token
     }
     this.networkEngine.uploadFile(this.profilePicData,userAuth,'upload-profile-picture').then( (result) => {
+      console.log(result);
       this.user.user_image_url = this.profilePicData;
       this.isProfilePicUploading = false;
     },(error) => {

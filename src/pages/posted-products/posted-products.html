@@ -31,8 +31,8 @@
           
           </button>
     
-          <ion-item-options>
-            <button ion-button color="danger" (click)="deleteItem(item)">
+          <ion-item-options *ngIf="item.is_hidden==0">
+            <button ion-button color="danger" (click)="deleteItem(item,i)">
               DELETE
             </button>
           </ion-item-options>

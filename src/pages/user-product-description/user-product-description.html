@@ -10,7 +10,7 @@
     <div padding>
       <p (click)="showToast(item.is_hidden)" align="center"><b>Status : </b><span *ngIf="item.is_hidden==0" style="color: forestgreen">LIVE</span><span *ngIf="item.is_hidden==1" style="color: orangered">NOT LIVE</span></p>
       <p ><b>Description :</b></p>
-      <p style="font-style: oblique">{{this.item.description}}</p>
+      <p style="font-style: oblique"><span style="white-space: pre-line">{{this.item.description}}</span></p>
       <p><b>Category :</b> {{item.category_name}}</p>
       
       <div *ngIf="item.is_hidden==0 && !choosen_user">
@@ -27,7 +27,7 @@
             <p style="font-size:12px;color:black">{{request.name}}</p>
             <p style="font-size: 10px;">{{request.branch}}, {{request.year}}</p>
             <p style="color: cornflowerblue;font-size: 8px">Posted products : {{request.total_posted_products}}</p>
-            <p style="font-size: 8px"><i>{{convertTime(request.requested_on) | amTimeAgo}}</i>></p>
+            <p style="font-size: 8px"><i>{{convertTime(request.requested_on) | amTimeAgo}}</i></p>
             <button ion-button clear item-end (click)="accept(request)">Accept</button>
           </ion-item>
         </ion-list>

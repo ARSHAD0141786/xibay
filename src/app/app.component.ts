@@ -160,10 +160,10 @@ export class Xibay {
     }
     if(this.nav.getActive().name != page.name){
       if(page.setRoot){
-        this.nav.setRoot(page.component,{},{animation:'ios-transition'});
+        this.nav.setRoot(page.component);
         this.nav.popToRoot({animate:false});
       }else{
-        this.nav.push(page.component,{},{animation:'ios-transition'});
+        this.nav.push(page.component);
         if(this.nav.getActive().index == -1 || this.nav.getActive().index == 1){
           this.nav.remove(1);
         }

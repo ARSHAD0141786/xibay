@@ -35,8 +35,9 @@ export class OtpValidationPage {
     firebase.auth().signInWithCredential(signInCredential).then((info)=>{
     console.log(info);
     this.logs.addLog(""+info);
-    this.viewCtrl.dismiss(true);
+    this.viewCtrl.dismiss(this.phoneNumber);
     },(error)=>{
+      this.viewCtrl.dismiss(false);
       this.logs.addLog(error);
     });
   }

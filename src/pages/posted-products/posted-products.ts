@@ -4,6 +4,7 @@ import { item } from '../../interfaces/posted_item';
 import { UserProductDescriptionPage } from '../user-product-description/user-product-description';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
+import { NotifyProvider } from '../../providers/notify/notify';
 
 @IonicPage()
 @Component({
@@ -36,7 +37,7 @@ export class PostedProductsPage {
 
  static posted_products:item[] = [];
   
-  constructor(public navCtrl: NavController,private userPostData:UserDataProvider, public navParams: NavParams,private networkEngine:NetworkEngineProvider,private alertCtrl:AlertController) {
+  constructor(public navCtrl: NavController,private notify:NotifyProvider,private userPostData:UserDataProvider, public navParams: NavParams,private networkEngine:NetworkEngineProvider,private alertCtrl:AlertController) {
     
     this.fetchProducts();
   }
@@ -86,7 +87,12 @@ export class PostedProductsPage {
               item_id : item.id
             }
             this.networkEngine.post(postData,'delete-a-posted-product').then( (result:any) => {
-              PostedProductsPage.posted_products.splice(index,1);
+              if(result.code == 786){
+                this.notify.presentToast(result.message);
+                PostedProductsPage.posted_products.splice(index,1);
+              }else{
+                this.notify.presentToast(result.message);
+              }
             },error => {
               console.error(error);
             });

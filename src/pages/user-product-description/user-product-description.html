@@ -1,60 +1,47 @@
-<!--
-  Generated template for the UserProductDescriptionPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
     <ion-title>{{this.item.title}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content>
+    <img [src]="item.image_url" style="width:100%" imageViewer />
 
-<ion-content padding>
-
-
-    <div>
-        <ion-thumbnail align="left" style="width:50px;height:80px;">
-            <img [src]="item.image_url" (click)="openImage($event.srcElement.currentSrc)">
-        </ion-thumbnail>
-        <h3 style="color:chartreuse" *ngIf="item.is_hidden==0">LIVE</h3>
-    </div>
-
-    <p ><b>Description :</b></p>
-    <p style="font-style: oblique">{{this.item.description}}</p>
-    <p><b>Category :</b> {{item.category_name}}</p>
-    
-    <div *ngIf="item.is_hidden==0">
-      <ion-item>
-        <p><b>Requests for this product :</b> {{requests.length}}</p>
-        <button ion-button clear item-end (click)="refresh()">
-          <ion-icon ios="ios-refresh" md="md-refresh"></ion-icon>&nbsp;&nbsp;Refresh</button>
-      </ion-item>
-      <ion-list no-lines>
-        <ion-item *ngFor="let request of requests">
-          <ion-avatar item-start>
-            <img [src]="request.user_image_url" imageViewer/>
-          </ion-avatar>
-          <p>{{request.name}}</p>
-          <p>{{request.branch}}, {{request.year}}</p>
-          <button ion-button clear item-end (click)="accept(request)">Accept</button>
+    <div padding>
+      <p ><b>Description :</b></p>
+      <p style="font-style: oblique">{{this.item.description}}</p>
+      <p><b>Category :</b> {{item.category_name}}</p>
+      
+      <div *ngIf="item.is_hidden==0">
+        <ion-item>
+          <p><b>Requests for this product :</b> {{requests.length}}</p>
+          <button ion-button clear item-end (click)="refresh()">
+            <ion-icon ios="ios-refresh" md="md-refresh"></ion-icon>&nbsp;&nbsp;Refresh</button>
         </ion-item>
-      </ion-list>
-    </div>
+        <ion-list no-lines>
+          <ion-item *ngFor="let request of requests">
+            <ion-avatar item-start>
+              <img [src]="request.user_image_url" imageViewer/>
+            </ion-avatar>
+            <p>{{request.name}}</p>
+            <p>{{request.branch}}, {{request.year}}</p>
+            <button ion-button clear item-end (click)="accept(request)">Accept</button>
+          </ion-item>
+        </ion-list>
+      </div>
 
-    <div *ngIf="item.is_hidden==1">
-      <h3>Accepted User</h3>
-      <ion-item *ngIf="user_choosen">
-        <ion-avatar item-start>
-          <img [src]="user_choosen.user_image_url" (click)="openImage($event.srcElement.currentSrc)" />
-        </ion-avatar>
-        <p>{{user_choosen.full_name}}</p>
-        <p>{{user_choosen.user_branch}}, {{user_choosen.user_year}}</p>
-        <p>Contact details : {{user_choosen.contact_details}}</p>
-      </ion-item>
-    </div>
+      <div *ngIf="item.is_hidden==1 && choosen_user">
+        <h3>Accepted User</h3>
+        <ion-item *ngIf="choosen_user">
+          <ion-avatar item-start>
+            <img [src]="choosen_user.user_image_url" imageViewer/>
+          </ion-avatar>
+          <p>{{choosen_user.name}}</p>
+          <p>{{choosen_user.year}} , {{choosen_user.branch}}</p>
+          <p>Contact details : {{choosen_user.phone_number}}</p>
+        </ion-item>
+        <ion-note style="padding-top:50px">Note : Kindly note that this product will be deleted after 3 days and these details too. So please contact <span style="color: black;">{{choosen_user.name}}</span> as soon as possible.</ion-note>
+      </div>
 
+    </div>
 </ion-content>

@@ -131,9 +131,4 @@ export class PostProductPage {
   getProfileImage() {
     return this.form.controls['productPic'].value;
   }
-
-  viewFullImage(){
-    let modal = this.mdlCtrl.create('FullImagePage',{image_data:this.form.controls['productPic'].value});
-    modal.present();
-  }
 }

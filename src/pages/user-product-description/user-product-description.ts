@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController, AlertController }
 import { item } from '../../interfaces/posted_item';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { User } from '../../interfaces/user';
 
 /**
  * Generated class for the UserProductDescriptionPage page.
@@ -22,23 +23,26 @@ export class UserProductDescriptionPage {
   public callbackFunction;
   public isRequestAccepted:boolean = false;
   
-  private requests:Array<
-  {
-    user_image_url:string,
-    branch:string,
-    user_year:string,
-    username:string,
-    name:string,
-    request_id:number
-  }>=[];
+  // private requests:Array<
+  // {
+  //   user_image_url:string,
+  //   branch:string,
+  //   user_year:string,
+  //   username:string,
+  //   name:string,
+  //   request_id:number
+  // }>=[];
 
-  private user_choosen:any = {
-    user_image_url:'http://localhost/xibay/public_html/photo/img-20180513-5af7d3c05ba4eionicfile.jpg',
-    user_branch:'CSE',
-    user_year:'3rd',
-    full_name:'Mohammed Arshad',
-    contact_details:'+91 8441975563',
-  }
+  private requests:Array<User>=[];
+  private choosen_user:User;
+
+  // private user_choosen:any = {
+  //   user_image_url:'http://localhost/xibay/public_html/photo/img-20180513-5af7d3c05ba4eionicfile.jpg',
+  //   user_branch:'CSE',
+  //   user_year:'3rd',
+  //   full_name:'Mohammed Arshad',
+  //   contact_details:'+91 8441975563',
+  // }
   constructor(public navCtrl: NavController,private userData:UserDataProvider,private networkEngine:NetworkEngineProvider, private alertCtrl:AlertController, public navParams: NavParams,private modalCtrl:ModalController) {
     this.item = this.navParams.get('product');
     console.log(this.item);
@@ -50,7 +54,6 @@ export class UserProductDescriptionPage {
     }else{
       this.fetchChoosenUser(this.item.id);
     }
-    
   }
 
   fetchChoosenUser(item_id:number){
@@ -59,8 +62,9 @@ export class UserProductDescriptionPage {
       token : this.userData.getUserPostData().token,
       item_id:item_id
     }
-    this.networkEngine.post(postData,'fetch-choosen-user-for-a-produc').then( (result:any) => {
-      
+    this.networkEngine.post(postData,'fetch-choosen-user-for-a-product').then( (result:any) => {
+      this.isRequestAccepted = true;
+      this.choosen_user = result.data[0];//this is always one element array because user can only accept one user
     },err => {
       console.error(err);
     });
@@ -92,7 +96,7 @@ export class UserProductDescriptionPage {
     console.log('accepting request of : ');
     console.log(request);
     let alert = this.alertCtrl.create({
-      title: 'Are you sure, you want to accept request from '+request.full_name +' ?',
+      title: 'Are you sure, you want to accept request from '+request.name +' ?',
       subTitle: 'After accepting this request all remaining requests are rejected automatically !',
       enableBackdropDismiss:false,
       buttons:[
@@ -109,7 +113,6 @@ export class UserProductDescriptionPage {
             console.log('Accepet request : '+request);
             //call api here
             this.acceptApiCall(this.item.id,request.request_id,request.username);
-            this.isRequestAccepted = true;
             this.callbackFunction(this.isRequestAccepted,this.itemIndex).then( ()=> {
               // this.navCtrl.pop();
             });

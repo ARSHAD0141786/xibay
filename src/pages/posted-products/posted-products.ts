@@ -104,13 +104,14 @@ export class PostedProductsPage {
   }
 
   //this function will be called from next pushing page which is user-product page
-  requestCallBackFunction = function(isAccepted,index){
+  requestCallBackFunction = function(isAccepted,total_requests,index){
     if(isAccepted){
       
       // this.posted_products[index].is_hidden = 1;
     }
     return new Promise( (resolve , reject ) => {
       PostedProductsPage.posted_products[index].is_hidden = isAccepted;
+      PostedProductsPage.posted_products[index].total_requests = total_requests;
       resolve();
     });
   }

@@ -23,27 +23,10 @@ export class UserProductDescriptionPage {
   private itemIndex:number;
   public callbackFunction;
   public isRequestAccepted:boolean = false;
-  
-  // private requests:Array<
-  // {
-  //   user_image_url:string,
-  //   branch:string,
-  //   user_year:string,
-  //   username:string,
-  //   name:string,
-  //   request_id:number
-  // }>=[];
 
   private requests:Array<User>=[];
   private choosen_user:User;
 
-  // private user_choosen:any = {
-  //   user_image_url:'http://localhost/xibay/public_html/photo/img-20180513-5af7d3c05ba4eionicfile.jpg',
-  //   user_branch:'CSE',
-  //   user_year:'3rd',
-  //   full_name:'Mohammed Arshad',
-  //   contact_details:'+91 8441975563',
-  // }
   constructor(public navCtrl: NavController,private notify:NotifyProvider, private userData:UserDataProvider,private networkEngine:NetworkEngineProvider, private alertCtrl:AlertController, public navParams: NavParams,private modalCtrl:ModalController) {
     this.item = this.navParams.get('product');
     console.log(this.item);
@@ -144,7 +127,7 @@ export class UserProductDescriptionPage {
       console.log(result);
       this.isRequestAccepted = true;
       this.item.is_hidden = 1;
-      this.callbackFunction(this.isRequestAccepted,this.itemIndex).then( ()=> {
+      this.callbackFunction(this.isRequestAccepted,this.requests.length,this.itemIndex).then( ()=> {
         this.choosen_user = result.data[0];//this is always one element array because user can only accept one user
       });
     },(err) => {

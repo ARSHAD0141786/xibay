@@ -19,9 +19,7 @@ export class WelcomePage {
     //load terms and conditions if they accepted then load otp validation and then signup page
     let tc_modal = this.modalCtrl.create('TermsAndConditionPage');
     tc_modal.onDidDismiss(value => {
-      console.log(value);
       if(value==true){
-        console.log('Open OTP Modal');
         let otp_modal = this.modalCtrl.create('OtpValidationPage');
         otp_modal.onDidDismiss(phoneNumber => {
           console.log('user verified through OTP : ' + phoneNumber);
@@ -32,7 +30,7 @@ export class WelcomePage {
         otp_modal.present();
       }
       if(value==false){
-        
+        //notify user
       }
     })
     tc_modal.present();

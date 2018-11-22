@@ -10,16 +10,13 @@ import { UserDataProvider } from '../providers/user-data/user-data';
 import { TutorialsPage } from '../pages/tutorials/tutorials';
 import { CameraPage } from '../pages/camera/camera';
 import { LoginPage } from '../pages/login/login';
-import { RegistrationPage } from '../pages/registration/registration';
 import { AccountPage } from '../pages/account/account';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
-import { DebugLogsPage } from '../pages/debug-logs/debug-logs';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
-import { OtpValidationPage } from '../pages/otp-validation/otp-validation';
 import { DeveloperPage } from '../pages/developer/developer';
 import { RequestsPage } from '../pages/requests/requests';
 import { PostedProductsPage } from '../pages/posted-products/posted-products';
-import { PostProductPage } from '../pages/post-product/post-product';
+import { animate } from '../../node_modules/@angular/core/src/animation/dsl';
 
 
 export interface PageInterface {
@@ -31,6 +28,7 @@ export interface PageInterface {
   index?: number;
   tabName?: string;
   tabComponent?: any;
+  setRoot:boolean
 }
 
 @Component({
@@ -42,29 +40,37 @@ export class Xibay {
 
   rootPage: any;
 
+  //login pages
   appPagesLogIn:PageInterface[]=[
-    {title:'Home',name:'home',component:MainTabsPage,icon:"home"},
-    {title:'Papers',name:'papers',component:CameraPage,icon:'paper'},
-    {title: 'Requests' , name:'total_requests_from_others',component:RequestsPage,icon:'md-chatbubbles'},
-    {title: 'Posted Products' , name:'users_posted_product',component:PostedProductsPage,icon:'md-cloud-done'}
-  ];
-
-  appPagesLogOut:PageInterface[]=[
-    {title:'Welcome',name:'home',component:WelcomePage,icon:"home"},
-    {title:'Camera',name:'papers',component:CameraPage,icon:'paper'}
-  ];
-
-  loggedOutPages:PageInterface[] = [
-    {title:'Login',name:'login',component:LoginPage,icon:'log-in'},
-    {title:'Signup',name:'signup',component:RegistrationPage,icon:'redo'}
+    {title:'Home',name:'MainTabsPage',component:MainTabsPage,icon:"ios-home-outline",setRoot:true},
+    {title: 'Requests' , name:'RequestsPage',component:RequestsPage,icon:'ios-chatbubbles-outline',setRoot:false},
+    {title: 'Posted Products' , name:'PostedProductsPage',component:PostedProductsPage,icon:'ios-cloud-done-outline',setRoot:false}
   ];
 
   loggedInPages:PageInterface[] = [
-    {title:'User Info',name:'user_info',component:AccountPage,icon:'contact'},
-    {title:'Logout',name:'logout',component:LoginPage,icon:'log-out',logsOut:true},
-    {title:'Support',name:'support',component:CameraPage,icon:'redo'}
+    {title:'User Info',name:'AccountPage',component:AccountPage,icon:'ios-contact-outline',setRoot:false},
+    {title:'Logout',name:'LoginPage',component:LoginPage,icon:'ios-log-out-outline',logsOut:true,setRoot:false},
+    {title:'Support',name:'CameraPage',component:CameraPage,icon:'ios-redo-outline',setRoot:false}
   ];
 
+  //logout pages
+  appPagesLogOut:PageInterface[]=[
+    {title:'Welcome',name:'WelcomePage',component:WelcomePage,icon:"ios-home-outline",setRoot:true}
+  ];
+
+  loggedOutPages:PageInterface[] = [
+    {title:'Login',name:'LoginPage',component:LoginPage,icon:'ios-log-in-outline',setRoot:false},
+
+  ];
+
+  permanentPages:PageInterface[] = [
+    {title:'Tutorials',name:'TutorialsPage',component:TutorialsPage,icon:'ios-photos-outline',setRoot:false},
+    {title:'FAQ ?',name:'faq',component:TutorialsPage,icon:'ios-help-circle-outline',setRoot:false},
+    {title:'Terms & Policies',name:'termsAndPolicies',component:TutorialsPage,icon:'ios-copy-outline',setRoot:false},
+    {title:'Developer',name:'DeveloperPage',component:DeveloperPage,icon:'ios-construct-outline',setRoot:true}
+  ];
+
+  
   constructor(
     private userData:UserDataProvider,
     public platform: Platform, 
@@ -145,46 +151,26 @@ export class Xibay {
   this.logs.addLog('Error with push plugins');});
   }
 
-  openPage(page: PageInterface) {
-    // let params = {};
-
-    // the nav component was found using @ViewChild(Nav)
-    // setRoot on the nav to remove previous pages and only have this page
-    // we wouldn't want the back button to show in this scenario
-    // if (page.index) {
-    //   params = { tabIndex: page.index };
-    // }
-
-    // If we are already on tabs just change the selected tab
-    // don't setRoot again, this maintains the history stack of the
-    // tabs even if changing them from the menu
-    // if (this.nav.getActiveChildNavs().length && page.index != undefined) {
-    //   this.nav.getActiveChildNavs()[0].select(page.index);
-    // } else {
-    //   // Set the root of the nav with params if it's a tab index
-    //   this.nav.setRoot(page.name, params).catch((err: any) => {
-    //     console.log(`Didn't set nav root: ${err}`);
-    //   });
-    // }
-
-
-    this.nav.push(page.component);
-
-    if (page.logsOut === true) {
-      // Give the menu time to close before changing to logged out
+  openPage(page: PageInterface,wantSetRoot:boolean) {
+    console.log(this.nav.getActive());
+    if(page.logsOut){
       this.userData.logout();
-      this.nav.setRoot(WelcomePage);
+      this.nav.setRoot(WelcomePage,{},{animation:'ios-transition'});
+      this.nav.popToRoot({animation:'ios-transition'});
+      return;
     }
+    if(this.nav.getActive().name != page.name){
+      if(wantSetRoot){
+        this.nav.setRoot(page.component,{},{animation:'ios-transition'});
+      }else{
+        this.nav.push(page.component,{},{animation:'ios-transition'});
+        if(this.nav.getActive().index == -1 || this.nav.getActive().index == 1){
+          this.nav.remove(1);
+        }
+      }
+    }   
   }
 
-
-  openTutorial() {
-    this.nav.push(TutorialsPage);
-  }
-
-  openLogs(){
-    this.nav.push(DeveloperPage);
-  }
   enableMenu(loggedIn: boolean) {
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
@@ -209,17 +195,7 @@ export class Xibay {
   }
 
   isActive(page: PageInterface) {
-    // let childNav = this.nav.getActiveChildNavs()[0];
-
-    // Tabs are a special case because they have their own navigation
-    // if (childNav) {
-    //   if (childNav.getSelected() && childNav.getSelected().root === page.tabComponent) {
-    //     return 'primary';
-    //   }
-    //   return;
-    // }
-
-    if (this.nav.getActive() && this.nav.getActive().name === page.name) {
+    if(this.nav.getActive() && this.nav.getActive().name===page.name){
       return 'primary';
     }
     return;

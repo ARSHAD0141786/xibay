@@ -18,7 +18,7 @@
         <ion-list-header>
           Navigate
         </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of appPagesLogOut" (click)="openPage(p,p.setRoot)">
+        <button ion-item menuClose *ngFor="let p of appPagesLogOut" (click)="openPage(p)">
           <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
           {{p.title}}
         </button>
@@ -28,7 +28,7 @@
         <ion-list-header>
           Account
         </ion-list-header>
-        <button ion-item menuClose (click)="openPage(p,p.setRoot)" *ngFor="let p of loggedOutPages">
+        <button ion-item menuClose (click)="openPage(p)" *ngFor="let p of loggedOutPages">
           <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
           {{p.title}}
         </button>
@@ -38,7 +38,7 @@
         <ion-list-header>
           Help
         </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of permanentPages" (click)="openPage(p,p.setRoot)" >
+        <button ion-item menuClose *ngFor="let p of permanentPages" (click)="openPage(p)" >
             <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
             {{p.title}}
           </button>
@@ -95,7 +95,7 @@
           <ion-list-header>
             Help
           </ion-list-header>
-          <button ion-item menuClose *ngFor="let p of permanentPages" (click)="openPage(p,p.setRoot)" >
+          <button ion-item menuClose *ngFor="let p of permanentPages" (click)="openPage(p)" >
               <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
               {{p.title}}
             </button>

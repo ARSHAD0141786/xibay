@@ -2,12 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import * as firebase from 'firebase';
-/**
- * Generated class for the OtpValidationPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
 @IonicPage()
 @Component({
   selector: 'page-otp-validation',
@@ -25,9 +20,9 @@ export class OtpValidationPage {
 
   sendOTP(){
     this.logs.addLog("Sending OTP...");
-    console.log('OTP SEND : '+this.phoneNumber);
+    console.log('OTP SEND to : '+this.phoneNumber);
     this.isOTPSent = true;
-    (<any>window).FirebasePlugin.verifyPhoneNumber("+91" + this.phoneNumber,60,(credentials)=>{
+    (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
       this.logs.addLog("Firebase Auth : "+credentials);
       this.verificationId = credentials.verificationId;
     },(error)=>{

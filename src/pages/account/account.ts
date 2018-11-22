@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, ModalController, ActionSheetController } from 'ionic-angular';
-import { NotifyProvider } from '../../providers/notify/notify';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IonicPage, NavController, NavParams, MenuController, ActionSheetController } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { User } from '../../interfaces/user';
+import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 
 @IonicPage()
 @Component({
@@ -41,6 +40,7 @@ export class AccountPage {
     public menu: MenuController,
     private userData: UserDataProvider,
     private networkEngine: NetworkEngineProvider,
+    private logs:LogsServiceProvider,
     private actionSheetCtrl:ActionSheetController,
     public camera: Camera,
     public navParams: NavParams) {
@@ -131,6 +131,8 @@ export class AccountPage {
         mediaType: this.camera.MediaType.PICTURE
       }).then((data) => {
         this.profilePicData = 'data:image/jpg;base64,' + data;
+        this.logs.addLog('Photo uploaded');
+        console.log(this.profilePicData);
         this.uploadProfilePic();
       }, (err) => {
         alert('Unable to take photo');
@@ -159,8 +161,4 @@ export class AccountPage {
     } 
   }
 
-  getProfileImageStyle(value) {
-    return 'url(' + value + ')'
-  }
-  
 }

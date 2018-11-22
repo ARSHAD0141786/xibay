@@ -28,7 +28,7 @@ export interface PageInterface {
   index?: number;
   tabName?: string;
   tabComponent?: any;
-  setRoot:boolean
+  setRoot?:boolean
 }
 
 @Component({
@@ -43,14 +43,14 @@ export class Xibay {
   //login pages
   appPagesLogIn:PageInterface[]=[
     {title:'Home',name:'MainTabsPage',component:MainTabsPage,icon:"ios-home-outline",setRoot:true},
-    {title: 'Requests' , name:'RequestsPage',component:RequestsPage,icon:'ios-chatbubbles-outline',setRoot:false},
-    {title: 'Posted Products' , name:'PostedProductsPage',component:PostedProductsPage,icon:'ios-cloud-done-outline',setRoot:false}
+    {title: 'Requests' , name:'RequestsPage',component:RequestsPage,icon:'ios-chatbubbles-outline'},
+    {title: 'Posted Products' , name:'PostedProductsPage',component:PostedProductsPage,icon:'ios-cloud-done-outline'}
   ];
 
   loggedInPages:PageInterface[] = [
-    {title:'User Info',name:'AccountPage',component:AccountPage,icon:'ios-contact-outline',setRoot:false},
-    {title:'Logout',name:'LoginPage',component:LoginPage,icon:'ios-log-out-outline',logsOut:true,setRoot:false},
-    {title:'Support',name:'CameraPage',component:CameraPage,icon:'ios-redo-outline',setRoot:false}
+    {title:'User Info',name:'AccountPage',component:AccountPage,icon:'ios-contact-outline'},
+    {title:'Logout',name:'LoginPage',component:LoginPage,icon:'ios-log-out-outline',logsOut:true},
+    {title:'Support',name:'CameraPage',component:CameraPage,icon:'ios-redo-outline'}
   ];
 
   //logout pages
@@ -59,15 +59,15 @@ export class Xibay {
   ];
 
   loggedOutPages:PageInterface[] = [
-    {title:'Login',name:'LoginPage',component:LoginPage,icon:'ios-log-in-outline',setRoot:false},
+    {title:'Login',name:'LoginPage',component:LoginPage,icon:'ios-log-in-outline'},
 
   ];
 
   permanentPages:PageInterface[] = [
-    {title:'Tutorials',name:'TutorialsPage',component:TutorialsPage,icon:'ios-photos-outline',setRoot:false},
-    {title:'FAQ ?',name:'faq',component:TutorialsPage,icon:'ios-help-circle-outline',setRoot:false},
-    {title:'Terms & Policies',name:'termsAndPolicies',component:TutorialsPage,icon:'ios-copy-outline',setRoot:false},
-    {title:'Developer',name:'DeveloperPage',component:DeveloperPage,icon:'ios-construct-outline',setRoot:true}
+    {title:'Tutorials',name:'TutorialsPage',component:TutorialsPage,icon:'ios-photos-outline'},
+    {title:'FAQ ?',name:'faq',component:TutorialsPage,icon:'ios-help-circle-outline'},
+    {title:'Terms & Policies',name:'termsAndPolicies',component:TutorialsPage,icon:'ios-copy-outline'},
+    {title:'Developer',name:'DeveloperPage',component:DeveloperPage,icon:'ios-construct-outline'}
   ];
 
   
@@ -151,17 +151,17 @@ export class Xibay {
   this.logs.addLog('Error with push plugins');});
   }
 
-  openPage(page: PageInterface,wantSetRoot:boolean) {
-    console.log(this.nav.getActive());
+  openPage(page: PageInterface) {
     if(page.logsOut){
-      this.userData.logout();
-      this.nav.setRoot(WelcomePage,{},{animation:'ios-transition'});
+      this.nav.setRoot(WelcomePage,{},{animate:false});
       this.nav.popToRoot({animation:'ios-transition'});
+      this.userData.logout();
       return;
     }
     if(this.nav.getActive().name != page.name){
-      if(wantSetRoot){
+      if(page.setRoot){
         this.nav.setRoot(page.component,{},{animation:'ios-transition'});
+        this.nav.popToRoot({animate:false});
       }else{
         this.nav.push(page.component,{},{animation:'ios-transition'});
         if(this.nav.getActive().index == -1 || this.nav.getActive().index == 1){

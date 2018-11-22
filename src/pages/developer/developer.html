@@ -10,19 +10,10 @@
 <ion-content padding id="welcome">
   <!-- <div id="background_image"><img src = "/assets/imgs/background_image.jpg"/></div> -->
   <h1>Welcome to XIBAY</h1>
-  <button ion-button secondary (click)="testDB()">Test DB</button>
-  <button ion-button secondary (click)="testOTP()">Test OTP</button>
-  <button ion-button secondary (click)="showLogs()">Show Logs</button>
-  <a (click)="loadTC()">Terms & Conditions</a>
-  <ion-input type="text" placeholder="ip address of server(localhost,192.168.0.0)" [(ngModel)]="url">
+  <button ion-button secondary outline (click)="testDB()">Test DB</button>
+  <button ion-button secondary outline (click)="testOTP()">Test OTP</button>
+  <button ion-button secondary outline (click)="showLogs()">Show Logs</button>
+  <ion-input type="text" placeholder="ip address of server(localhost,192.168.0.0)" value="192.168.43.50" [(ngModel)]="url">
   </ion-input>
   <button ion-button clear (click)="setUrl()">SET</button>
- <!--  <button ion-button secondary (click)="loadLoginPage()">Login</button>
-  <button ion-button secondary (click)="loadRegistrationPage()">Registration</button>
-  <button ion-button secondary menuToggle>Toggle Menu</button>
-  <button ion-button secondary (click)="testDB()">Test DB</button>
-  <button ion-button secondary (click)="openTutorials()">Tutorials</button>
-  <button ion-button secondary (click)="openCameraPage()">Camera</button>
-  <a (click)="loadTC()">Terms & Comditions</a>
-  <page-debug-logs></page-debug-logs> -->
 </ion-content>

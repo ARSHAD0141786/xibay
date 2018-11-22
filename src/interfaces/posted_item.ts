@@ -15,4 +15,6 @@ export interface item{
     user_image_url?:string,
     user_branch?:string,
     user_year?:string
+    status?:number//only for requests
+    requested_on:number//only for requests
 }

@@ -38,6 +38,7 @@ import { RequestsPage } from '../pages/requests/requests';
 import { UserProductDescriptionPage } from '../pages/user-product-description/user-product-description';
 import { PostProductPage } from '../pages/post-product/post-product';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import { RequestAcceptedPage } from '../pages/request-accepted/request-accepted';
 firebase.initializeApp({
   apiKey: "AIzaSyDOH8r5j6evr4npYDYFVUd5wleuUuH_cz4",
   authDomain: "xibay-64286.firebaseapp.com",
@@ -63,7 +64,8 @@ firebase.initializeApp({
     PostedProductsPage,
     RequestsPage,
     UserProductDescriptionPage,
-    PostProductPage
+    PostProductPage,
+    RequestAcceptedPage
   ],
   imports: [
     BrowserModule,
@@ -92,7 +94,8 @@ firebase.initializeApp({
     PostedProductsPage,
     RequestsPage,
     UserProductDescriptionPage,
-    PostProductPage
+    PostProductPage,
+    RequestAcceptedPage
   ],
   providers: [
     Push,

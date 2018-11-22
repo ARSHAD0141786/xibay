@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, Item } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController} from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
+import { item } from '../../interfaces/posted_item';
+import { RequestAcceptedPage } from '../request-accepted/request-accepted';
 
 @IonicPage()
 @Component({
@@ -10,23 +12,30 @@ import { UserDataProvider } from '../../providers/user-data/user-data';
 })
 export class RequestsPage {
 
-  public requests:Array<{
-    image_url:'',
-    title:'',
-    status:number,
-    description:'',
-  }>;
+  public requests:Array<item>=[];
   constructor(public navCtrl: NavController, public navParams: NavParams, private networkEngine: NetworkEngineProvider,private userData: UserDataProvider,private modalCtrl:ModalController) {
     
     this.networkEngine.post(this.userData.getUserPostData(),'fetch-requested-products').then( (result:any) =>{
       this.requests = result.data;
+      
+
     },(err) => {
       console.log(err);
     });
   }
 
+  convertTime(time) {
+    let date = new Date(time * 1000);
+    return date;
+  }
+
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad RequestsPage');
+  }
+
+  view(request:item){
+    this.navCtrl.push(RequestAcceptedPage,{item:request});
   }
 
 }

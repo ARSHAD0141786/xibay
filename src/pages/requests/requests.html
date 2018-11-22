@@ -24,7 +24,8 @@
           <p style="color:#f55f2e;" *ngIf="request.status==-1">Rejected</p>
           <p style="color:#1772cc;" *ngIf="request.status==0">In Progress</p>
           <p style="color:#19d366af;" *ngIf="request.status==1">Accepted</p>
-          <button ion-button clear item-end *ngIf="request.status == 1">View</button>
+          <p style="font-size: 8px;font-style: italic">REQSTED ON : {{convertTime(request.requested_on) | date:'mediumDate' }}</p>
+          <button ion-button clear item-end *ngIf="request.status == 1" (click)="view(request)">View</button>
         </ion-item>
     </ion-list>
 

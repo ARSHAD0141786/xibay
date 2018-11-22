@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
+import { User } from '../../interfaces/user';
 
 @IonicPage()
 @Component({
@@ -29,17 +30,9 @@ export class AccountPage {
   year: "Final"
    */
 
-  private account:any = {
-    username:'',
-    gender:'',
-    name:'',
-    phone_number:'',
-    user_image_url:'',
-    year:'',
-    branch_name:''
-  }
+  public user:User;
 
-  isProfilePicUploading:boolean = false;
+  isProfilePicUploading:boolean;
   profilePicUploadingPercentage:number=0;
   private profilePicData:any;
 
@@ -57,18 +50,14 @@ export class AccountPage {
         token:this.userData.getUserPostData().token
       }
         
-      this.networkEngine.post(userAuth, 'get-user-data').then(
-        (result: any) => {
-          console.log(result);
-            let data = result.data[0];
-            if (data) {
-              this.account = data;
-            }
-            console.log(this.account);
-        },
-        (err) => {
-          console.error(err);
-        });
+      this.networkEngine.post(userAuth, 'get-user-data').then( (result: any) => {
+        if(result.data){
+          this.user = result.data[0];
+        }
+      },
+      (err) => {
+        console.error(err);
+      });
   }
 
   uploadProfilePic(){
@@ -78,8 +67,8 @@ export class AccountPage {
       token:this.userData.getUserPostData().token
     }
     this.networkEngine.uploadFile(this.profilePicData,userAuth,'upload-profile-picture').then( (result) => {
+      this.user.user_image_url = this.profilePicData;
       this.isProfilePicUploading = false;
-      this.account.user_image_url = this.profilePicData;
     },(error) => {
       this.isProfilePicUploading = false;
       alert('Unable to upload photo'+error);

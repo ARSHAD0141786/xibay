@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController, Events } from 'ionic-angular';
+import { Nav, Platform, MenuController, Events, ModalController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -17,11 +17,12 @@ import { DeveloperPage } from '../pages/developer/developer';
 import { RequestsPage } from '../pages/requests/requests';
 import { PostedProductsPage } from '../pages/posted-products/posted-products';
 import { animate } from '../../node_modules/@angular/core/src/animation/dsl';
+import { RegistrationPage } from '../pages/registration/registration';
 
 
 export interface PageInterface {
   title: string;
-  name: string;
+  name?: string;
   component: any;
   icon: string;
   logsOut?: boolean;
@@ -60,7 +61,8 @@ export class Xibay {
 
   loggedOutPages:PageInterface[] = [
     {title:'Login',name:'LoginPage',component:LoginPage,icon:'ios-log-in-outline'},
-
+    {title:'Sign Up',component:RegistrationPage,name:'RegistrationPage',icon:'ios-clipboard-outline'},
+    {title:'Support',name:'CameraPage',component:CameraPage,icon:'ios-redo-outline'}
   ];
 
   permanentPages:PageInterface[] = [
@@ -79,6 +81,7 @@ export class Xibay {
     public events:Events,
     private logs:LogsServiceProvider,
     private push: Push,
+    private modalCtrl:ModalController,
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen) {
 
@@ -158,6 +161,10 @@ export class Xibay {
       this.userData.logout();
       return;
     }
+    if(page.title === 'Sign Up'){
+      this.signUp();
+      return;
+    }
     if(this.nav.getActive().name != page.name){
       if(page.setRoot){
         this.nav.setRoot(page.component);
@@ -169,6 +176,27 @@ export class Xibay {
         }
       }
     }   
+  }
+
+  signUp(){
+    //load terms and conditions if they accepted then load otp validation and then signup page
+    let tc_modal = this.modalCtrl.create('TermsAndConditionPage');
+    tc_modal.onDidDismiss(value => {
+      if(value==true){
+        let otp_modal = this.modalCtrl.create('OtpValidationPage');
+        otp_modal.onDidDismiss(phoneNumber => {
+          console.log('user verified through OTP : ' + phoneNumber);
+          if(phoneNumber){
+            this.nav.push(RegistrationPage,{phone:phoneNumber});
+          }
+        });
+        otp_modal.present();
+      }
+      if(value==false){
+        //notify user
+      }
+    })
+    tc_modal.present();
   }
 
   enableMenu(loggedIn: boolean) {

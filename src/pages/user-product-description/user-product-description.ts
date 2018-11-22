@@ -4,6 +4,7 @@ import { item } from '../../interfaces/posted_item';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { User } from '../../interfaces/user';
+import { NotifyProvider } from '../../providers/notify/notify';
 
 /**
  * Generated class for the UserProductDescriptionPage page.
@@ -43,7 +44,7 @@ export class UserProductDescriptionPage {
   //   full_name:'Mohammed Arshad',
   //   contact_details:'+91 8441975563',
   // }
-  constructor(public navCtrl: NavController,private userData:UserDataProvider,private networkEngine:NetworkEngineProvider, private alertCtrl:AlertController, public navParams: NavParams,private modalCtrl:ModalController) {
+  constructor(public navCtrl: NavController,private notify:NotifyProvider, private userData:UserDataProvider,private networkEngine:NetworkEngineProvider, private alertCtrl:AlertController, public navParams: NavParams,private modalCtrl:ModalController) {
     this.item = this.navParams.get('product');
     console.log(this.item);
     this.itemIndex = this.navParams.get('index');
@@ -90,6 +91,16 @@ export class UserProductDescriptionPage {
   refresh(){
     console.log('refresh');
     //only refresh list when found list with more requests
+    this.fetchRequests();
+  }
+
+  showToast(status:number){
+    if(status==0){
+      this.notify.presentToast('Your product is visible to ALL');
+    }else{
+      this.notify.presentToast('Your product is not visible to ALL');
+    }
+
   }
 
   accept(request:any){
@@ -113,9 +124,6 @@ export class UserProductDescriptionPage {
             console.log('Accepet request : '+request);
             //call api here
             this.acceptApiCall(this.item.id,request.request_id,request.username);
-            this.callbackFunction(this.isRequestAccepted,this.itemIndex).then( ()=> {
-              // this.navCtrl.pop();
-            });
           }
         }
       ]
@@ -134,17 +142,21 @@ export class UserProductDescriptionPage {
 
     this.networkEngine.post(postData,'accept-request').then( (result:any) => {
       console.log(result);
+      this.isRequestAccepted = true;
+      this.item.is_hidden = 1;
+      this.callbackFunction(this.isRequestAccepted,this.itemIndex).then( ()=> {
+        this.choosen_user = result.data[0];//this is always one element array because user can only accept one user
+      });
     },(err) => {
       console.error(err);
     });
 
     
   }
-  
-  popThisPage(){
-    this.callbackFunction(this.isRequestAccepted).then( ()=> {
-      // this.navCtrl.pop();
-    });
+
+  convertTime(time) {
+    let date = new Date(time * 1000);
+    return date;
   }
 
   

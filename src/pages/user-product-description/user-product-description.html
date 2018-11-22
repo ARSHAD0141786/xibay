@@ -8,11 +8,12 @@
     <img [src]="item.image_url" style="width:100%" imageViewer />
 
     <div padding>
+      <p (click)="showToast(item.is_hidden)" align="center"><b>Status : </b><span *ngIf="item.is_hidden==0" style="color: forestgreen">LIVE</span><span *ngIf="item.is_hidden==1" style="color: orangered">NOT LIVE</span></p>
       <p ><b>Description :</b></p>
       <p style="font-style: oblique">{{this.item.description}}</p>
       <p><b>Category :</b> {{item.category_name}}</p>
       
-      <div *ngIf="item.is_hidden==0">
+      <div *ngIf="item.is_hidden==0 && !choosen_user">
         <ion-item>
           <p><b>Requests for this product :</b> {{requests.length}}</p>
           <button ion-button clear item-end (click)="refresh()">
@@ -23,23 +24,26 @@
             <ion-avatar item-start>
               <img [src]="request.user_image_url" imageViewer/>
             </ion-avatar>
-            <p>{{request.name}}</p>
-            <p>{{request.branch}}, {{request.year}}</p>
+            <p style="font-size:12px;color:black">{{request.name}}</p>
+            <p style="font-size: 10px;">{{request.branch}}, {{request.year}}</p>
+            <p style="color: cornflowerblue;font-size: 8px">Posted products : {{request.total_posted_products}}</p>
+            <p style="font-size: 8px"><i>{{convertTime(request.requested_on) | amTimeAgo}}</i>></p>
             <button ion-button clear item-end (click)="accept(request)">Accept</button>
           </ion-item>
         </ion-list>
       </div>
 
-      <div *ngIf="item.is_hidden==1 && choosen_user">
-        <h3>Accepted User</h3>
-        <ion-item *ngIf="choosen_user">
+      <div *ngIf="choosen_user">
+        <p><b>Accepted User : </b></p>
+        <ion-item>
           <ion-avatar item-start>
             <img [src]="choosen_user.user_image_url" imageViewer/>
           </ion-avatar>
-          <p>{{choosen_user.name}}</p>
-          <p>{{choosen_user.year}} , {{choosen_user.branch}}</p>
-          <p>Contact details : {{choosen_user.phone_number}}</p>
-        </ion-item>
+          <p style="font-size:12px;color:black"><b>{{choosen_user.name}}</b></p>
+          <p style="font-size: 10px;">{{choosen_user.branch}}, {{choosen_user.year}}</p>
+          <p style="font-size: 12px;">Contact details : <span style="color: cadetblue;"> +91 {{choosen_user.phone_number}}</span></p>
+          <p style="font-size: 5px; color:olivedrab">Accepted request : <i>{{convertTime(choosen_user.sold_on) | amTimeAgo}}</i></p>
+        </ion-item><br/><br/><br/>
         <ion-note style="padding-top:50px">Note : Kindly note that this product will be deleted after 3 days and these details too. So please contact <span style="color: black;">{{choosen_user.name}}</span> as soon as possible.</ion-note>
       </div>
 

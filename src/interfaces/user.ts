@@ -9,4 +9,5 @@ export interface User{
     user_image_url:string,
     FCM_token?:string,
     request_id?:number,//only in case of fetching requests
+    sold_on?:number
 }

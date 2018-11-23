@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import * as firebase from 'firebase';
@@ -9,7 +9,7 @@ import * as firebase from 'firebase';
   templateUrl: 'otp-validation.html',
 })
 export class OtpValidationPage {
-
+@ViewChild('phone') phone_input;
   verificationId: any;
   code: string="";
   phoneNumber: string="";
@@ -53,6 +53,7 @@ export class OtpValidationPage {
     try{
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         clearInterval(this.myInterval);
+        this.phone_input.nativeElemnet.click();
         this.logs.addLog("Firebase Auth : "+credentials);
         this.verificationId = credentials.verificationId;
         //common stuff

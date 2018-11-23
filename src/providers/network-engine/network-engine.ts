@@ -152,12 +152,14 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       fileTransfer.upload(uploadFile,  this.BASE_URL + link, options)
         .then((data:any) => {
           console.log(data);
-          let response:any = JSON.parse(data.response);
-          this.logs.addLog('File uploaded : '+data);
-          if(response.code == 786){
-            resolve(response);
+          console.log(data.response);
+          let result:any = JSON.parse(data.response);
+          this.logs.addLog('File uploaded successfully');
+          this.logs.addLog(result.message);
+          if(result.code == 786){
+            resolve(result);
           }else{
-            reject(response);
+            reject(result);
           }
       }, (err) => {
         console.log(err);

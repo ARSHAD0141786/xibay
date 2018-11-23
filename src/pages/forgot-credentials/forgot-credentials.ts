@@ -29,5 +29,4 @@ export class ForgotCredentialsPage {
     }
     this.viewCtrl.dismiss();
   }
-
 }

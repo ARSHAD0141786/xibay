@@ -54,13 +54,13 @@ export class OtpValidationPage {
     (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
       this.logs.addLog("Firebase Auth : "+credentials);
       this.verificationId = credentials.verificationId;
-      this.isOTPSent = true;
       this.message=null;
       //common stuff
       this.sendInnerHtml = 'Send Otp';
       this.counter = 0;
-      this.startResendTimeout();
       clearInterval(this.myInterval);
+      this.startResendTimeout();
+      this.isOTPSent = true;
     },(error)=>{
       this.message = error;
       this.logs.addLog("Error : "+error);

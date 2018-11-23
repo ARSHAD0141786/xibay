@@ -49,27 +49,31 @@ export class OtpValidationPage {
     console.log('OTP SEND to : '+this.phoneNumber);
     this.myInterval = setInterval( () => {
       this.setInnerHtml(1);
-    },500);
-  
-    (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-      this.logs.addLog("Firebase Auth : "+credentials);
-      this.verificationId = credentials.verificationId;
-      this.message=null;
-      //common stuff
-      this.counter = 0;
-      clearInterval(this.myInterval);
-      this.startResendTimeout();
-      setTimeout( () => {
+    },300);
+    try{
+      (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
+        clearInterval(this.myInterval);
+        this.logs.addLog("Firebase Auth : "+credentials);
+        this.verificationId = credentials.verificationId;
+        //common stuff
+        this.counter = 0;
         this.isOTPSent = true;
-      },1000);
-    },(error)=>{
-      this.message = error;
-      this.logs.addLog("Error : "+error);
-      //common stuff
-      this.sendInnerHtml = 'Send Otp';
-      this.counter = 0;
+        this.message=null;
+        this.startResendTimeout();
+      },(error)=>{
+        this.message = error;
+        this.logs.addLog("Error : "+error);
+        //common stuff
+        this.sendInnerHtml = 'Send Otp';
+        this.counter = 0;
+        clearInterval(this.myInterval);
+      });
+    }catch(err){
+      console.log(err);
+      this.message = err;
       clearInterval(this.myInterval);
-    });
+    }
+    
   }
 
   startResendTimeout(){
@@ -104,22 +108,28 @@ export class OtpValidationPage {
     this.myInterval = setInterval( () => {
       this.setInnerHtml(2);
     },500);
-    let signInCredential = firebase.auth.PhoneAuthProvider.credential(this.verificationId,this.code);
     
-    firebase.auth().signInWithCredential(signInCredential).then((info)=>{
-      console.log(info);
-      this.logs.addLog(""+info);
-      this.message = 'Successfully verified OTP';
-      this.verifyInnerHtml = 'Verify OTP';
+    try{
+      let signInCredential = firebase.auth.PhoneAuthProvider.credential(this.verificationId,this.code);
+      firebase.auth().signInWithCredential(signInCredential).then((info)=>{
+        console.log(info);
+        this.logs.addLog(""+info);
+        this.message = 'Successfully verified OTP';
+        this.verifyInnerHtml = 'Verify OTP';
+        clearInterval(this.myInterval);
+        clearInterval(this.resendInterval);
+        this.viewCtrl.dismiss(this.phoneNumber);
+      },(error)=>{
+        this.message = 'Wrong OTP';
+        this.verifyInnerHtml = 'Verify OTP';
+        clearInterval(this.myInterval);
+        this.logs.addLog(error);
+      });
+    }catch(err){
+      this.message = err;
+      console.log(err);
       clearInterval(this.myInterval);
-      clearInterval(this.resendInterval);
-      this.viewCtrl.dismiss(this.phoneNumber);
-    },(error)=>{
-      this.message = 'Wrong OTP';
-      this.verifyInnerHtml = 'Verify OTP';
-      clearInterval(this.myInterval);
-      this.logs.addLog(error);
-    });
+    }
   }
 
   //remove this method in production mode

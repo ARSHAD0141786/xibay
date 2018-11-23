@@ -56,11 +56,12 @@ export class OtpValidationPage {
       this.verificationId = credentials.verificationId;
       this.message=null;
       //common stuff
-      this.sendInnerHtml = 'Send Otp';
       this.counter = 0;
       clearInterval(this.myInterval);
       this.startResendTimeout();
-      this.isOTPSent = true;
+      setTimeout( () => {
+        this.isOTPSent = true;
+      },1000);
     },(error)=>{
       this.message = error;
       this.logs.addLog("Error : "+error);

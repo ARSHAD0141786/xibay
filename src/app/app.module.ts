@@ -21,11 +21,11 @@ import { NetworkEngineProvider } from '../providers/network-engine/network-engin
 import { HttpModule } from '@angular/http';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { NotifyProvider } from '../providers/notify/notify';
-import { MainTabsPage } from '../pages/main-tabs/main-tabs';
+import { MainTabsPage, Filter } from '../pages/main-tabs/main-tabs';
 import { CameraPage } from '../pages/camera/camera';
 import { UserDataProvider } from '../providers/user-data/user-data';
 import { ConnectionProvider } from '../providers/connection/connection';
-import { DescriptionPage } from '../pages/description/description';
+import { DescriptionPage, PopoverPage } from '../pages/description/description';
 import { AccountPage } from '../pages/account/account';
 import { Push } from '@ionic-native/push';
 
@@ -65,7 +65,9 @@ firebase.initializeApp({
     RequestsPage,
     UserProductDescriptionPage,
     PostProductPage,
-    RequestAcceptedPage
+    RequestAcceptedPage,
+    PopoverPage,
+    Filter
   ],
   imports: [
     BrowserModule,
@@ -95,7 +97,9 @@ firebase.initializeApp({
     RequestsPage,
     UserProductDescriptionPage,
     PostProductPage,
-    RequestAcceptedPage
+    RequestAcceptedPage,
+    PopoverPage,
+    Filter
   ],
   providers: [
     Push,

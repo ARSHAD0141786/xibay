@@ -8,6 +8,7 @@ import { DescriptionPage } from '../description/description';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { PostProductPage } from '../post-product/post-product';
 import { item } from '../../interfaces/posted_item';
+import { ViewController } from '../../../node_modules/ionic-angular/navigation/view-controller';
 // import { CameraOptions,Camera } from '@ionic-native/camera';
 
 @Component({
@@ -179,8 +180,47 @@ year: "4"
     this.navCtrl.push(PostProductPage);
   }
 
+  presentFilter(event:any){
+    let filter = this.popoverCtrl.create(Filter);
+    filter.present({
+      ev:event
+    });
+  }
 }
 
+@Component({
+  template: `
+  <ion-label>Show Only</ion-label>
+  <ion-item>
+    <ion-label>Books</ion-label>
+    <ion-radio value="1"></ion-radio>
+  </ion-item>
+  <ion-item>
+    <ion-label>Papers</ion-label>
+    <ion-radio value="2"></ion-radio>
+  </ion-item>
+  <ion-item>
+    <ion-label>Notes</ion-label>
+    <ion-radio value="4"></ion-radio>
+  </ion-item>
+  <ion-item>
+    <ion-label>Accessories</ion-label>
+    <ion-radio value="3"></ion-radio>
+  </ion-item>
+  <ion-item>
+    <ion-label>Others</ion-label>
+    <ion-radio value="5"></ion-radio>
+  </ion-item>
+  `
+})
+export class Filter{
+  constructor(private viewCtrl:ViewController){
+
+  }
+  close(){
+    this.viewCtrl.dismiss();
+  }
+}
 
 /* @Component({
   template: `<!--

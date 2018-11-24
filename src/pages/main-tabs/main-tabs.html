@@ -6,17 +6,17 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()" color="background_white">
       <ion-segment-button value="all">
         All
       </ion-segment-button>
       <ion-segment-button value="favorites">
-        Favorites
+        Useful for me
       </ion-segment-button>
     </ion-segment>
 
     <ion-buttons end>
-      <button ion-button icon-only (click)="presentFilter()">
+      <button ion-button icon-only (click)="presentFilter($event)">
         <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
       </button>
     </ion-buttons>

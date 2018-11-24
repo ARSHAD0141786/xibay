@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, PopoverController } from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { item } from '../../interfaces/posted_item';
+import { ViewController } from '../../../node_modules/ionic-angular/navigation/view-controller';
 
 @IonicPage()
 @Component({
@@ -18,7 +19,8 @@ export class DescriptionPage {
 
   constructor(
     public navCtrl: NavController,
-    private network:NetworkEngineProvider, 
+    private network:NetworkEngineProvider,
+    private popoverCtrl:PopoverController,
     private userData:UserDataProvider,
     public menu:MenuController,
     private notify:NotifyProvider,
@@ -40,6 +42,13 @@ export class DescriptionPage {
   ionViewDidEnter() {
     // the root left menu should be disabled on the tutorial page
     this.menu.enable(false);
+  }
+  
+  presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverPage);
+    popover.present({
+      ev: myEvent
+    });
   }
 
   ionViewDidLeave() {
@@ -78,5 +87,18 @@ export class DescriptionPage {
       },(err)=>{
         this.notify.presentToast("error : "+JSON.stringify(err));
       });
+  }
+}
+
+@Component({
+  template: `
+      <button ion-item (click)="close()">Report</button>
+  `
+})
+export class PopoverPage {
+  constructor(public viewCtrl: ViewController) {}
+
+  close() {
+    this.viewCtrl.dismiss();
   }
 }

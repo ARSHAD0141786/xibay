@@ -103,7 +103,11 @@ export class Xibay {
                 this.storage.get('token').then( (token:string) => {
                   console.log('Token : '+token);
                   UserDataProvider.userPostData.token = token;
-                  this.rootPage = MainTabsPage;
+                  this.storage.get('phone').then( (phone:string) => {
+                    UserDataProvider.userPostData.phone = phone;
+                    console.log(phone);
+                    this.rootPage = MainTabsPage;
+                  });
                 });
               });
             }else{

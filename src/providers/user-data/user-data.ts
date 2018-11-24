@@ -24,6 +24,7 @@ export class UserDataProvider {
     // set storage data
     this.storage.set('username',user_data.username);
     this.storage.set('token',result.token);
+    this.storage.set('phone',user_data.phone_number);
     UserDataProvider.userPostData.username = user_data.username;
     UserDataProvider.userPostData.token = result.token;
     UserDataProvider.userPostData.phone = user_data.phone_number;
@@ -43,6 +44,10 @@ export class UserDataProvider {
   logout(): void {
     console.log("Logging out");
     // remove all saved data
+    UserDataProvider.userPostData.username = '';
+    UserDataProvider.userPostData.token = '';
+    UserDataProvider.userPostData.phone = '';
+
     this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove('username');
     this.storage.remove('token');

@@ -2,12 +2,11 @@
   <ion-navbar color="background_white">
   </ion-navbar>
 </ion-header>
-<ion-content padding>
+<ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-item>
-        <h3 align="center">Congratulations</h3>
-      </ion-item>
+      <h3 align="center">Congratulations</h3>
+      <p *ngIf="user" align="center" style="margin-top:20px;margin-bottom:20px;">Your request has been accepted by {{user.name}}<br/>Following are the contact details :</p>
       <ion-item *ngIf="user">
         <ion-avatar item-start>
           <img [src]="user.user_image_url" imageViewer/>

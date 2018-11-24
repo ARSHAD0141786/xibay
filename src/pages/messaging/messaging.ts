@@ -73,7 +73,8 @@ export class MessagingPage {
         this.navCtrl.pop();
       }
     });
-    if(this.userData.getUserPostData()==undefined){
+    console.log(this.userData.getUserPostData());
+    if(!this.userData.getUserPostData().phone){
       otp_modal.present();
     }else{
       this.phone = this.userData.getUserPostData().phone;

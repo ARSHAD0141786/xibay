@@ -73,7 +73,6 @@ export class OtpValidationPage {
     }catch(err){
       console.log(err);
       this.message = err;
-      clearInterval(this.myInterval);
     }
     
   }
@@ -81,7 +80,7 @@ export class OtpValidationPage {
   startResendTimeout(){
     this.resendInterval = setInterval( () => {
       this.timeLeft--;
-      if(this.timeLeft == 0){
+      if(this.timeLeft == 1800000){
         clearInterval(this.resendInterval);
       }
     },1000);
@@ -149,10 +148,12 @@ export class OtpValidationPage {
       if(this.navParams.get('wantUserToExists') == this.isPhoneNumberExists){
         this.sendOTP();
       }else{
-        if(this.isPhoneNumberExists){
-          this.message = 'This number is already registered';
-        }else{
-          this.message = 'Sorry! This number is not registered with us';
+        if(this.navParams.get('wantUserToExists')){
+          if(this.isPhoneNumberExists){
+            this.message = 'This number is already registered';
+          }else{
+            this.message = 'Sorry! This number is not registered with us';
+          }
         }
       }
     });
@@ -169,7 +170,7 @@ export class OtpValidationPage {
     this.verifyInnerHtml = 'Verify OTP';
     this.isOTPSent = false;
     this.message = null;
-    this.timeLeft = 2*60;// 2min = 120 sec = 120000milisec
+    this.timeLeft = 1800000+90*1000;// 2min = 120 sec = 120000milisec
   }
 
   editPhoneNumber(){

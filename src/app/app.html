@@ -39,7 +39,8 @@
           Help
         </ion-list-header>
         <button ion-item menuClose *ngFor="let p of permanentPages" (click)="openPage(p)" >
-            <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+            <ion-icon *ngIf="p.icon" item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+            <img *ngIf="p.image_icon" [src]="p.image_icon" item-start style="height:28px;width:28px;border-radius: 50%;margin-right:30px"/>
             {{p.title}}
           </button>
       </ion-list>
@@ -96,7 +97,8 @@
             Help
           </ion-list-header>
           <button ion-item menuClose *ngFor="let p of permanentPages" (click)="openPage(p)" >
-              <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+              <ion-icon *ngIf="p.icon" item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+              <img *ngIf="p.image_icon" [src]="p.image_icon" style="height:20px;width:20px;border-radius: 50%"/>
               {{p.title}}
             </button>
         </ion-list>

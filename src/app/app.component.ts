@@ -18,13 +18,16 @@ import { RequestsPage } from '../pages/requests/requests';
 import { PostedProductsPage } from '../pages/posted-products/posted-products';
 import { animate } from '../../node_modules/@angular/core/src/animation/dsl';
 import { RegistrationPage } from '../pages/registration/registration';
+import { MessagingPage } from '../pages/messaging/messaging';
+import { AboutPage } from '../pages/about/about';
 
 
 export interface PageInterface {
   title: string;
   name?: string;
   component: any;
-  icon: string;
+  icon?: string;
+  image_icon?:string,
   logsOut?: boolean;
   index?: number;
   tabName?: string;
@@ -68,7 +71,9 @@ export class Xibay {
   permanentPages:PageInterface[] = [
     {title:'Tutorials',name:'TutorialsPage',component:TutorialsPage,icon:'ios-photos-outline'},
     {title:'FAQ ?',name:'faq',component:TutorialsPage,icon:'ios-help-circle-outline'},
+    {title:'Message to developer',name:'MessagingPage',component:MessagingPage,icon:'ios-chatbubbles-outline'},
     {title:'Terms & Policies',name:'termsAndPolicies',component:TutorialsPage,icon:'ios-copy-outline'},
+    {title:'About',name:'AboutPage',component:AboutPage,image_icon:'assets/imgs/logo.png'},
     {title:'Developer',name:'DeveloperPage',component:DeveloperPage,icon:'ios-construct-outline'}
   ];
 

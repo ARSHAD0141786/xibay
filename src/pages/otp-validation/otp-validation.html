@@ -24,7 +24,7 @@
         <button ion-button block (click)="validateOTP()" round outline [disabled]="verifyInnerHtml != 'Verify OTP'">{{verifyInnerHtml}}</button>
       </ion-col>
       <ion-col>
-        <button ion-button block (click)="sendOTP()" round outline [disabled]="timeLeft > 0">Resend OTP <span *ngIf="timeLeft>0">: {{timeLeft | date:'mmss'}}</span></button>
+        <button ion-button block (click)="sendOTP()" round outline [disabled]="timeLeft > 0"><span *ngIf="timeLeft == 0">Resend OTP</span><span *ngIf="timeLeft>0">{{timeLeft | date:'mm:ss'}}</span></button>
         </ion-col>
     </ion-row>
     <p><a (click)="editPhoneNumber()">Change phone number?</a></p>

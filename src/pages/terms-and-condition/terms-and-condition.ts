@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -8,7 +8,7 @@ import { IonicPage, NavController, NavParams, ModalController, ViewController } 
 })
 export class TermsAndConditionPage {
 
-  constructor(public navCtrl: NavController,public viewCtrl: ViewController, public navParams: NavParams, private modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController,public viewCtrl: ViewController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {

@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { LoginPage } from '../login/login';
-import { RegistrationPage } from '../registration/registration';
+import { IonicPage, NavController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
-import { TutorialsPage } from '../tutorials/tutorials';
-import { TermsAndConditionPage } from '../terms-and-condition/terms-and-condition';
 import { NotifyProvider } from '../../providers/notify/notify';
-import { CameraPage } from '../camera/camera';
-import { OtpValidationPage } from '../otp-validation/otp-validation';
 import { DebugLogsPage } from '../debug-logs/debug-logs';
 
 /**
@@ -38,38 +32,11 @@ export class DeveloperPage {
     console.log('Set button clicked URL : '+ this.url);
     this.networkEngine.changeBaseUrl(this.url);
   }
-  openCameraPage(){
-    this.navCtrl.push(CameraPage);
-  }
-  loadTC(){
-    this.logs.addLog("Loading Terms and condition page");
-    this.navCtrl.push(TermsAndConditionPage);
-  }
-  openTutorials(){
-    this.logs.addLog("Pushing tutorials page.");
-    this.navCtrl.push(TutorialsPage);
-  }
+  
   showLogs(){
     this.navCtrl.push(DebugLogsPage);
   }
-  loadLoginPage(){
-    this.logs.addLog("Pushing login page");
-    this.navCtrl.push(LoginPage);
-  }
-
-  loadRegistrationPage(){
-    // if(this.connect.checkNetwork()){
-      this.logs.addLog("Pushing registration page");
-      this.navCtrl.push(RegistrationPage);
-    // }else{
-      // console.log("No internet");
-      // this.notify.presentToast("No internet access");
-    // }
-  }
-  testOTP(){
-    this.logs.addLog('Loding OTP page.....')
-    this.navCtrl.push(OtpValidationPage);
-  }
+  
   testDB(){
     this.notify.presentLoading("Please wait...");
     this.networkEngine.get("test-db").then((result:string) => {

@@ -11,9 +11,8 @@
   <!-- <div id="background_image"><img src = "/assets/imgs/background_image.jpg"/></div> -->
   <h1>Welcome to XIBAY</h1>
   <button ion-button secondary outline (click)="testDB()">Test DB</button>
-  <button ion-button secondary outline (click)="testOTP()">Test OTP</button>
-  <button ion-button secondary outline (click)="showLogs()">Show Logs</button>
-  <ion-input type="text" placeholder="ip address of server(localhost,192.168.0.0)" value="192.168.43.50" [(ngModel)]="url">
+  <button ion-button secondary outline (click)="showLogs()">Show Logs</button><br/><br/>
+  <ion-input type="text" placeholder="ip address of server(localhost,192.168.0.0)" value="192.168.100.4" [(ngModel)]="url">
   </ion-input>
   <button ion-button clear (click)="setUrl()">SET</button>
 </ion-content>

@@ -2,10 +2,6 @@ import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network';
 import { Platform } from 'ionic-angular';
 
-
-declare var navigator: any;
-declare var Connection: any;
-
 @Injectable()
 export class ConnectionProvider {
 

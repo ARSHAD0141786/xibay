@@ -7,7 +7,6 @@ import 'rxjs/add/operator/timeout'
 import 'rxjs/add/operator/map';
 import { NotifyProvider } from '../notify/notify';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
-import { database } from '../../../node_modules/firebase';
 
 
 @Injectable()

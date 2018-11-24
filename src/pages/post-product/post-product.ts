@@ -12,10 +12,8 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 })
 export class PostProductPage {
   @ViewChild('fileInput') fileInput;
-
   isFormSubmitted:boolean = false;
   item: any;
-
   form: FormGroup;
 
   constructor(public navCtrl: NavController,private logs:LogsServiceProvider ,private networkEngine:NetworkEngineProvider, private userData:UserDataProvider ,public mdlCtrl:ModalController, public actionSheetCtrl: ActionSheetController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {

@@ -16,7 +16,6 @@ import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { DeveloperPage } from '../pages/developer/developer';
 import { RequestsPage } from '../pages/requests/requests';
 import { PostedProductsPage } from '../pages/posted-products/posted-products';
-import { animate } from '../../node_modules/@angular/core/src/animation/dsl';
 import { RegistrationPage } from '../pages/registration/registration';
 import { MessagingPage } from '../pages/messaging/messaging';
 import { AboutPage } from '../pages/about/about';

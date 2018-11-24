@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
 import { item } from '../../interfaces/posted_item';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { User } from '../../interfaces/user';
 import { NotifyProvider } from '../../providers/notify/notify';
-
-/**
- * Generated class for the UserProductDescriptionPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -27,7 +20,7 @@ export class UserProductDescriptionPage {
   private requests:Array<User>=[];
   private choosen_user:User;
 
-  constructor(public navCtrl: NavController,private notify:NotifyProvider, private userData:UserDataProvider,private networkEngine:NetworkEngineProvider, private alertCtrl:AlertController, public navParams: NavParams,private modalCtrl:ModalController) {
+  constructor(public navCtrl: NavController,private notify:NotifyProvider, private userData:UserDataProvider,private networkEngine:NetworkEngineProvider, private alertCtrl:AlertController, public navParams: NavParams) {
     this.item = this.navParams.get('product');
     console.log(this.item);
     this.itemIndex = this.navParams.get('index');

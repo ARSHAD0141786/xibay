@@ -154,6 +154,8 @@ export class OtpValidationPage {
           }else{
             this.message = 'Sorry! This number is not registered with us';
           }
+        }else{
+          this.sendOTP();
         }
       }
     });

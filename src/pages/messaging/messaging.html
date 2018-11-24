@@ -11,7 +11,7 @@
     <div class="canvas" [align]="m.align" *ngFor="let m of messages">
       <div class="message-box" >
         {{m.message}}
-        <p style="text-align: right;font-size: 8px;"><i>{{time | amTimeAgo}}&nbsp;&nbsp;<ion-icon name="ios-checkmark-outline" *ngIf="m.align == 'right' && m.isSent == true"></ion-icon></i></p>
+        <p style="text-align: right;font-size: 8px;"><i>{{convertTime(m.time) | amTimeAgo}}&nbsp;&nbsp;<ion-icon name="ios-checkmark-outline" *ngIf="m.align == 'right' && m.isSent == true"></ion-icon></i></p>
       </div>
     </div>
 </ion-content>

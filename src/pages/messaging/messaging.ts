@@ -30,7 +30,8 @@ export class MessagingPage {
   }
 
   sendMessage(){
-    let time = new Date().getTime();
+    let time = new Date().getTime()/1000;
+    console.log(time);
     let message:Message = {
       message:this.query,align:'right',time:time,isSent:false
     };
@@ -38,7 +39,7 @@ export class MessagingPage {
     this.messages.push(message);
     let userPostData:any = {
       phone_number:this.phone,
-      message:this.query
+      message:message.message,
     }
     let index:number = this.messages.length - 1;
     this.networkEngine.post(userPostData,'send-message').then( (result:any) => {
@@ -48,9 +49,13 @@ export class MessagingPage {
     });
   }
 
+  convertTime(time){
+    return new Date(time * 1000);
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad MessagingPage');
-    let otp_modal = this.modalCtrl.create('OTPValidationPage');
+    let otp_modal = this.modalCtrl.create('OtpValidationPage');
     otp_modal.onDidDismiss( phoneNumber => {
       if(phoneNumber){
         this.phone = phoneNumber;
@@ -58,8 +63,10 @@ export class MessagingPage {
           phone_number:phoneNumber,
         }
         this.networkEngine.post(userPostData,'show-message').then((result:any) =>{
-          this.messages = result;
+          this.messages = result.data;
         });
+      }else{
+        this.navCtrl.pop();
       }
     });
     otp_modal.present();

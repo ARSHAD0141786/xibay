@@ -20,7 +20,7 @@ export class WelcomePage {
     let tc_modal = this.modalCtrl.create('TermsAndConditionPage');
     tc_modal.onDidDismiss(value => {
       if(value==true){
-        let otp_modal = this.modalCtrl.create('OtpValidationPage');
+        let otp_modal = this.modalCtrl.create('OtpValidationPage',{wantUserToExists:false});
         otp_modal.onDidDismiss(phoneNumber => {
           console.log('user verified through OTP : ' + phoneNumber);
           if(phoneNumber){

@@ -13,17 +13,36 @@ export class ForgotCredentialsPage {
   newPassword:string;
   cnfNewPassword:string;
   username:string;
+  eyeIcon:string;
+  type:string;
   ott:string;
   message:string;
   constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, public navParams: NavParams,private viewCtrl:ViewController) {
   
   }
 
+  changeType(){
+    if(this.type=='password'){
+      this.type = 'text';
+      this.eyeIcon = 'ios-eye-off';
+    }else{
+      this.type = 'password';
+      this.eyeIcon = 'ios-eye';
+    }
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad ForgotCredentialsPage');
+    this.eyeIcon = 'ios-eye';
+    this.type = 'password';
   }
 
   findUser(){
+    this.message = null;
+    if(this.username==null || this.username.trim().length == 0){
+      this.message = 'No username found';
+      return;
+    }
     let userPostData:any = {
       username : this.username,
       phone: this.navParams.get('phone')
@@ -35,18 +54,24 @@ export class ForgotCredentialsPage {
         this.isUserFound = true;
         this.message = null;
       }else{
-        this.message = 'Invalid username. In case if you forgot your username then contact XIBAY team form contact section in menu';
+        this.message = 'Invalid username. In case if you forgot your username then contact XIBAY team, from contact section in menu';
       }
     },(err) => {
       this.message = err;
     });
   }
   resetPassword(){
+    this.message = null;
+    if(this.newPassword==null || this.newPassword.trim().length < 5){
+      this.message = 'Your password should be atleast 5 characters, for better security';
+      return;
+    }
     if(this.newPassword == this.cnfNewPassword){
       let userPostData:any = {
         username:this.username,
         phone:this.navParams.get('phone'),
-        ott:this.ott
+        ott:this.ott,
+        new_password:this.newPassword.trim()
       }
       this.networkEngine.post(userPostData,'change-password').then( (result:any) => {
         if(result.code == 786){

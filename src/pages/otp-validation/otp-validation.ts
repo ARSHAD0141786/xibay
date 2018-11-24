@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import * as firebase from 'firebase';
+import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 
 @IonicPage()
 @Component({
@@ -21,17 +22,18 @@ export class OtpValidationPage {
   myInterval:any;
   timeLeft:number;
   resendInterval:any;
+  isPhoneNumberExists:boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private logs:LogsServiceProvider,private viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, public navParams: NavParams,private logs:LogsServiceProvider,private viewCtrl: ViewController) {
     
   }
 
   validatePhoneNumber(){
+    this.message = null;
     if(this.phoneNumber.length < 10 || this.phoneNumber.length > 10){
       this.message='Invalid Phone number';
     }else{
-      this.message=null;
-      this.sendOTP();
+      this.checkNumberInDatabase();
     }
   }
 
@@ -130,6 +132,30 @@ export class OtpValidationPage {
       console.log(err);
       clearInterval(this.myInterval);
     }
+  }
+
+  checkNumberInDatabase(){
+    let userPostData:any = {
+      phone_number : this.phoneNumber,
+    }
+    this.sendInnerHtml = 'Please wait...';
+    this.networkEngine.post(userPostData,'check-phone-number-exists').then( (result:any) => {
+      this.sendInnerHtml = 'Send OTP';
+      if(result.code ==786){
+        this.isPhoneNumberExists = true;
+      }else{
+        this.isPhoneNumberExists = false;
+      }
+      if(this.navParams.get('wantUserToExists') == this.isPhoneNumberExists){
+        this.sendOTP();
+      }else{
+        if(this.isPhoneNumberExists){
+          this.message = 'This number is already registered';
+        }else{
+          this.message = 'Sorry! This number is not registered with us';
+        }
+      }
+    });
   }
 
   //remove this method in production mode

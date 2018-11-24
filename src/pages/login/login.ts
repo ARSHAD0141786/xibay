@@ -16,6 +16,8 @@ import { UserDataProvider } from '../../providers/user-data/user-data';
 export class LoginPage {
 
   responseData: any;
+  passwordType:string;
+  eyeIcon:string;
   
   loginOptions = {
     username:'',
@@ -33,9 +35,20 @@ export class LoginPage {
     private logs: LogsServiceProvider) {
   }
 
+  changeType(){
+    if(this.passwordType == 'password'){
+      this.passwordType = 'text';
+      this.eyeIcon = 'ios-eye-off';
+    }else{
+      this.passwordType = 'password';
+      this.eyeIcon = 'ios-eye';
+    }
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
     this.logs.addLog('ionViewDidLoad LoginPage');
+    this.passwordType = 'password';
+    this.eyeIcon = 'ios-eye';
   }
 
   onLogin(form: NgForm) {
@@ -87,7 +100,7 @@ export class LoginPage {
     let tc_modal = this.modalCtrl.create('TermsAndConditionPage');
     tc_modal.onDidDismiss(value => {
       if(value==true){
-        let otp_modal = this.modalCtrl.create('OtpValidationPage');
+        let otp_modal = this.modalCtrl.create('OtpValidationPage',{wantUserToExists:false});
         otp_modal.onDidDismiss(phoneNumber => {
           console.log('user verified through OTP : ' + phoneNumber);
           if(phoneNumber){
@@ -105,7 +118,7 @@ export class LoginPage {
 
   forgotCredentials(){
     console.log('forgot credentials tapped....')
-    let otp_modal = this.modalCtrl.create('OtpValidationPage');
+    let otp_modal = this.modalCtrl.create('OtpValidationPage',{wantUserToExists:true});
     otp_modal.onDidDismiss(phoneNumber => {
       console.log('OTP Verified : ' + phoneNumber);
       if(phoneNumber){

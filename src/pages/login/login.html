@@ -21,8 +21,13 @@
     
           <ion-item>
             <ion-label stacked color="primary">Password</ion-label>
-            <ion-input [(ngModel)]="loginOptions.password" name="password" type="password" #password="ngModel" required>
+            <ion-input [(ngModel)]="loginOptions.password" name="password" [type]="passwordType" #password="ngModel" required>
             </ion-input>
+            <div item-end style="padding:15px">
+                <ion-icon [name]="eyeIcon" (click)="changeType()" color="primary"></ion-icon>
+            </div>
+
+            
           </ion-item>
           <p ion-text [hidden]="password.valid || submitted == false" color="danger" align="left" padding-left>
             Password is required

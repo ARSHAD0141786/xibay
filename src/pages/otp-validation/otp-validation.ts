@@ -145,10 +145,11 @@ export class OtpValidationPage {
       }else{
         this.isPhoneNumberExists = false;
       }
+      console.log("Want user to exists : " + this.navParams.get('wantUserToExists'));
       if(this.navParams.get('wantUserToExists') == this.isPhoneNumberExists){
         this.sendOTP();
       }else{
-        if(this.navParams.get('wantUserToExists')){
+        if(this.navParams.get('wantUserToExists')!=undefined){
           if(this.isPhoneNumberExists){
             this.message = 'This number is already registered';
           }else{

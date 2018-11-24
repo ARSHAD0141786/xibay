@@ -110,7 +110,7 @@ export class LoginPage {
       console.log('OTP Verified : ' + phoneNumber);
       if(phoneNumber){
         //load forgotcredential modal
-        let forgot_credential_modal = this.modalCtrl.create('ForgotCredentialsPage');
+        let forgot_credential_modal = this.modalCtrl.create('ForgotCredentialsPage',{phone:phoneNumber});
         forgot_credential_modal.present();
       }
     });

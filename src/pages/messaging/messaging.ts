@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { UserDataProvider } from '../../providers/user-data/user-data';
 
 /**
  * Generated class for the MessagingPage page.
@@ -25,7 +26,7 @@ export class MessagingPage {
   query:string;
   phone:number;
   messages:Array<Message>;
-  constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, public navParams: NavParams,private modalCtrl:ModalController) {
+  constructor(public navCtrl: NavController,private userData:UserDataProvider, private networkEngine:NetworkEngineProvider, public navParams: NavParams,private modalCtrl:ModalController) {
     
   }
 
@@ -64,12 +65,27 @@ export class MessagingPage {
         }
         this.networkEngine.post(userPostData,'show-message').then((result:any) =>{
           this.messages = result.data;
+        },(err) => {
+          console.log(err);
+          this.navCtrl.pop();
         });
       }else{
         this.navCtrl.pop();
       }
     });
-    otp_modal.present();
+    if(this.userData.getUserPostData()==undefined){
+      otp_modal.present();
+    }else{
+      this.phone = this.userData.getUserPostData().phone;
+      let userPostData:any = {
+        phone_number:this.phone,
+      }
+      this.networkEngine.post(userPostData,'show-message').then((result:any) =>{
+        this.messages = result.data;
+      },(err) => {
+        console.log(err);
+        this.navCtrl.pop();
+      });
+    }
   }
-
 }

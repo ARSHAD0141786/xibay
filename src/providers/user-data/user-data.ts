@@ -7,6 +7,7 @@ export class UserDataProvider {
   static userPostData:any = {
     username:'',
     token:'',
+    phone:''
   };
 
   HAS_LOGGED_IN = 'hasLoggedIn';
@@ -20,12 +21,12 @@ export class UserDataProvider {
   login(result:any): void {
     console.log(result);
     let user_data = result.user_data;
-
     // set storage data
     this.storage.set('username',user_data.username);
     this.storage.set('token',result.token);
     UserDataProvider.userPostData.username = user_data.username;
     UserDataProvider.userPostData.token = result.token;
+    UserDataProvider.userPostData.phone = user_data.phone_number;
     this.storage.set(this.HAS_LOGGED_IN, true);
     //there is no use of user_data remove below line as it is wasting storage in future production mode
     this.storage.set('user_data',user_data);

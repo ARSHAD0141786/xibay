@@ -60,14 +60,13 @@
 
     <ion-header no-border>
       <ion-toolbar color="background_white">
-        <ion-item no-lines style="text-align: center">
-          <img src="assets/imgs/photo.jpg" style="width:80px;height:80px;border-radius: 50%;margin:0px"/>
+        <ion-item *ngIf="user" no-lines style="text-align: center">
+          <img [src]="user.user_image_url" style="width:80px;height:80px;border-radius: 50%;margin:0px"/>
             <div style="text-align: center;margin:0px">
-                <b>Mohammed Arshad</b><br>+91 8441975563
+                <b>{{user.name}}</b><br/>{{user.year_name}}, {{user.branch}}
             </div>
           </ion-item>
       </ion-toolbar>
-      
     </ion-header>
 
     <ion-content class="outer-content">

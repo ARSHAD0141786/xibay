@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import * as firebase from 'firebase';
@@ -11,6 +11,7 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
 })
 export class OtpValidationPage {
 
+  @ViewChild('phoneNumberInput') phoneNumberInput;
   verificationId: any;
   code: string="";
   phoneNumber: string="";
@@ -174,6 +175,11 @@ export class OtpValidationPage {
     this.isOTPSent = false;
     this.message = null;
     this.timeLeft = 1800000+90*1000;// 2min = 120 sec = 120000milisec
+    if(this.navParams.get('phone')){
+      this.phoneNumberInput.disabled = true;
+      this.phoneNumber = this.navParams.get('phone');
+      this.validatePhoneNumber();
+    }
   }
 
   editPhoneNumber(){

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
@@ -13,39 +13,109 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 })
 export class AccountPage {
   @ViewChild('fileInput') fileInput;
-
   isReadyToSave: boolean;
-
   item: any;
-
-  // form: FormGroup;
-  /**
-  branch_name: "Computer Science"
-  username: "arshad"
-  gender: "M"
-  name: "Mohammed Arshad"
-  phone_number: "8441975563"
-  user_image_url: "http://localhost/xibay/public_html/photo/img-20180513-5af7d3c05ba4eionicfile.jpg"
-  year: "Final"
-   */
-
   public user:User;
-
   isProfilePicUploading:boolean;
   profilePicUploadingPercentage:number=0;
   private profilePicData:any;
+
+  branches: any = [
+    'ARC',
+    'CH',
+    'CIV',
+    'CSE',
+    'EE',
+    'ECC',
+    'ECE',
+    'EEE',
+    'IT',
+    'ME',
+    'MI',
+    'P&I'
+  ];
 
   constructor(
     public navCtrl: NavController,
     public menu: MenuController,
     private userData: UserDataProvider,
     private networkEngine: NetworkEngineProvider,
+    private alertCtrl:AlertController,
     private logs:LogsServiceProvider,
+    private modalCtrl:ModalController,
     private actionSheetCtrl:ActionSheetController,
     public camera: Camera,
     public navParams: NavParams) {
-      
-      
+         
+  }
+
+  editName(){
+    let alert = this.alertCtrl.create({
+      title: 'Edit name :',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'enter name',
+          type:'text',
+          value:this.user.name
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Done',
+          handler:data=>{
+            this.user.name = data.name;
+          }
+        }
+      ]
+    });
+    alert.present();
+  } 
+
+  editPhone(){
+    let alert = this.alertCtrl.create({
+      title: 'Edit phone number :',
+      inputs: [
+        {
+          name: 'number',
+          placeholder: 'enter new phone number',
+          type:'number',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Done',
+          handler:data=>{
+            this.verifyPhoneNumber(data.number).then( (value:string )=> {
+              if(value == data.number){
+                //api call
+              }else{
+                console.log('Something went wrong');
+              }
+            })
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  verifyPhoneNumber(phone:number):Promise<string>{
+    return new Promise( (resolve) => {
+      let otp_modal = this.modalCtrl.create('OtpValidationPage',{wantUserToExists:false,phone:phone});
+      otp_modal.onDidDismiss( value => {
+        resolve(value);
+      });
+      otp_modal.present();
+    });
   }
 
   uploadProfilePic(){
@@ -62,14 +132,6 @@ export class AccountPage {
       this.isProfilePicUploading = false;
       alert('Unable to upload photo'+error);
     });
-  }
-  
-  ionViewDidEnter() {
-    
-  }
-
-  ionViewDidLeave() {
-    
   }
 
   ionViewDidLoad() {

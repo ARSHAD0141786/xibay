@@ -2,27 +2,56 @@
   <ion-navbar>
     <ion-title *ngIf="user">{{user.username}}</ion-title>
       <ion-buttons end>
-        <button ion-button (click)="done()" [disabled]="!isReadyToSave" strong>
-          Save
+        <button ion-button (click)="done()" strong>
+          <ion-icon name="md-more"></ion-icon>
         </button>
       </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding *ngIf="user">
 
-    <div class="user-profile-pic" align="center" *ngIf="user">
+    <div class="user-profile-pic" align="center">
+      
+      <img [src]="user.user_image_url" style="width:120px;height:120px;border-radius: 50%;display: inline-block;" imageViewer/><br/>
+      <button ion-button clear (click)="getPicture()" [disabled]="isProfilePicUploading==true">Change Profile Pic</button>
       <input type="file" #fileInput style="visibility: hidden;width: 0px; height: 0px;" name="files[]" (change)="processWebImage($event)" />
-      <img [src]="user.user_image_url" style="width:96px;height:96px;border-radius: 50%;display: inline-block;" imageViewer/><br/>
-      <button ion-button clear (click)="getPicture()" [disabled]="isProfilePicUploading==true">Change Image</button>
     </div>
 
-    <div class="user-data" align="center" *ngIf="user">
-      <h3>{{user.name}}&nbsp;&nbsp;&nbsp;&nbsp;<ion-icon ios="ios-create" md="md-create"></ion-icon></h3>
-      <p>+91&nbsp;&nbsp;{{user.phone_number}}&nbsp;&nbsp;&nbsp;<ion-icon ios="ios-create" md="md-create"></ion-icon></p>
+    <div class="user-data" align="center" style="margin-top:50px;">
+      <h3>{{user.name}}&nbsp;&nbsp;&nbsp;&nbsp;<ion-icon ios="ios-create" md="md-create" color="primary" (click)="editName()"></ion-icon></h3>
+      <p>+91&nbsp;&nbsp;{{user.phone_number}}&nbsp;&nbsp;&nbsp;<ion-icon ios="ios-create" md="md-create" color="primary" (click)="editPhone()"></ion-icon></p>
     </div>
 
-    
+    <ion-item>
+      <ion-label>Branch : </ion-label>
+      <ion-select cancelText="Cancel" interface="popover" okText="Ok"  name="branch" [(ngModel)]="user.branch">
+        <ion-option value="{{this.branches[0]}}">Architecture</ion-option>
+              <ion-option value="{{this.branches[1]}}">Chemical</ion-option>
+              <ion-option value="{{this.branches[2]}}">Civil</ion-option>
+              <ion-option value="{{this.branches[3]}}">Computer Science</ion-option>
+              <ion-option value="{{this.branches[4]}}">Electrical</ion-option>
+              <ion-option value="{{this.branches[5]}}">ECC</ion-option>
+              <ion-option value="{{this.branches[6]}}">ECE</ion-option>
+              <ion-option value="{{this.branches[7]}}">EEE</ion-option>
+              <ion-option value="{{this.branches[8]}}">Information Technology</ion-option>
+              <ion-option value="{{this.branches[9]}}">Mechanical</ion-option>
+              <ion-option value="{{this.branches[10]}}">Mining</ion-option>
+              <ion-option value="{{this.branches[11]}}">Production & Industrial</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Year : </ion-label>
+      <ion-select [(ngModel)]="user.year" cancelText="Cancel" interface="popover" okText="Ok" name="year">
+          <ion-option value="1">1st</ion-option>
+          <ion-option value="2">2nd</ion-option>
+          <ion-option value="3">3rd</ion-option>
+          <ion-option value="4">Final</ion-option>
+        </ion-select>
+    </ion-item>
 
+    <div align="center" style="margin-top:50px;">
+      <button ion-button round outline>Save</button>
+    </div>
 </ion-content>

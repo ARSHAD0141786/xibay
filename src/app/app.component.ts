@@ -19,6 +19,7 @@ import { PostedProductsPage } from '../pages/posted-products/posted-products';
 import { RegistrationPage } from '../pages/registration/registration';
 import { MessagingPage } from '../pages/messaging/messaging';
 import { AboutPage } from '../pages/about/about';
+import { User } from '../interfaces/user';
 
 
 export interface PageInterface {
@@ -76,9 +77,10 @@ export class Xibay {
     {title:'Developer',name:'DeveloperPage',component:DeveloperPage,icon:'ios-construct-outline'}
   ];
 
+  public user:User;
   
   constructor(
-    private userData:UserDataProvider,
+    public userData:UserDataProvider,
     public platform: Platform, 
     private storage:Storage,
     public menu:MenuController,
@@ -97,18 +99,11 @@ export class Xibay {
             console.log('App Component : ' + hasLoggedIn);
             if(hasLoggedIn){
               // this line will run only single time when app loaded so we get user data from storage at this time
-              this.storage.get('username').then( (username:string) => {
-                console.log('Username : '+username);
-                UserDataProvider.userPostData.username = username;
-                this.storage.get('token').then( (token:string) => {
-                  console.log('Token : '+token);
-                  UserDataProvider.userPostData.token = token;
-                  this.storage.get('phone').then( (phone:string) => {
-                    UserDataProvider.userPostData.phone = phone;
-                    console.log(phone);
-                    this.rootPage = MainTabsPage;
-                  });
-                });
+              this.storage.get(this.userData.USER_DATA).then((userData:User) => {
+                UserDataProvider.userPostData = userData;
+                this.user = userData;
+                console.log(UserDataProvider.userPostData);
+                this.rootPage = MainTabsPage;
               });
             }else{
               this.rootPage = WelcomePage;
@@ -229,6 +224,7 @@ export class Xibay {
     this.events.subscribe('user:login', () => {
       console.log("Event publish user login");
       this.enableMenu(true);
+      this.user = UserDataProvider.userPostData;
     });
 
     this.events.subscribe('user:signup', () => {

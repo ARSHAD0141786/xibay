@@ -24,7 +24,7 @@ export interface Message{
 export class MessagingPage {
   @ViewChild('input') input;
   query:string;
-  phone:number;
+  phone:string;
   messages:Array<Message>;
   constructor(public navCtrl: NavController,private userData:UserDataProvider, private networkEngine:NetworkEngineProvider, public navParams: NavParams,private modalCtrl:ModalController) {
     
@@ -74,10 +74,10 @@ export class MessagingPage {
       }
     });
     console.log(this.userData.getUserPostData());
-    if(!this.userData.getUserPostData().phone){
+    if(this.userData.getUserPostData() == undefined){
       otp_modal.present();
     }else{
-      this.phone = this.userData.getUserPostData().phone;
+      this.phone = this.userData.getUserPostData().phone_number;
       let userPostData:any = {
         phone_number:this.phone,
       }

@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { User } from '../../interfaces/user';
 
 @Injectable()
 export class UserDataProvider {
-  static userPostData:any = {
-    username:'',
-    token:'',
-    phone:''
-  };
+  static userPostData:User;
 
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
+  USER_DATA = 'user_data-for-xibay';
   constructor(
     public events: Events,
     public storage: Storage) {
@@ -22,15 +20,28 @@ export class UserDataProvider {
     console.log(result);
     let user_data = result.user_data;
     // set storage data
-    this.storage.set('username',user_data.username);
-    this.storage.set('token',result.token);
-    this.storage.set('phone',user_data.phone_number);
-    UserDataProvider.userPostData.username = user_data.username;
-    UserDataProvider.userPostData.token = result.token;
-    UserDataProvider.userPostData.phone = user_data.phone_number;
+    let user:User = {
+      username:user_data.username,
+      token:result.token,
+      name:user_data.name,
+      phone_number:user_data.phone_number,
+      branch:user_data.branch,
+      gender:user_data.branch,
+      year:Number.parseInt(user_data.year),
+      year_name:'',
+      user_image_url:user_data.user_image_url
+    }
+    console.log(user.year);
+    switch(user.year){
+      case 1:user.year_name = '1st';break;
+      case 2:user.year_name = '2nd';break;
+      case 3:user.year_name = '3rd';break;
+      case 4:user.year_name = 'Final';break;
+    }
+    console.log(user.year_name);
+    UserDataProvider.userPostData = user;
     this.storage.set(this.HAS_LOGGED_IN, true);
-    //there is no use of user_data remove below line as it is wasting storage in future production mode
-    this.storage.set('user_data',user_data);
+    this.storage.set(this.USER_DATA,user);
     this.events.publish('user:login');
   };
 
@@ -43,14 +54,9 @@ export class UserDataProvider {
   logout(): void {
     console.log("Logging out");
     // remove all saved data
-    UserDataProvider.userPostData.username = '';
-    UserDataProvider.userPostData.token = '';
-    UserDataProvider.userPostData.phone = '';
-
+    UserDataProvider.userPostData = undefined;
     this.storage.remove(this.HAS_LOGGED_IN);
-    this.storage.remove('username');
-    this.storage.remove('token');
-    this.storage.remove('user_data');
+    this.storage.remove(this.USER_DATA);
     this.events.publish('user:logout');
   };
 

@@ -91,6 +91,9 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
               }
             }
           }
+          if(result.user_data && result.user_data.user_image_url){
+            result.user_data.user_image_url = this.BASE_URL+ result.user_data.user_image_url;
+          }
           resolve(result);
         }else{
           console.log('status : '+response.status);

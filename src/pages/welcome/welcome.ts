@@ -12,7 +12,7 @@ export class WelcomePage {
 
   responseData:any;
   url:string;
-  constructor(public navCtrl: NavController,private modalCtrl: ModalController, private logs: LogsServiceProvider) {
+  constructor(public navCtrl: NavController, private modalCtrl: ModalController, private logs: LogsServiceProvider) {
   }
 
   signup(){

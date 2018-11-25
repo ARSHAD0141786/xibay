@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController, Events, ModalController } from 'ionic-angular';
+import { Nav, Platform, MenuController, Events, ModalController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -85,6 +85,7 @@ export class Xibay {
     public events:Events,
     private logs:LogsServiceProvider,
     private push: Push,
+    private alertCtrl:AlertController,
     private modalCtrl:ModalController,
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen) {
@@ -212,6 +213,16 @@ export class Xibay {
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }
 
+  ionViewCanLeave(){
+    let alert = this.alertCtrl.create({
+      message:'Do you want to exit from XIBAY ?',
+      buttons:[
+        { text:'NAH',role:'cancel',handler:()=>{return false}},
+        { text:'Yes' ,handler:()=>{return true;}}
+      ]
+    });
+    alert.present();
+  }
 
   listenToLoginEvents() {
     this.logs.addLog('Listening to Login Events...');

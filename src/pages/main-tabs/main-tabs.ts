@@ -94,6 +94,8 @@ year: "4"
     return date;
   }
 
+  
+
   fetchMainContent() { // when this function is called then it starts loading items from scratch
     this.network.post(this.userPostData, 'fetch-main-content').then((result:any) => {
       if (this.refresher_is_present) {

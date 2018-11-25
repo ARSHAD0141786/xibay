@@ -45,19 +45,7 @@ export class AccountPage {
     public camera: Camera,
     public navParams: NavParams) {
       
-      let userAuth:any = {
-        username:this.userData.getUserPostData().username,
-        token:this.userData.getUserPostData().token
-      }
-        
-      this.networkEngine.post(userAuth, 'get-user-data').then( (result: any) => {
-        if(result.data){
-          this.user = result.data[0];
-        }
-      },
-      (err) => {
-        console.error(err);
-      });
+      
   }
 
   uploadProfilePic(){
@@ -77,17 +65,28 @@ export class AccountPage {
   }
   
   ionViewDidEnter() {
-    // the root left menu should be disabled on the tutorial page
-    this.menu.enable(false);
+    
   }
 
   ionViewDidLeave() {
-    // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true, 'loggedInMenu');
+    
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountPage');
+    let userAuth:any = {
+      username:this.userData.getUserPostData().username,
+      token:this.userData.getUserPostData().token
+    }
+      
+    this.networkEngine.post(userAuth, 'get-user-data').then( (result: any) => {
+      if(result.data){
+        this.user = result.data[0];
+      }
+    },
+    (err) => {
+      console.error(err);
+    });
   }
 
   getPicture() {

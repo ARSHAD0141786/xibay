@@ -31,7 +31,6 @@ export class UserDataProvider {
     this.storage.set(this.HAS_LOGGED_IN, true);
     //there is no use of user_data remove below line as it is wasting storage in future production mode
     this.storage.set('user_data',user_data);
-
     this.events.publish('user:login');
   };
 

@@ -25,28 +25,29 @@
 
     <ion-item>
       <ion-label>Branch : </ion-label>
-      <ion-select cancelText="Cancel" interface="popover" okText="Ok"  selected="CSE" name="branch" [(ngModel)]="user.branch">
-        <ion-option value="{{this.branches[0]}}">Architecture</ion-option>
-        <ion-option value="{{this.branches[1]}}">Chemical</ion-option>
-        <ion-option value="{{this.branches[2]}}">Civil</ion-option>
-        <ion-option value="{{this.branches[3]}}">Computer Science</ion-option>
-        <ion-option value="{{this.branches[4]}}">Electrical</ion-option>
-        <ion-option value="{{this.branches[5]}}">ECC</ion-option>
-        <ion-option value="{{this.branches[6]}}">ECE</ion-option>
-        <ion-option value="{{this.branches[7]}}">EEE</ion-option>
-        <ion-option value="{{this.branches[8]}}">Information Technology</ion-option>
-        <ion-option value="{{this.branches[9]}}">Mechanical</ion-option>
-        <ion-option value="{{this.branches[10]}}">Mining</ion-option>
-        <ion-option value="{{this.branches[11]}}">Production & Industrial</ion-option>
+      <ion-select cancelText="Cancel" interface="popover" okText="Ok" name="branch" [(ngModel)]="user.branch">
+        <ion-option value="{{this.branches[0]}}" [selected]="user.branch == this.branches[0]" >Architecture</ion-option>
+        <ion-option value="{{this.branches[1]}}" [selected]="user.branch == this.branches[1]" >Chemical</ion-option>
+        <ion-option value="{{this.branches[2]}}" [selected]="user.branch == this.branches[2]" >Civil</ion-option>
+        <ion-option value="{{this.branches[3]}}" [selected]="user.branch == this.branches[3]" >Computer Science</ion-option>
+        <ion-option value="{{this.branches[4]}}" [selected]="user.branch == this.branches[4]" >Electrical</ion-option>
+        <ion-option value="{{this.branches[5]}}" [selected]="user.branch == this.branches[5]" >ECC</ion-option>
+        <ion-option value="{{this.branches[6]}}" [selected]="user.branch == this.branches[6]" >ECE</ion-option>
+        <ion-option value="{{this.branches[7]}}" [selected]="user.branch == this.branches[7]" >EEE</ion-option>
+        <ion-option value="{{this.branches[8]}}" [selected]="user.branch == this.branches[8]" >Information Technology</ion-option>
+        <ion-option value="{{this.branches[9]}}" [selected]="user.branch == this.branches[9]" >Mechanical</ion-option>
+        <ion-option value="{{this.branches[10]}}" [selected]="user.branch == this.branches[10]">Mining</ion-option>
+        <ion-option value="{{this.branches[11]}}" [selected]="user.branch == this.branches[11]">Production & Industrial</ion-option>
       </ion-select>
     </ion-item>
+
     <ion-item>
       <ion-label>Year : </ion-label>
-      <ion-select [(ngModel)]="user.year" cancelText="Cancel" interface="popover" okText="Ok" name="year">
-          <ion-option value="1">1st</ion-option>
-          <ion-option value="2">2nd</ion-option>
-          <ion-option value="3">3rd</ion-option>
-          <ion-option value="4">Final</ion-option>
+      <ion-select  cancelText="Cancel" interface="popover" okText="Ok" name="year" [(ngModel)]="year">
+          <ion-option value="1" [selected]="user.year == 1">1st</ion-option>
+          <ion-option value="2" [selected]="user.year == 2">2nd</ion-option>
+          <ion-option value="3" [selected]="user.year == 3">3rd</ion-option>
+          <ion-option value="4" [selected]="user.year == 4">Final</ion-option>
         </ion-select>
     </ion-item>
 

@@ -15,6 +15,7 @@ export class AccountPage {
   @ViewChild('fileInput') fileInput;
   isReadyToSave: boolean;
   item: any;
+  year:string;
   public user:User;
   isProfilePicUploading:boolean;
   profilePicUploadingPercentage:number=0;
@@ -188,6 +189,7 @@ export class AccountPage {
         sourceType:sourceType,
         targetWidth: 500,
         targetHeight: 500,
+        saveToPhotoAlbum:false,
         correctOrientation:true,
         encodingType: this.camera.EncodingType.JPEG,
         mediaType: this.camera.MediaType.PICTURE
@@ -228,6 +230,35 @@ export class AccountPage {
   }
 
   saveDetails(){
-    console.log(this.user);
+    if(this.year){
+    this.user.year = Number.parseInt(this.year);
+    }
+    
+    let data:any = {
+      username:this.userData.getUserPostData().username,
+      token:this.userData.getUserPostData().token,
+      branch:this.user.branch,
+      year:this.user.year,
+      name:this.user.name,
+    }
+    this.networkEngine.post(data,'/update-user-details').then( (result:any) => {
+      if(result.code == 786){
+        console.log(result.message);
+      }else{
+        console.log(result);
+      }
+    },err => {
+      console.error(err);
+    });
+  }
+}
+
+
+@Component({
+  templateUrl:'popover.html'
+})
+export class PopOverAccount{
+  constructor(){
+
   }
 }

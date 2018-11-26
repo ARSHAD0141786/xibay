@@ -75,29 +75,34 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
         console.log('Entered into network engine');
         this.notify.closeLoading();
         let response:any = JSON.parse(JSON.stringify(res));
-        if(response.status == 200){
-          console.log(JSON.parse(response._body));
-          let result = JSON.parse(response._body);
-          if(result.data){
-            if(result.data.length>0){
-              for(let entry of result.data){
-                if(entry.image_url){
-                  entry.image_url = this.BASE_URL+entry.image_url;
+        try{
+          if(response.status == 200){
+            console.log(JSON.parse(response._body));
+            let result = JSON.parse(response._body);
+            if(result.data){
+              if(result.data.length>0){
+                for(let entry of result.data){
+                  if(entry.image_url){
+                    entry.image_url = this.BASE_URL+entry.image_url;
+                  }
+                  if(entry.user_image_url){
+                    entry.user_image_url = this.BASE_URL+entry.user_image_url;
+                  }
+                  
                 }
-                if(entry.user_image_url){
-                  entry.user_image_url = this.BASE_URL+entry.user_image_url;
-                }
-                
               }
             }
+            if(result.user_data && result.user_data.user_image_url){
+              result.user_data.user_image_url = this.BASE_URL+ result.user_data.user_image_url;
+            }
+            resolve(result);
+          }else{
+            console.log('status : '+response.status);
+            resolve(response._body);
           }
-          if(result.user_data && result.user_data.user_image_url){
-            result.user_data.user_image_url = this.BASE_URL+ result.user_data.user_image_url;
-          }
-          resolve(result);
-        }else{
-          console.log('status : '+response.status);
-          resolve(response._body);
+        }catch(e){
+          console.log(e);
+          console.log(res);
         }
       }, (err) =>{
         console.log('network engine err');

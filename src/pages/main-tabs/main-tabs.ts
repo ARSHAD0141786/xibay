@@ -191,29 +191,7 @@ year: "4"
 }
 
 @Component({
-  template: `
-  <ion-label>Show Only</ion-label>
-  <ion-item>
-    <ion-label>Books</ion-label>
-    <ion-radio value="1"></ion-radio>
-  </ion-item>
-  <ion-item>
-    <ion-label>Papers</ion-label>
-    <ion-radio value="2"></ion-radio>
-  </ion-item>
-  <ion-item>
-    <ion-label>Notes</ion-label>
-    <ion-radio value="4"></ion-radio>
-  </ion-item>
-  <ion-item>
-    <ion-label>Accessories</ion-label>
-    <ion-radio value="3"></ion-radio>
-  </ion-item>
-  <ion-item>
-    <ion-label>Others</ion-label>
-    <ion-radio value="5"></ion-radio>
-  </ion-item>
-  `
+  templateUrl:'filterpopover.html'
 })
 export class Filter{
   constructor(private viewCtrl:ViewController){

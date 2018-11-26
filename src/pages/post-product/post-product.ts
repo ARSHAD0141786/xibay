@@ -96,6 +96,7 @@ export class PostProductPage {
         sourceType:sourceType,
         targetWidth: 500,
         targetHeight: 500,
+        saveToPhotoAlbum:false,
         correctOrientation:true,
         encodingType: this.camera.EncodingType.JPEG,
         mediaType: this.camera.MediaType.PICTURE

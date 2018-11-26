@@ -35,9 +35,10 @@ export class NotifyProvider {
     if(this.loading_is_present){
       console.log("Dismiss loading");
       this.loading_is_present = false;
+      this.loader.dismiss();
     }
     try{
-      this.loader.dismiss();
+      
     }catch(e){
       console.log(e);
     }

@@ -5,7 +5,7 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 
 import 'rxjs/add/operator/timeout'
 import 'rxjs/add/operator/map';
-import { NotifyProvider } from '../notify/notify';
+// import { NotifyProvider } from '../notify/notify';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
 
 
@@ -21,22 +21,12 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
 // }
 
   constructor(public http: Http,
-    private notify: NotifyProvider,
+    // private notify: NotifyProvider,
     private transfer:FileTransfer,
     private logs:LogsServiceProvider) {
     console.log('Hello NetworkEngineProvider Provider');
-      // this.getAuthentication();
+      
   }
-
-  // getAuthentication(){
-  //   console.log("Getting auth");
-  //   this.userData.getUsername().then((username)=>{
-  //     this.authentication.username = username;
-  //     this.userData.getToken().then((token)=>{
-  //       this.authentication.token = token;
-  //     });
-  //   });
-  // }
   
   get(endingUrl:string){
     this.logs.addLog("getRequest : "+this.BASE_URL+""+endingUrl);
@@ -47,17 +37,14 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       subscribe( res => {
         console.log('network engine res');
         this.logs.addLog("res");
-        this.notify.closeLoading();
         resolve(JSON.stringify(res));
       }, (err) =>{
         console.log('network engine err');
         this.logs.addLog("err");        
-        this.notify.closeLoading();
         reject(err);
       }, () => {
         console.log('Success network request');
         this.logs.addLog("Clean");        
-        this.notify.closeLoading();
       });
     });
   }
@@ -65,7 +52,6 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
   post(params,endingUrl){
     return new Promise((resolve, reject) =>{
       let headers = new Headers();
-      this.notify.presentLoading('Please wait...');
       console.log("POST:"+this.BASE_URL+endingUrl);
       console.log('Parameters are : ');
       console.log(params);
@@ -74,7 +60,6 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       this.http.post(this.BASE_URL+endingUrl,params, {headers: headers}).
       subscribe(res =>{
         console.log('Entered into network engine');
-        this.notify.closeLoading();
         let response:any = JSON.parse(JSON.stringify(res));
         try{
           if(response.status == 200){
@@ -108,7 +93,6 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
       }, (err) =>{
         console.log('network engine err');
         this.logs.addLog("err");        
-        this.notify.closeLoading();
         reject(err);
       });
     });

@@ -10,11 +10,11 @@
 <ion-content>
 
   <div align="center" *ngIf="!requests">
-    <h3>OOPs!</h3>
+    <h3>OOPs!</h3><br/>
     <p>It Seems you didn't send any request yet</p>
   </div>
 
-    <ion-list>
+    <ion-list *ngIf="requests">
         <ion-item *ngFor="let request of this.requests">
           <ion-thumbnail item-start>
             <img [src]="request.image_url" style="border-radius: 14%" imageViewer/>

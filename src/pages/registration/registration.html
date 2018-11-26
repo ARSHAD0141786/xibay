@@ -47,7 +47,7 @@
 
           <ion-item style="margin-bottom: 10px;">
             <ion-label color="primary">Gender</ion-label>
-            <ion-select [(ngModel)]="signupOptions.gender"  cancelText="Cancel" interface="popover" okText="Ok" name="gender" required>
+            <ion-select cancelText="Cancel" interface="popover" okText="Ok" name="gender" [(ngModel)]="signupOptions.gender" required>
               <ion-option value="M" selected="true">Male</ion-option>
               <ion-option value="F">Female</ion-option>
               <ion-option value="O">Other</ion-option>
@@ -58,8 +58,8 @@
           </p>
 
           <ion-item style="margin-bottom: 10px;">
-            <ion-label color="primary" >Branch</ion-label>
-            <ion-select [(ngModel)]="signupOptions.branch"  cancelText="Cancel" interface="popover" okText="Ok"  name="branch" required>
+            <ion-label color="primary">Branch</ion-label>
+            <ion-select [(ngModel)]="signupOptions.branch"  cancelText="Cancel" interface="popover" okText="Ok"  name="branch">
               <ion-option value="{{this.branches[0]}}" selected="true">Architecture</ion-option>
               <ion-option value="{{this.branches[1]}}">Chemical</ion-option>
               <ion-option value="{{this.branches[2]}}">Civil</ion-option>
@@ -81,7 +81,7 @@
           <ion-item style="margin-bottom: 10px;">
             <ion-label color="primary" >Year</ion-label>
             <ion-select [(ngModel)]="signupOptions.year" cancelText="Cancel" interface="popover" okText="Ok" name="year" required>
-              <ion-option value="1">1st</ion-option>
+              <ion-option value="1" selected="true">1st</ion-option>
               <ion-option value="2">2nd</ion-option>
               <ion-option value="3">3rd</ion-option>
               <ion-option value="4">Final</ion-option>

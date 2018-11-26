@@ -223,4 +223,11 @@ export class AccountPage {
     } 
   }
 
+  more(){
+    console.log('More');
+  }
+
+  saveDetails(){
+    console.log(this.user);
+  }
 }

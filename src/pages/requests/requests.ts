@@ -12,13 +12,13 @@ import { RequestAcceptedPage } from '../request-accepted/request-accepted';
 })
 export class RequestsPage {
 
-  public requests:Array<item>=[];
+  public requests:Array<item>;
   constructor(public navCtrl: NavController, public navParams: NavParams, private networkEngine: NetworkEngineProvider,private userData: UserDataProvider) {
     
     this.networkEngine.post(this.userData.getUserPostData(),'fetch-requested-products').then( (result:any) =>{
-      this.requests = result.data;
-      
-
+      if(result.data.length > 0){
+        this.requests = result.data;
+      }
     },(err) => {
       console.log(err);
     });

@@ -4,20 +4,28 @@ import { LogsServiceProvider } from '../logs-service/logs-service';
 
 @Injectable()
 export class NotifyProvider {
-  public loader: any;
+  private loader: any;
   private loading_is_present = false;
   constructor(
-    public loading:LoadingController,
-    public alert:AlertController,
-    public toast:ToastController,
-    public logs:LogsServiceProvider
+    private loading:LoadingController,
+    private alert:AlertController,
+    private toast:ToastController,
+    private logs:LogsServiceProvider
   ) {
     this.logs.addLog("NotifyProvider Started");
     console.log('Hello NotifyProvider Provider');
   }
 
   presentLoading(msg:string){
-    this.loader = this.loading.create({content: msg})
+    if(this.loading_is_present==true){
+      return;
+    }
+    this.loader = this.loading.create({
+      content:msg,
+      showBackdrop:true,
+      enableBackdropDismiss:true,
+      dismissOnPageChange	: true,
+    });
     this.loading_is_present = true;
     console.log("Presenting loading");
     this.loader.present();
@@ -26,8 +34,12 @@ export class NotifyProvider {
    closeLoading(){
     if(this.loading_is_present){
       console.log("Dismiss loading");
-      this.loader.dismiss();
       this.loading_is_present = false;
+    }
+    try{
+      this.loader.dismiss();
+    }catch(e){
+      console.log(e);
     }
    }
 

@@ -78,6 +78,7 @@
         <button ion-item menuClose *ngFor="let p of appPagesLogIn" (click)="openPage(p)">
           <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
           {{p.title}}
+          <ion-badge *ngIf="p.badge" color="praimary" item-end>{{p.badge}}</ion-badge>
         </button>
       </ion-list>
 

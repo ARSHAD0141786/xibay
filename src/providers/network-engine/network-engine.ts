@@ -65,6 +65,7 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
   post(params,endingUrl){
     return new Promise((resolve, reject) =>{
       let headers = new Headers();
+      this.notify.presentLoading('Please wait...');
       console.log("POST:"+this.BASE_URL+endingUrl);
       console.log('Parameters are : ');
       console.log(params);

@@ -32,7 +32,8 @@ export interface PageInterface {
   index?: number;
   tabName?: string;
   tabComponent?: any;
-  setRoot?:boolean
+  setRoot?:boolean;
+  badge?:string;
 }
 
 @Component({
@@ -47,8 +48,8 @@ export class Xibay {
   //login pages
   appPagesLogIn:PageInterface[]=[
     {title:'Home',name:'MainTabsPage',component:MainTabsPage,icon:"ios-home-outline",setRoot:true},
-    {title: 'Requests' , name:'RequestsPage',component:RequestsPage,icon:'ios-chatbubbles-outline'},
-    {title: 'Posted Products' , name:'PostedProductsPage',component:PostedProductsPage,icon:'ios-cloud-done-outline'}
+    {title: 'Requests' , name:'RequestsPage',component:RequestsPage,icon:'ios-chatbubbles-outline',badge:'1.8K'},
+    {title: 'Posted Products' , name:'PostedProductsPage',component:PostedProductsPage,icon:'ios-cloud-done-outline',badge:'120'}
   ];
 
   loggedInPages:PageInterface[] = [

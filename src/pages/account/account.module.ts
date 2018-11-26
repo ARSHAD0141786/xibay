@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { AccountPage } from './account';
+import { AccountPage, PopOverAccount } from './account';
 
 @NgModule({
   declarations: [

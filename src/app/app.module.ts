@@ -26,7 +26,7 @@ import { CameraPage } from '../pages/camera/camera';
 import { UserDataProvider } from '../providers/user-data/user-data';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { DescriptionPage, PopoverPage } from '../pages/description/description';
-import { AccountPage } from '../pages/account/account';
+import { AccountPage, PopOverAccount } from '../pages/account/account';
 import { Push } from '@ionic-native/push';
 
 import * as firebase from 'firebase';
@@ -71,7 +71,8 @@ firebase.initializeApp({
     PopoverPage,
     Filter,
     AboutPage,
-    MessagingPage
+    MessagingPage,
+    PopOverAccount
   ],
   imports: [
     BrowserModule,
@@ -105,7 +106,8 @@ firebase.initializeApp({
     PopoverPage,
     Filter,
     AboutPage,
-    MessagingPage
+    MessagingPage,
+    PopOverAccount,
   ],
   providers: [
     Push,

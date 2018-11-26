@@ -1,11 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, ActionSheetController, AlertController, ModalController, PopoverController } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { User } from '../../interfaces/user';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 
+@Component({
+  templateUrl:'popover.html'
+})
+export class PopOverAccount{
+  constructor(){
+
+  }
+}
 @IonicPage()
 @Component({
   selector: 'page-account',
@@ -43,11 +51,18 @@ export class AccountPage {
     private networkEngine: NetworkEngineProvider,
     private alertCtrl:AlertController,
     private logs:LogsServiceProvider,
+    public popoverCtrl:PopoverController,
     private modalCtrl:ModalController,
     private actionSheetCtrl:ActionSheetController,
     public camera: Camera,
     public navParams: NavParams) {
          
+  }
+
+  presentMore(event:any){
+    this.popoverCtrl.create({
+      ev:event
+    }).present();
   }
 
   editName(){
@@ -251,14 +266,9 @@ export class AccountPage {
       console.error(err);
     });
   }
+
+
+
 }
 
 
-@Component({
-  templateUrl:'popover.html'
-})
-export class PopOverAccount{
-  constructor(){
-
-  }
-}

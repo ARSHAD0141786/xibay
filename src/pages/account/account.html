@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title *ngIf="user">{{user.username}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="more()">
+      <button ion-button icon-only (click)="presentMore($event)">
         <ion-icon name="md-more"></ion-icon>
       </button>
     </ion-buttons>

@@ -18,7 +18,7 @@ export class ForgotCredentialsPage {
   ott:string;
   message:string;
   constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, public navParams: NavParams,private viewCtrl:ViewController) {
-  
+   
   }
 
   changeType(){
@@ -35,6 +35,11 @@ export class ForgotCredentialsPage {
     console.log('ionViewDidLoad ForgotCredentialsPage');
     this.eyeIcon = 'ios-eye';
     this.type = 'password';
+    if(this.navParams.get('username')){
+      console.log('Username found forgot credentials'+this.navParams.get('username'));
+      this.username = this.navParams.get('username');
+      this.findUser();
+    }
   }
 
   findUser(){

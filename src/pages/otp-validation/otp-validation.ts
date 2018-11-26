@@ -21,6 +21,7 @@ export class OtpValidationPage {
   counter:number=0;
   message:string;
   myInterval:any;
+  canEditPhoneNumber:boolean;
   timeLeft:number;
   resendInterval:any;
   isPhoneNumberExists:boolean;
@@ -174,10 +175,12 @@ export class OtpValidationPage {
     this.verifyInnerHtml = 'Verify OTP';
     this.isOTPSent = false;
     this.message = null;
+    this.canEditPhoneNumber = true;
     this.timeLeft = 1800000+90*1000;// 2min = 120 sec = 120000milisec
     if(this.navParams.get('phone')){
       this.phoneNumberInput.disabled = true;
       this.phoneNumber = this.navParams.get('phone');
+      this.canEditPhoneNumber = false;
       this.validatePhoneNumber();
     }
   }

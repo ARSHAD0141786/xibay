@@ -1,19 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, ActionSheetController, AlertController, ModalController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, ActionSheetController, AlertController, ModalController, PopoverController, ViewController } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { User } from '../../interfaces/user';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 
-@Component({
-  templateUrl:'popover.html'
-})
-export class PopOverAccount{
-  constructor(){
-
-  }
-}
 @IonicPage()
 @Component({
   selector: 'page-account',
@@ -59,12 +51,7 @@ export class AccountPage {
          
   }
 
-  presentMore(event:any){
-    this.popoverCtrl.create({
-      ev:event
-    }).present();
-  }
-
+ 
   editName(){
     let alert = this.alertCtrl.create({
       title: 'Edit name :',
@@ -240,10 +227,6 @@ export class AccountPage {
     } 
   }
 
-  more(){
-    console.log('More');
-  }
-
   saveDetails(){
     if(this.year){
     this.user.year = Number.parseInt(this.year);
@@ -268,7 +251,40 @@ export class AccountPage {
   }
 
 
+  presentMore(event:any){
+    let popover = this.popoverCtrl.create(PopOverAccount,{username:this.user.username,phoneNumber:this.user.phone_number});
+    popover.present({
+      ev:event
+    });
+  }
+
 
 }
 
+
+@Component({
+  templateUrl:'popover.html'
+})
+export class PopOverAccount{
+  username:string;
+  phoneNumber:string;
+  constructor(private modalCtrl:ModalController,private viewCtrl:ViewController,private navParams:NavParams){
+  }
+  ionViewDidLoad(){
+    this.username = this.navParams.get('username');
+    this.phoneNumber = this.navParams.get('phoneNumber');
+  }
+  changePassword(){
+    let otp_modal = this.modalCtrl.create('OtpValidationPage',{wantUserToExists:true,phone:this.phoneNumber});
+    otp_modal.onDidDismiss(phoneNumber => {
+      console.log('OTP Verified : ' + phoneNumber);
+      if(phoneNumber){
+        //load forgotcredential modal
+        let forgot_credential_modal = this.modalCtrl.create('ForgotCredentialsPage',{phone:phoneNumber,username:this.username});
+        forgot_credential_modal.present();
+      }
+    });
+    otp_modal.present();
+  }
+}
 

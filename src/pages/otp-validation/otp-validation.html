@@ -27,7 +27,7 @@
         <button ion-button block (click)="sendOTP()" round outline [disabled]="timeLeft > 0"><span *ngIf="timeLeft == 0">Resend OTP</span><span *ngIf="timeLeft>0">{{timeLeft | date:'mm:ss'}}</span></button>
         </ion-col>
     </ion-row>
-    <p><a (click)="editPhoneNumber()">Change phone number?</a></p>
+    <p><a *ngIf="canEditPhoneNumber==true" (click)="editPhoneNumber()">Change phone number?</a></p>
   </div>
   <button ion-button block (click)="verifyWithoutOtp()">Developer</button>
 </ion-content>

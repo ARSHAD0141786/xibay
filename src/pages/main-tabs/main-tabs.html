@@ -54,7 +54,7 @@
           </ion-avatar>
           <h2>{{item.username_fk}}</h2>
           <p>{{item.user_year}}, {{item.user_branch}}</p>
-          <ion-note>{{this.convertTime(item.created) | amTimeAgo}}</ion-note>
+          <ion-note>{{this.convertTime(item.created) | date:'short' }}</ion-note>
       </ion-item>
 
       <img [src]="item.image_url">

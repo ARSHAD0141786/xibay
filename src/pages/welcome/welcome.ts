@@ -39,14 +39,14 @@ export class WelcomePage {
     this.navCtrl.push('LoginPage');
   }
 
-  ionViewCanLeave(){
-    let alert = this.alertCtrl.create({
-      message:'Do you want to exit from XIBAY ?',
-      buttons:[
-        { text:'NAH',role:'cancel',handler:()=>{return false}},
-        { text:'Yes' ,handler:()=>{return true;}}
-      ]
-    });
-    alert.present();
-  }
+  // ionViewCanLeave(){
+  //   let alert = this.alertCtrl.create({
+  //     message:'Do you want to exit from XIBAY ?',
+  //     buttons:[
+  //       { text:'NAH',role:'cancel',handler:()=>{return false}},
+  //       { text:'Yes' ,handler:()=>{return true;}}
+  //     ]
+  //   });
+  //   alert.present();
+  // }
 }

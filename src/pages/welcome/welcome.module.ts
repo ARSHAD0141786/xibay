@@ -4,13 +4,13 @@ import { WelcomePage } from './welcome';
 
 @NgModule({
   declarations: [
-    WelcomePage
+    WelcomePage,
   ],
   imports: [
     IonicPageModule.forChild(WelcomePage),
   ],
   exports: [
-    WelcomePage,
+    WelcomePage
   ]
 })
-export class WelcomePageModule {}
+export class WelcomePageModule { }

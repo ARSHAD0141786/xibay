@@ -35,7 +35,11 @@ export class OtpValidationPage {
     if(this.phoneNumber.length < 10 || this.phoneNumber.length > 10){
       this.message='Invalid Phone number';
     }else{
-      this.checkNumberInDatabase();
+      if(this.navParams.get('wantUserToExists')!=undefined){
+        this.checkNumberInDatabase();
+      }else{
+        this.sendOTP();
+      }
     }
   }
 
@@ -151,7 +155,7 @@ export class OtpValidationPage {
       if(this.navParams.get('wantUserToExists') == this.isPhoneNumberExists){
         this.sendOTP();
       }else{
-        if(this.navParams.get('wantUserToExists')!=undefined){
+        if(this.navParams.get('wantUserToExists')!=undefined){ // in case of messaging although I check it earlier
           if(this.isPhoneNumberExists){
             this.message = 'This number is already registered';
           }else{

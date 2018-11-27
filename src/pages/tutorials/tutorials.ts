@@ -1,7 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
-
-import { WelcomePage } from '../welcome/welcome';
 import { Storage } from '@ionic/storage';
 
 @IonicPage()
@@ -53,7 +51,7 @@ export class TutorialsPage {
   startApp() {
     this.storage.get('hasSeenTutorial').then((hasSeenTurtorial)=>{
       if(!hasSeenTurtorial){
-        this.navCtrl.setRoot(WelcomePage).then(() => {
+        this.navCtrl.setRoot('WelcomePage').then(() => {
           this.storage.set('hasSeenTutorial', 'true');
         })
       }else{

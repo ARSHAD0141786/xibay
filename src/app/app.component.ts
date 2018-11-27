@@ -4,26 +4,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 
-// import { WelcomePage } from '../pages/welcome/welcome';
-// import { MainTabsPage } from '../pages/main-tabs/main-tabs';
 import { UserDataProvider } from '../providers/user-data/user-data';
-// import { TutorialsPage } from '../pages/tutorials/tutorials';
-// import { CameraPage } from '../pages/camera/camera';
-// import { LoginPage } from '../pages/login/login';
-// import { AccountPage } from '../pages/account/account';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
-// import { DeveloperPage } from '../pages/developer/developer';
-// import { 'RequestsPage' } from '../pages/requests/requests';
-// import { PostedProductsPage } from '../pages/posted-products/posted-products';
-// import { RegistrationPage } from '../pages/registration/registration';
-// import { MessagingPage } from '../pages/messaging/messaging';
-// import { AboutPage } from '../pages/about/about';
 import { User } from '../interfaces/user';
-import { MainTabsPage } from '../pages/main-tabs/main-tabs';
-import { WelcomePage } from '../pages/welcome/welcome';
-import { TutorialsPage } from '../pages/tutorials/tutorials';
-
 
 export interface PageInterface {
   title: string;
@@ -95,7 +79,31 @@ export class Xibay {
     private modalCtrl:ModalController,
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen) {
-
+      console.log('App Component constructor');
+      this.userData.checkHasSeenTutorial().then((hasSeenTutorial) => {
+        if (hasSeenTutorial) {
+          this.userData.hasLoggedIn().then((hasLoggedIn) => {
+            this.enableMenu(hasLoggedIn === true);
+            console.log('App Component : ' + hasLoggedIn);
+            if(hasLoggedIn){
+              // this line will run only single time when app loaded so we get user data from storage at this time
+              this.storage.get(this.userData.USER_DATA).then((userData:User) => {
+                UserDataProvider.userPostData = userData;
+                this.user = userData;
+                console.log(UserDataProvider.userPostData);
+                this.rootPage = 'MainTabsPage';
+              });
+            }else{
+              this.rootPage = 'WelcomePage';
+            }
+            this.platformReady();
+          });
+        } else {
+          this.rootPage = 'TutorialsPage';
+          this.platformReady();
+        }
+      });
+      this.listenToLoginEvents();
   }
 
   pushSetup(){
@@ -139,36 +147,9 @@ export class Xibay {
   this.logs.addLog('Error with push plugins');});
   }
 
-  ionViewDidLoad(){
-    this.userData.checkHasSeenTutorial().then((hasSeenTutorial) => {
-      if (hasSeenTutorial) {
-        this.userData.hasLoggedIn().then((hasLoggedIn) => {
-          this.enableMenu(hasLoggedIn === true);
-          console.log('App Component : ' + hasLoggedIn);
-          if(hasLoggedIn){
-            // this line will run only single time when app loaded so we get user data from storage at this time
-            this.storage.get(this.userData.USER_DATA).then((userData:User) => {
-              UserDataProvider.userPostData = userData;
-              this.user = userData;
-              console.log(UserDataProvider.userPostData);
-              this.rootPage = MainTabsPage;
-            });
-          }else{
-            this.rootPage = WelcomePage;
-          }
-          this.platformReady();
-        });
-      } else {
-        this.rootPage = TutorialsPage;
-        this.platformReady();
-      }
-    });
-    this.listenToLoginEvents();
-  }
-
   openPage(page: PageInterface) {
     if(page.logsOut){
-      this.nav.setRoot(WelcomePage,{},{animate:false});
+      this.nav.setRoot('WelcomePage',{},{animate:false});
       this.nav.popToRoot({animation:'ios-transition'});
       this.userData.logout();
       return;

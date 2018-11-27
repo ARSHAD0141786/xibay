@@ -9,8 +9,9 @@ import { AccountPage, PopOverAccount } from '../account/account';
   ],
   imports: [
     IonicPageModule.forChild(MainTabsPage),
-    AccountPage,
-    PopOverAccount
   ],
+  exports: [
+    MainTabsPage,
+  ]
 })
 export class MainTabsPageModule {}

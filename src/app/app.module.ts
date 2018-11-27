@@ -9,16 +9,12 @@ import { Network } from '@ionic-native/network';
 import { MomentModule } from 'angular2-moment';
 
 import { Xibay } from './app.component';
-import { WelcomePage } from '../pages/welcome/welcome';
-import { TutorialsPage } from '../pages/tutorials/tutorials';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NetworkEngineProvider } from '../providers/network-engine/network-engine';
 import { HttpModule } from '@angular/http';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { NotifyProvider } from '../providers/notify/notify';
-import { MainTabsPage, Filter } from '../pages/main-tabs/main-tabs';
 import { UserDataProvider } from '../providers/user-data/user-data';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { Push } from '@ionic-native/push';
@@ -39,9 +35,6 @@ firebase.initializeApp({
 @NgModule({
   declarations: [
     Xibay,
-    WelcomePage,
-    TutorialsPage,
-    MainTabsPage,
   ],
   imports: [
     BrowserModule,
@@ -55,9 +48,6 @@ firebase.initializeApp({
   bootstrap: [IonicApp],
   entryComponents: [
     Xibay,
-    WelcomePage,
-    TutorialsPage,
-    MainTabsPage,
   ],
   providers: [
     Push,

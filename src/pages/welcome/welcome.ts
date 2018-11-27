@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
-import { LoginPage } from '../login/login';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
-import { RegistrationPage } from '../registration/registration';
 
 @Component({
   selector: 'page-welcome',

@@ -30,7 +30,7 @@ export interface PageInterface {
 export class Xibay {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any;
+  rootPage: any = 'WelcomePage';
 
   //login pages
   appPagesLogIn:PageInterface[]=[
@@ -99,7 +99,7 @@ export class Xibay {
             this.platformReady();
           });
         } else {
-          this.rootPage = 'TutorialsPage';
+          this.rootPage = 'WelcomePage';
           this.platformReady();
         }
       });

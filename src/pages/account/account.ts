@@ -260,7 +260,6 @@ export class AccountPage {
 
 }
 
-@IonicPage()
 @Component({
   templateUrl:'popover.html'
 })

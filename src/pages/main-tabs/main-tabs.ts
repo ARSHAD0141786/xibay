@@ -190,7 +190,6 @@ year: "4"
   }
 }
 
-@IonicPage()
 @Component({
   templateUrl:'filterpopover.html'
 })

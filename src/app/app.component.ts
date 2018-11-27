@@ -4,22 +4,25 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 
-import { WelcomePage } from '../pages/welcome/welcome';
-import { MainTabsPage } from '../pages/main-tabs/main-tabs';
+// import { WelcomePage } from '../pages/welcome/welcome';
+// import { MainTabsPage } from '../pages/main-tabs/main-tabs';
 import { UserDataProvider } from '../providers/user-data/user-data';
-import { TutorialsPage } from '../pages/tutorials/tutorials';
-import { CameraPage } from '../pages/camera/camera';
-import { LoginPage } from '../pages/login/login';
-import { AccountPage } from '../pages/account/account';
+// import { TutorialsPage } from '../pages/tutorials/tutorials';
+// import { CameraPage } from '../pages/camera/camera';
+// import { LoginPage } from '../pages/login/login';
+// import { AccountPage } from '../pages/account/account';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
-import { DeveloperPage } from '../pages/developer/developer';
-import { RequestsPage } from '../pages/requests/requests';
-import { PostedProductsPage } from '../pages/posted-products/posted-products';
-import { RegistrationPage } from '../pages/registration/registration';
-import { MessagingPage } from '../pages/messaging/messaging';
-import { AboutPage } from '../pages/about/about';
+// import { DeveloperPage } from '../pages/developer/developer';
+// import { 'RequestsPage' } from '../pages/requests/requests';
+// import { PostedProductsPage } from '../pages/posted-products/posted-products';
+// import { RegistrationPage } from '../pages/registration/registration';
+// import { MessagingPage } from '../pages/messaging/messaging';
+// import { AboutPage } from '../pages/about/about';
 import { User } from '../interfaces/user';
+import { MainTabsPage } from '../pages/main-tabs/main-tabs';
+import { WelcomePage } from '../pages/welcome/welcome';
+import { TutorialsPage } from '../pages/tutorials/tutorials';
 
 
 export interface PageInterface {
@@ -47,35 +50,35 @@ export class Xibay {
 
   //login pages
   appPagesLogIn:PageInterface[]=[
-    {title:'Home',name:'MainTabsPage',component:MainTabsPage,icon:"ios-home-outline",setRoot:true},
-    {title: 'Requests' , name:'RequestsPage',component:RequestsPage,icon:'ios-chatbubbles-outline',badge:'1.8K'},
-    {title: 'Posted Products' , name:'PostedProductsPage',component:PostedProductsPage,icon:'ios-cloud-done-outline',badge:'120'}
+    {title:'Home',name:'MainTabsPage',component:'MainTabsPage',icon:"ios-home-outline",setRoot:true},
+    {title: 'Requests' , name:'RequestsPage',component:'RequestsPage',icon:'ios-chatbubbles-outline',badge:'1.8K'},
+    {title: 'Posted Products' , name:'PostedProductsPage',component:'PostedProductsPage',icon:'ios-cloud-done-outline',badge:'120'}
   ];
 
   loggedInPages:PageInterface[] = [
-    {title:'User Info',name:'AccountPage',component:AccountPage,icon:'ios-contact-outline'},
-    {title:'Logout',name:'LoginPage',component:LoginPage,icon:'ios-log-out-outline',logsOut:true},
+    {title:'User Info',name:'AccountPage',component:'AccountPage',icon:'ios-contact-outline'},
+    {title:'Logout',name:'LoginPage',component:'LoginPage',icon:'ios-log-out-outline',logsOut:true},
     {title:'Notification',name:'NotificationsPage',component:'NotificationsPage',icon:'ios-notifications-outline'}
   ];
 
   //logout pages
   appPagesLogOut:PageInterface[]=[
-    {title:'Welcome',name:'WelcomePage',component:WelcomePage,icon:"ios-home-outline",setRoot:true}
+    {title:'Welcome',name:'WelcomePage',component:'WelcomePage',icon:"ios-home-outline",setRoot:true}
   ];
 
   loggedOutPages:PageInterface[] = [
-    {title:'Login',name:'LoginPage',component:LoginPage,icon:'ios-log-in-outline'},
-    {title:'Sign Up',component:RegistrationPage,name:'RegistrationPage',icon:'ios-clipboard-outline'},
-    {title:'Support',name:'CameraPage',component:CameraPage,icon:'ios-redo-outline'}
+    {title:'Login',name:'LoginPage',component:'LoginPage',icon:'ios-log-in-outline'},
+    {title:'Sign Up',component:'RegistrationPage',name:'RegistrationPage',icon:'ios-clipboard-outline'},
+    {title:'Support',name:'CameraPage',component:'CameraPage',icon:'ios-redo-outline'}
   ];
 
   permanentPages:PageInterface[] = [
-    {title:'Tutorials',name:'TutorialsPage',component:TutorialsPage,icon:'ios-photos-outline'},
-    {title:'FAQ ?',name:'faq',component:TutorialsPage,icon:'ios-help-circle-outline'},
-    {title:'Message to developer',name:'MessagingPage',component:MessagingPage,icon:'ios-chatbubbles-outline'},
-    {title:'Terms & Policies',name:'termsAndPolicies',component:TutorialsPage,icon:'ios-copy-outline'},
-    {title:'About',name:'AboutPage',component:AboutPage,image_icon:'assets/imgs/logo.png'},
-    {title:'Developer',name:'DeveloperPage',component:DeveloperPage,icon:'ios-construct-outline'}
+    {title:'Tutorials',name:'TutorialsPage',component:'TutorialsPage',icon:'ios-photos-outline'},
+    {title:'FAQ ?',name:'faq',component:'TutorialsPage',icon:'ios-help-circle-outline'},
+    {title:'Message to developer',name:'MessagingPage',component:'MessagingPage',icon:'ios-chatbubbles-outline'},
+    {title:'Terms & Policies',name:'termsAndPolicies',component:'TutorialsPage',icon:'ios-copy-outline'},
+    {title:'About',name:'AboutPage',component:'AboutPage',image_icon:'assets/imgs/logo.png'},
+    {title:'Developer',name:'DeveloperPage',component:'DeveloperPage',icon:'ios-construct-outline'}
   ];
 
   public user:User;
@@ -93,30 +96,6 @@ export class Xibay {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen) {
 
-      this.userData.checkHasSeenTutorial().then((hasSeenTutorial) => {
-        if (hasSeenTutorial) {
-          this.userData.hasLoggedIn().then((hasLoggedIn) => {
-            this.enableMenu(hasLoggedIn === true);
-            console.log('App Component : ' + hasLoggedIn);
-            if(hasLoggedIn){
-              // this line will run only single time when app loaded so we get user data from storage at this time
-              this.storage.get(this.userData.USER_DATA).then((userData:User) => {
-                UserDataProvider.userPostData = userData;
-                this.user = userData;
-                console.log(UserDataProvider.userPostData);
-                this.rootPage = MainTabsPage;
-              });
-            }else{
-              this.rootPage = WelcomePage;
-            }
-            this.platformReady();
-          });
-        } else {
-          this.rootPage = TutorialsPage;
-          this.platformReady();
-        }
-      });
-      this.listenToLoginEvents();
   }
 
   pushSetup(){
@@ -132,6 +111,7 @@ export class Xibay {
       }
    };
    
+
    const pushObject: PushObject = this.push.init(options);
   
    pushObject.on('notification').subscribe((notification: any) => {
@@ -157,6 +137,33 @@ export class Xibay {
    
    pushObject.on('error').subscribe(error => {console.error('Error with Push plugin', error);
   this.logs.addLog('Error with push plugins');});
+  }
+
+  ionViewDidLoad(){
+    this.userData.checkHasSeenTutorial().then((hasSeenTutorial) => {
+      if (hasSeenTutorial) {
+        this.userData.hasLoggedIn().then((hasLoggedIn) => {
+          this.enableMenu(hasLoggedIn === true);
+          console.log('App Component : ' + hasLoggedIn);
+          if(hasLoggedIn){
+            // this line will run only single time when app loaded so we get user data from storage at this time
+            this.storage.get(this.userData.USER_DATA).then((userData:User) => {
+              UserDataProvider.userPostData = userData;
+              this.user = userData;
+              console.log(UserDataProvider.userPostData);
+              this.rootPage = MainTabsPage;
+            });
+          }else{
+            this.rootPage = WelcomePage;
+          }
+          this.platformReady();
+        });
+      } else {
+        this.rootPage = TutorialsPage;
+        this.platformReady();
+      }
+    });
+    this.listenToLoginEvents();
   }
 
   openPage(page: PageInterface) {
@@ -192,7 +199,7 @@ export class Xibay {
         otp_modal.onDidDismiss(phoneNumber => {
           console.log('user verified through OTP : ' + phoneNumber);
           if(phoneNumber){
-            this.nav.push(RegistrationPage,{phone:phoneNumber});
+            this.nav.push('RegistrationPage',{phone:phoneNumber});
           }
         });
         otp_modal.present();

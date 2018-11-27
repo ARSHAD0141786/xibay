@@ -250,7 +250,6 @@ export class AccountPage {
     });
   }
 
-
   presentMore(event:any){
     let popover = this.popoverCtrl.create(PopOverAccount,{username:this.user.username,phoneNumber:this.user.phone_number});
     popover.present({
@@ -260,7 +259,6 @@ export class AccountPage {
 
 
 }
-
 
 @Component({
   templateUrl:'popover.html'

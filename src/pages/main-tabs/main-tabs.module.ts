@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { MainTabsPage } from './main-tabs';
+import { AccountPage, PopOverAccount } from '../account/account';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,8 @@ import { MainTabsPage } from './main-tabs';
   ],
   imports: [
     IonicPageModule.forChild(MainTabsPage),
+    AccountPage,
+    PopOverAccount
   ],
 })
 export class MainTabsPageModule {}

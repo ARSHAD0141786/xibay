@@ -24,7 +24,7 @@ export class WelcomePage {
         otp_modal.onDidDismiss(phoneNumber => {
           console.log('user verified through OTP : ' + phoneNumber);
           if(phoneNumber){
-            this.navCtrl.push(RegistrationPage,{phone:phoneNumber});
+            this.navCtrl.push('RegistrationPage',{phone:phoneNumber});
           }
         });
         otp_modal.present();
@@ -37,6 +37,6 @@ export class WelcomePage {
   }
   login(){
     this.logs.addLog("Welcome login btn clicked loading logging page...");
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.push('LoginPage');
   }
 }

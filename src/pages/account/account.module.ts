@@ -5,13 +5,14 @@ import { AccountPage, PopOverAccount } from './account';
 @NgModule({
   declarations: [
     AccountPage,
+    PopOverAccount,
   ],
   imports: [
     IonicPageModule.forChild(AccountPage),
   ],
   exports: [
     AccountPage,
-    PopOverAccount,
+    PopOverAccount
   ]
 })
 export class AccountPageModule {}

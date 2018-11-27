@@ -8,7 +8,7 @@
     <img [src]="item.image_url" style="width:100%" imageViewer />
 
     <div padding>
-      <p (click)="showToast(item.is_hidden)" align="center"><b>Status : </b><span *ngIf="item.is_hidden==0" style="color: forestgreen">LIVE</span><span *ngIf="item.is_hidden==1" style="color: orangered">NOT LIVE</span></p>
+      <p (click)="showToast(item.is_hidden)" align="center"><b>Status : </b><span *ngIf="item.is_hidden==-2" style="color: blueviolet">REPORTED</span><span *ngIf="item.is_hidden==0" style="color: forestgreen">LIVE</span><span *ngIf="item.is_hidden==1" style="color: orangered">NOT LIVE</span></p>
       <p ><b>Description :</b></p>
       <p style="font-style: oblique"><span style="white-space: pre-line">{{this.item.description}}</span></p>
       <p><b>Category :</b> {{item.category_name}}</p>

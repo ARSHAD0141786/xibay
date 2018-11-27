@@ -28,10 +28,11 @@
             <p style="font-size: 8px;color: orangered; " *ngIf="item.total_requests > 0 && item.is_hidden==1">{{item.total_requests}} <span *ngIf="item.total_requests==1">user</span> <span *ngIf="item.total_requests > 1">users</span> requested</p>
             <div style="width:10px;height:10px; border-radius:50%;background-color: rgb(137, 219, 54);" *ngIf="item.is_hidden == 0" item-end></div>
             <div style="width:10px;height:10px; border-radius:50%;background-color:orangered;" *ngIf="item.is_hidden == 1" item-end></div>
+            <div style="width:10px;height:10px; border-radius:50%;background-color:blueviolet;" *ngIf="item.is_hidden == -2" item-end></div>
           
           </button>
     
-          <ion-item-options *ngIf="item.is_hidden==0">
+          <ion-item-options *ngIf="item.is_hidden==0 || item.is_hidden == -2">
             <button ion-button color="danger" (click)="deleteItem(item,i)">
               DELETE
             </button>

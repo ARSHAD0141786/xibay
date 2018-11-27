@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, PopoverController, AlertController } from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UserDataProvider } from '../../providers/user-data/user-data';
@@ -45,9 +45,9 @@ export class DescriptionPage {
   }
   
   presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverPage);
+    let popover = this.popoverCtrl.create(PopoverPage,{item_id:this.item.id});
     popover.present({
-      ev: myEvent
+      ev: myEvent,
     });
   }
 
@@ -92,13 +92,37 @@ export class DescriptionPage {
 
 @Component({
   template: `
-      <button ion-item (click)="close()">Report</button>
+      <button ion-item (click)="report()">Report</button>
   `
 })
 export class PopoverPage {
-  constructor(public viewCtrl: ViewController) {}
-
-  close() {
+  constructor(public navParams:NavParams, public viewCtrl: ViewController,private userPostData:UserDataProvider,private networkEngine:NetworkEngineProvider,private alertCtrl:AlertController) {}
+  
+  report(){
+    let alert = this.alertCtrl.create({
+      title:'Are you sure you want to report this product ?',
+      buttons:[
+        {text:'No',role:'cancel'},
+        {text:'Yes',handler: () => {
+          let userPostData :any = {
+            username:this.userPostData.getUserPostData().username,
+            token:this.userPostData.getUserPostData().token,
+            item_id:this.navParams.get('item_id'),
+          }
+          this.networkEngine.post(userPostData,'report-a-product').then( (result:any) => {
+            if(result.code == 786){
+              console.log('Product reported successfully');
+            }else{
+              console.log('Someting went wrong');
+              console.log(result.message);
+            }
+          },(err) => {
+            console.log(err);
+          });
+        }}
+      ],
+    });
+    alert.present();
     this.viewCtrl.dismiss();
   }
 }

@@ -23,6 +23,25 @@ import * as firebase from 'firebase';
 import { OtpValidationPageModule } from '../pages/otp-validation/otp-validation.module';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 
+// import { TutorialsPage } from '../pages/tutorials/tutorials';
+// import { MainTabsPage } from '../pages/main-tabs/main-tabs';
+// import { WelcomePage } from '../pages/welcome/welcome';
+// import { PostProductPage } from '../pages/post-product/post-product';
+// import { LoginPage } from '../pages/login/login';
+// import { RegistrationPage } from '../pages/registration/registration';
+// import { OtpValidationPage } from '../pages/otp-validation/otp-validation';
+// import { ForgotCredentialsPage } from '../pages/forgot-credentials/forgot-credentials';
+// import { MessagingPage } from '../pages/messaging/messaging';
+// import { DeveloperPage } from '../pages/developer/developer';
+// import { RequestsPage } from '../pages/requests/requests';
+// import { RequestAcceptedPage } from '../pages/request-accepted/request-accepted';
+// import { PostedProductsPage } from '../pages/posted-products/posted-products';
+// import { AccountPage } from '../pages/account/account';
+// import { AboutPage } from '../pages/about/about';
+// import { DebugLogsPage } from '../pages/debug-logs/debug-logs';
+// import { NotificationsPage } from '../pages/notifications/notifications';
+// import { UserProductDescriptionPage } from '../pages/user-product-description/user-product-description';
+
 firebase.initializeApp({
   apiKey: "AIzaSyDOH8r5j6evr4npYDYFVUd5wleuUuH_cz4",
   authDomain: "xibay-64286.firebaseapp.com",
@@ -48,6 +67,24 @@ firebase.initializeApp({
   bootstrap: [IonicApp],
   entryComponents: [
     Xibay,
+    // TutorialsPage,
+    // WelcomePage,
+    // MainTabsPage,
+    // PostProductPage,
+    // LoginPage,
+    // RegistrationPage,
+    // OtpValidationPage,
+    // ForgotCredentialsPage,
+    // MessagingPage,
+    // DeveloperPage,
+    // RequestsPage,
+    // RequestAcceptedPage,
+    // PostedProductsPage,
+    // AccountPage,
+    // AboutPage,
+    // DebugLogsPage,
+    // NotificationsPage,
+    // UserProductDescriptionPage,
   ],
   providers: [
     Push,

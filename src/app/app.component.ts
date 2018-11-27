@@ -99,7 +99,7 @@ export class Xibay {
             this.platformReady();
           });
         } else {
-          this.rootPage = 'WelcomePage';
+          this.rootPage = 'TutorialsPage';
           this.platformReady();
         }
       });

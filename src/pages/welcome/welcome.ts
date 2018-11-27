@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage,NavController, ModalController } from 'ionic-angular';
+import { IonicPage,NavController, ModalController, AlertController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 
 @IonicPage()
@@ -11,7 +11,7 @@ export class WelcomePage {
 
   responseData:any;
   url:string;
-  constructor(public navCtrl: NavController, private modalCtrl: ModalController, private logs: LogsServiceProvider) {
+  constructor(public navCtrl: NavController, private modalCtrl: ModalController, private logs: LogsServiceProvider,private alertCtrl:AlertController) {
   }
 
   signup(){
@@ -37,5 +37,16 @@ export class WelcomePage {
   login(){
     this.logs.addLog("Welcome login btn clicked loading logging page...");
     this.navCtrl.push('LoginPage');
+  }
+
+  ionViewCanLeave(){
+    let alert = this.alertCtrl.create({
+      message:'Do you want to exit from XIBAY ?',
+      buttons:[
+        { text:'NAH',role:'cancel',handler:()=>{return false}},
+        { text:'Yes' ,handler:()=>{return true;}}
+      ]
+    });
+    alert.present();
   }
 }

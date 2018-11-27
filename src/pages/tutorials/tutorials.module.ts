@@ -8,9 +8,6 @@ import { TutorialsPage } from './tutorials';
   ],
   imports: [
     IonicPageModule.forChild(TutorialsPage),
-  ],
-  exports:[
-    TutorialsPage,
   ]
 })
 export class TutorialsPageModule {}

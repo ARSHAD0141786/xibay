@@ -90,6 +90,7 @@ export class DescriptionPage {
   }
 }
 
+@IonicPage()
 @Component({
   template: `
       <button ion-item (click)="report()">Report</button>

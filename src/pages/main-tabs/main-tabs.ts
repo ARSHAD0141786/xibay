@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NotifyProvider } from '../../providers/notify/notify';
-import { NavController, PopoverController, Refresher } from 'ionic-angular';
+import { NavController, PopoverController, Refresher, IonicPage } from 'ionic-angular';
 import { WelcomePage } from '../welcome/welcome';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
@@ -9,8 +9,8 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { PostProductPage } from '../post-product/post-product';
 import { item } from '../../interfaces/posted_item';
 import { ViewController } from '../../../node_modules/ionic-angular/navigation/view-controller';
-// import { CameraOptions,Camera } from '@ionic-native/camera';
 
+@IonicPage()
 @Component({
   templateUrl: 'main-tabs.html',
 })
@@ -190,6 +190,7 @@ year: "4"
   }
 }
 
+@IonicPage()
 @Component({
   templateUrl:'filterpopover.html'
 })

@@ -10,8 +10,5 @@ import { AccountPage, PopOverAccount } from '../account/account';
   imports: [
     IonicPageModule.forChild(MainTabsPage),
   ],
-  exports: [
-    MainTabsPage,
-  ]
 })
 export class MainTabsPageModule {}

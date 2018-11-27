@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams} from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { item } from '../../interfaces/posted_item';
-import { RequestAcceptedPage } from '../request-accepted/request-accepted';
 
 @IonicPage()
 @Component({
@@ -35,7 +34,7 @@ export class RequestsPage {
   }
 
   view(request:item){
-    this.navCtrl.push(RequestAcceptedPage,{item:request});
+    this.navCtrl.push('RequestAcceptedPage',{item:request});
   }
 
 }

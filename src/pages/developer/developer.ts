@@ -3,7 +3,7 @@ import { IonicPage, NavController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
-import { DebugLogsPage } from '../debug-logs/debug-logs';
+// import { DebugLogsPage } from '../debug-logs/debug-logs';
 
 /**
  * Generated class for the DeveloperPage page.
@@ -34,7 +34,7 @@ export class DeveloperPage {
   }
   
   showLogs(){
-    this.navCtrl.push(DebugLogsPage);
+    this.navCtrl.push('DebugLogsPage');
   }
   
   testDB(){

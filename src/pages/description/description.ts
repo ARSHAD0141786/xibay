@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, PopoverController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, PopoverController,ViewController, AlertController } from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { item } from '../../interfaces/posted_item';
-import { ViewController } from '../../../node_modules/ionic-angular/navigation/view-controller';
 
 @IonicPage()
 @Component({

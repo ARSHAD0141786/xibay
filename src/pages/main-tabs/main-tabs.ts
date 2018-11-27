@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { NotifyProvider } from '../../providers/notify/notify';
-import { NavController, PopoverController, Refresher, IonicPage } from 'ionic-angular';
-import { WelcomePage } from '../welcome/welcome';
+import { NavController,ViewController, PopoverController, Refresher, IonicPage } from 'ionic-angular';
+// import { WelcomePage } from '../welcome/welcome';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
-import { DescriptionPage } from '../description/description';
+// import { DescriptionPage } from '../description/description';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
-import { PostProductPage } from '../post-product/post-product';
+// import { PostProductPage } from '../post-product/post-product';
 import { item } from '../../interfaces/posted_item';
-import { ViewController } from '../../../node_modules/ionic-angular/navigation/view-controller';
+// import { ViewController } from '../../../node_modules/ionic-angular/navigation/view-controller';
 
 @IonicPage()
 @Component({
@@ -166,7 +166,7 @@ year: "4"
     this.notify.closeLoading();
     this.userData.logout();
     this.logs.addLog('Setting root page to Welcome page');
-    this.navCtrl.setRoot(WelcomePage);
+    this.navCtrl.setRoot('WelcomePage');
     /* import App from ionic angular 
     declare public app: App in constructor
     const root:  this.app.getRootNav();
@@ -175,11 +175,11 @@ year: "4"
 
 
   showDescription(item:item) {
-    this.navCtrl.push(DescriptionPage,{item : item});
+    this.navCtrl.push('DescriptionPage',{item : item});
   }
 
   gotoSecondaryPage() {
-    this.navCtrl.push(PostProductPage);
+    this.navCtrl.push('PostProductPage');
   }
 
   presentFilter(event:any){

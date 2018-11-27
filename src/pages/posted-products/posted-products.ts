@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { item } from '../../interfaces/posted_item';
-import { UserProductDescriptionPage } from '../user-product-description/user-product-description';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NotifyProvider } from '../../providers/notify/notify';
@@ -63,7 +62,7 @@ export class PostedProductsPage {
 
   openItem(item:item,index:number){
     console.log('open item idex : '+index);
-    this.navCtrl.push(UserProductDescriptionPage,{index:index,product:item , callbackFunction : this.requestCallBackFunction});
+    this.navCtrl.push('UserProductDescriptionPage',{index:index,product:item , callbackFunction : this.requestCallBackFunction});
   }
   deleteItem(item:item,index:number){
     let alert = this.alertCtrl.create({

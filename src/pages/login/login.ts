@@ -3,8 +3,6 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
-import { MainTabsPage } from '../main-tabs/main-tabs';
-import { RegistrationPage } from '../registration/registration';
 import { NgForm } from '@angular/forms';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 
@@ -61,7 +59,7 @@ export class LoginPage {
         this.responseData = result;
         if (this.responseData.user_data) {
           this.userData.login(this.responseData);
-          this.navCtrl.setRoot(MainTabsPage);
+          this.navCtrl.setRoot('MainTabsPage');
         }
         else {
           this.notify.presentToast("Something went wrong(See console for error)");
@@ -104,7 +102,7 @@ export class LoginPage {
         otp_modal.onDidDismiss(phoneNumber => {
           console.log('user verified through OTP : ' + phoneNumber);
           if(phoneNumber){
-            this.navCtrl.push(RegistrationPage,{phone:phoneNumber});
+            this.navCtrl.push('RegistrationPage',{phone:phoneNumber});
           }
         });
         otp_modal.present();

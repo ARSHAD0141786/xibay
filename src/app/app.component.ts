@@ -55,7 +55,7 @@ export class Xibay {
   loggedInPages:PageInterface[] = [
     {title:'User Info',name:'AccountPage',component:AccountPage,icon:'ios-contact-outline'},
     {title:'Logout',name:'LoginPage',component:LoginPage,icon:'ios-log-out-outline',logsOut:true},
-    {title:'Support',name:'CameraPage',component:CameraPage,icon:'ios-redo-outline'}
+    {title:'Notification',name:'NotificationsPage',component:'NotificationsPage',icon:'ios-notifications-outline'}
   ];
 
   //logout pages

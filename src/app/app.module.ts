@@ -20,7 +20,7 @@ import { ConnectionProvider } from '../providers/connection/connection';
 import { Push } from '@ionic-native/push';
 
 import * as firebase from 'firebase';
-import { OtpValidationPageModule } from '../pages/otp-validation/otp-validation.module';
+// import { OtpValidationPageModule } from '../pages/otp-validation/otp-validation.module';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 // import { TutorialsPage } from '../pages/tutorials/tutorials';
@@ -58,7 +58,7 @@ firebase.initializeApp({
   imports: [
     BrowserModule,
     IonicModule.forRoot(Xibay),
-    OtpValidationPageModule,
+    // OtpValidationPageModule,
     HttpModule,
     MomentModule,
     IonicImageViewerModule,

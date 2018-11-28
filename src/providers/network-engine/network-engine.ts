@@ -5,13 +5,16 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 
 import 'rxjs/add/operator/timeout'
 import 'rxjs/add/operator/map';
+import { Network } from '@ionic-native/network';
 // import { NotifyProvider } from '../notify/notify';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
+import { NotifyProvider } from '../notify/notify';
 
 
 @Injectable()
 export class NetworkEngineProvider {
 
+  public static isConnected :boolean;
 public BASE_URL = 'http://localhost/xibay/public_html/';
 // public BASE_URL = 'http://192.168.43.50/xibay/public_html/';
   
@@ -21,13 +24,33 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
 // }
 
   constructor(public http: Http,
-    // private notify: NotifyProvider,
+    private notify: NotifyProvider,
+    private network: Network,
     private transfer:FileTransfer,
     private logs:LogsServiceProvider) {
     console.log('Hello NetworkEngineProvider Provider');
-      
+    this.getConnectionDetails();
+    console.log(this.network.type);
+    NetworkEngineProvider.isConnected = navigator.onLine;
   }
+
   
+  getConnectionDetails(){
+    let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+      console.log('network was disconnected :-(');
+      this.notify.presentToast('Network was disconnected :-( ');
+      NetworkEngineProvider.isConnected = false;
+    });
+    let connectSubscription = this.network.onConnect().subscribe(() => {
+      console.log('network connected!');
+      this.notify.presentToast("You're back online :-)");
+      // We just got a connection but we need to wait briefly
+       // before we determine the connection type. Might need to wait.
+      // prior to doing any api requests as well.
+      NetworkEngineProvider.isConnected = true;
+    });  
+  }
+
   get(endingUrl:string){
     this.logs.addLog("getRequest : "+this.BASE_URL+""+endingUrl);
     // return this.http.get(BASE_URL+endingUrl).timeout(3000);

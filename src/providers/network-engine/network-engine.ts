@@ -32,6 +32,9 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
     this.getConnectionDetails();
     console.log(this.network.type);
     NetworkEngineProvider.isConnected = navigator.onLine;
+    if(NetworkEngineProvider.isConnected == false){
+      this.notify.presentToast('No Internet access! Please connect to Internet');
+    }
   }
 
   
@@ -115,7 +118,8 @@ public BASE_URL = 'http://localhost/xibay/public_html/';
         }
       }, (err) =>{
         console.log('network engine err');
-        this.logs.addLog("err");        
+        this.logs.addLog("err");
+        this.notify.presentToast('Cannot connect with server or Internal server error');
         reject(err);
       });
     });

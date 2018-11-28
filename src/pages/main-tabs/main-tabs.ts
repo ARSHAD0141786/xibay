@@ -62,6 +62,7 @@ year: "4"
 
   public items:Array<item> = [];
 
+  networkConnected:boolean;
   refresher: Refresher;
   public refresher_is_present: boolean = false;
 
@@ -97,6 +98,8 @@ year: "4"
   
 
   fetchMainContent() { // when this function is called then it starts loading items from scratch
+    this.networkConnected = NetworkEngineProvider.isConnected;
+    console.log('Connected to internet : ' + this.networkConnected);
     this.network.post(this.userPostData, 'fetch-main-content').then((result:any) => {
       if (this.refresher_is_present) {
         this.refresher.complete();

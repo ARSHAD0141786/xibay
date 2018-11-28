@@ -40,11 +40,14 @@
   </ion-refresher>
 
   
-  <div *ngIf="this.items.length == 0 " align="center">
+  <div *ngIf="this.items.length == 0 && networkConnected ==true" align="center">
     <h4>OOPs! No more product found  :-(</h4>
     <ion-note><img style="width:200px;height:200px;" src="assets/imgs/empty.jpg"/><br/>Sorry! We are currently running out of stock</ion-note>
   </div>
 
+  <div align="center" *ngIf="networkConnected == false">
+    <img src="/assets/imgs/no-internet.png" style="max-width: 300px;width:20%;height:20%;max-height: 300px;" imageViewer/>
+  </div>
   <div>
     <ion-card *ngFor="let item of items, let id=index" (click)="showDescription(item)">
         

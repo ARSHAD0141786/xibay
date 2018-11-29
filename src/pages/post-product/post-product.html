@@ -29,12 +29,13 @@
         <ion-list>
           <ion-item>
             <ion-label stacked color="primary">Title</ion-label>
-            <ion-input type="text" placeholder="title space" formControlName="title"></ion-input>
+            <ion-input type="text" placeholder="title space" formControlName="title" #title></ion-input>
           </ion-item>
           <p style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.title.valid">*Title is required</p>
+          <p style="color:crimson;margin-left:20px;" *ngIf="title.value.length > 15">*Title cannot be more than 15 characters long</p>
           <ion-item>
             <ion-label stacked color="primary">Description</ion-label>
-            <ion-textarea name="description" placeholder="atleast 30 characters" rows="6" formControlName="description"></ion-textarea>
+            <ion-textarea name="description" placeholder="description space" rows="6" formControlName="description"></ion-textarea>
           </ion-item>
           <p style="color:crimson;margin-left:20px;" *ngIf="this.isFormSubmitted==true && !this.form.controls.description.valid">*Description is not valid</p>
           <ion-item>

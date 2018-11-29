@@ -13,7 +13,7 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 })
 export class AccountPage {
   @ViewChild('fileInput') fileInput;
-  isReadyToSave: boolean;
+  isReadyToSave: boolean = false;
   item: any;
   year:string;
   public user:User;
@@ -72,6 +72,7 @@ export class AccountPage {
           text: 'Done',
           handler:data=>{
             this.user.name = data.name;
+            this.isReadyToSave = true;
           }
         }
       ]
@@ -99,7 +100,9 @@ export class AccountPage {
           handler:data=>{
             this.verifyPhoneNumber(data.number).then( (value:string )=> {
               if(value == data.number){
-                //api call
+                console.log('Phone number will be changed after save button clicked');
+                this.user.phone_number = value;
+                this.isReadyToSave = true;
               }else{
                 console.log('Something went wrong');
               }
@@ -236,12 +239,14 @@ export class AccountPage {
       username:this.userData.getUserPostData().username,
       token:this.userData.getUserPostData().token,
       branch:this.user.branch,
+      phone:this.user.phone_number,
       year:this.user.year,
       name:this.user.name,
     }
-    this.networkEngine.post(data,'/update-user-details').then( (result:any) => {
+    this.networkEngine.post(data,'update-user-details').then( (result:any) => {
       if(result.code == 786){
         console.log(result.message);
+        this.userData.setUserData(result);
       }else{
         console.log(result);
       }

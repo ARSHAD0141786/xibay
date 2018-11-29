@@ -63,9 +63,12 @@ export class RegistrationPage {
   onSignup(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
-      // this.userData.signup(form);
-      // console.log(this.signupOptions);
-      // this.userData.signup(this.signupOptions);
+      if(this.signupOptions.username.lenght < 5){
+        return;
+      }
+      if(this.signupOptions.password.length < 5){
+        return;
+      }
 
       this.notify.presentLoading("Please wait...");
       this.logs.addLog(JSON.stringify(this.signupOptions));
@@ -75,7 +78,7 @@ export class RegistrationPage {
         this.logs.addLog("Response :"+JSON.stringify(responseData));
         console.log(responseData);
         if (responseData.User) {
-          this.notify.presentToast("We welcome you");
+          this.notify.presentToast("Welcome to XIBAY");
           this.navCtrl.pop();
         }
         else {

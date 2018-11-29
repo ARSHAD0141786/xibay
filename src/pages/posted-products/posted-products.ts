@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Refresher } from 'ionic-angular';
 import { item } from '../../interfaces/posted_item';
 import { UserProductDescriptionPage } from '../user-product-description/user-product-description';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
@@ -15,6 +15,8 @@ import { NotifyProvider } from '../../providers/notify/notify';
 export class PostedProductsPage {
 
   public classReference = PostedProductsPage;
+  refresher:Refresher;
+  refresherPresent:boolean;
   /**
    data item array element from server
    {
@@ -42,11 +44,23 @@ export class PostedProductsPage {
     this.fetchProducts();
   }
 
+  doRefresh(refresher:Refresher){
+    this.refresher = refresher;
+    this.refresherPresent = true;
+    this.fetchProducts();
+  }
+
   fetchProducts(){
     this.networkEngine.post(this.userPostData.getUserPostData(),'fetch-my-posted-products').then( (result:any) => {
       PostedProductsPage.posted_products = result.data;
+      if(this.refresherPresent == true){
+        this.refresher.complete();
+      }
     },err => {
       console.error(err);
+      if(this.refresherPresent == true){
+        this.refresher.complete();
+      }
     });
   }
 

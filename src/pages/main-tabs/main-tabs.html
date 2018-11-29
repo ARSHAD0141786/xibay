@@ -46,7 +46,8 @@
   </div>
 
   <div align="center" *ngIf="networkConnected == false">
-    <img src="/assets/imgs/no-internet.png" style="max-width: 300px;width:20%;height:20%;max-height: 300px;" imageViewer/>
+    <img src="/assets/imgs/no-internet.png" style="max-width: 300px;width:20%;height:20%;max-height: 300px;margin-top: 50px" imageViewer/>
+    <p>No Internet connection!</p>
   </div>
   <div>
     <ion-card *ngFor="let item of items, let id=index" (click)="showDescription(item)">
@@ -64,7 +65,7 @@
 
       <ion-card-content>
         <ion-item>
-            <ion-icon ios="ios-star" md="md-star" color="primary" item-end></ion-icon>
+            <ion-icon [hidden]="isUseful(item.useful_branch,item.useful_year)" ios="ios-star" md="md-star" color="primary" item-end></ion-icon>
             <p style="font-size:18px;" align="center"><b>{{item.title}}</b></p>
         </ion-item>
       </ion-card-content>

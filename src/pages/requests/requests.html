@@ -9,6 +9,12 @@
 
 <ion-content>
 
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+        pullingText="Pull to refresh"
+        refreshingText="Refreshing..."></ion-refresher-content>
+      </ion-refresher>
+
   <div align="center" *ngIf="!requests">
     <h3>OOPs!</h3><br/>
     <p>It Seems you didn't send any request yet</p>
@@ -24,7 +30,7 @@
           <p style="color:#f55f2e;" *ngIf="request.status==-1">Rejected</p>
           <p style="color:#1772cc;" *ngIf="request.status==0">In Progress</p>
           <p style="color:#19d366;" *ngIf="request.status==1">Accepted</p>
-          <p style="font-size: 8px;font-style: italic">REQSTED ON : {{convertTime(request.requested_on) | date:'mediumDate' }}</p>
+          <p style="font-size: 8px;font-style: italic">REQSTED ON : {{convertTime(request.requested_on) | date:'short' }}</p>
           <button ion-button clear item-end *ngIf="request.status == 1" (click)="view(request)">View</button>
         </ion-item>
     </ion-list>

@@ -23,7 +23,10 @@
           <p ion-text [hidden]="!this.isUsernameExists || submitted == false" color="danger" padding-left>
             Username already exists
           </p>
-          
+          <p ion-text [hidden]="signupOptions.username.length > 5 || submitted == false" color="danger" padding-left>
+              Username must be atleast 5 characters long
+          </p>
+
           <ion-item>
             <ion-label stacked color="primary">Password</ion-label>
             <ion-input [(ngModel)]="signupOptions.password" name="password" type="password" #password="ngModel" spellcheck="false" autocapitalize="off" 
@@ -32,7 +35,10 @@
           </ion-item>
           <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
             Password is required
-          </p> 
+          </p>
+          <p ion-text [hidden]="signupOptions.password.length > 5 || submitted == false" color="danger" padding-left>
+              Password must be atleast 5 characters long for better security
+          </p>
 
           <ion-item>
             <ion-label stacked color="primary">Full Name</ion-label>

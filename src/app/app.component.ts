@@ -235,6 +235,7 @@ export class Xibay {
     this.events.subscribe('user:logout', () => {
       console.log("Event publish user logout");
       this.enableMenu(false);
+      this.rootPage = WelcomePage;
     });
   }
 

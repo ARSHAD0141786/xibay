@@ -2,6 +2,7 @@ export interface User{
     username:string,
     token?:string,
     branch:string,
+    branch_name?:string,
     year:number,
     year_name?:string,
     phone_number?:string,

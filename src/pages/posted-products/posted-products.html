@@ -9,6 +9,12 @@
 
 <ion-content padding>
 
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+        pullingText="Pull to refresh"
+        refreshingText="Refreshing..."></ion-refresher-content>
+      </ion-refresher>
+
   <div *ngIf="classReference.posted_products.length == 0" align="center">
     <h3>OOPs!</h3>
     <p>It Seems you do not post any product yet</p>

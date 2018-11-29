@@ -72,6 +72,8 @@ year: "4"
     lastCreated: 0,
   }
 
+ 
+
   constructor(
     private notify: NotifyProvider,
     private navCtrl: NavController,
@@ -95,6 +97,27 @@ year: "4"
     return date;
   }
 
+  isUseful(useful_branch:string,useful_year:string){
+    let use_ful_branch:any = JSON.parse(useful_branch.toString());
+    let use_ful_year:any = JSON.parse(useful_year.toString());
+    try{
+      let user_branch = this.userData.getUserPostData().branch_name;
+      let user_year = this.userData.getUserPostData().year_name;
+      for(let year of use_ful_year){
+        if(year === user_year){
+          for(let branch of use_ful_branch){
+            if(branch === user_branch){
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }catch(err){
+      console.log(err);
+      return false;
+    }
+  }
   
 
   fetchMainContent() { // when this function is called then it starts loading items from scratch
@@ -169,7 +192,6 @@ year: "4"
     this.notify.closeLoading();
     this.userData.logout();
     this.logs.addLog('Setting root page to Welcome page');
-    this.navCtrl.setRoot(WelcomePage);
     /* import App from ionic angular 
     declare public app: App in constructor
     const root:  this.app.getRootNav();

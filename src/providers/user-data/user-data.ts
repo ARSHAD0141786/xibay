@@ -17,18 +17,21 @@ export class UserDataProvider {
   }
 
   login(result:any): void {
-    console.log(result);
+    this.setUserData(result);
+    this.storage.set(this.HAS_LOGGED_IN, true);
+    this.events.publish('user:login');
+  };
+
+  setUserData(result:any){
     let user_data = result.user_data;
-    // set storage data
     let user:User = {
       username:user_data.username,
       token:result.token,
       name:user_data.name,
       phone_number:user_data.phone_number,
       branch:user_data.branch,
-      gender:user_data.branch,
+      gender:user_data.gender,
       year:Number.parseInt(user_data.year),
-      year_name:'',
       user_image_url:user_data.user_image_url
     }
     console.log(user.year);
@@ -38,12 +41,23 @@ export class UserDataProvider {
       case 3:user.year_name = '3rd';break;
       case 4:user.year_name = 'Final';break;
     }
-    console.log(user.year_name);
+    switch(user.branch){
+      case 'ARC':user.branch_name = 'Architecture';break;
+      case 'CH':user.branch_name = 'Chemical';break;
+      case 'CIV':user.branch_name = 'Civil';break;
+      case 'CSE':user.branch_name = 'Computer Science';break;
+      case 'EE':user.branch_name = 'Electrical';break;
+      case 'ECC':user.branch_name = 'ECC';break;
+      case 'ECE':user.branch_name = 'ECE';break;
+      case 'EEE':user.branch_name = 'EEE';break;
+      case 'IT':user.branch_name = 'Information Technology';break;
+      case 'ME':user.branch_name = 'Mechanical';break;
+      case 'MI':user.branch_name = 'Mining';break;
+      case 'P&I':user.branch_name = 'Production & Industrial';break;
+    }
     UserDataProvider.userPostData = user;
-    this.storage.set(this.HAS_LOGGED_IN, true);
     this.storage.set(this.USER_DATA,user);
-    this.events.publish('user:login');
-  };
+  }
 
   // this function will invoke when user is registered
   // use this function in future in case when user registered then no need to login again direct login user when registered

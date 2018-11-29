@@ -25,7 +25,7 @@
 
     <ion-item>
       <ion-label>Branch : </ion-label>
-      <ion-select cancelText="Cancel" interface="popover" okText="Ok" name="branch" [(ngModel)]="user.branch" (open)="isReadyToSave = true;">
+      <ion-select cancelText="Cancel" interface="popover" okText="Ok" name="branch" [(ngModel)]="user.branch" (ionChange)="isReadyToSave = true;">
         <ion-option value="{{this.branches[0]}}" [selected]="user.branch == this.branches[0]" >Architecture</ion-option>
         <ion-option value="{{this.branches[1]}}" [selected]="user.branch == this.branches[1]" >Chemical</ion-option>
         <ion-option value="{{this.branches[2]}}" [selected]="user.branch == this.branches[2]" >Civil</ion-option>
@@ -43,7 +43,7 @@
 
     <ion-item>
       <ion-label>Year : </ion-label>
-      <ion-select  cancelText="Cancel" interface="popover" okText="Ok" name="year" [(ngModel)]="year">
+      <ion-select  cancelText="Cancel" interface="popover" okText="Ok" name="year" [(ngModel)]="year" (ionChange)="isReadyToSave = true;">
           <ion-option value="1" [selected]="user.year == 1">1st</ion-option>
           <ion-option value="2" [selected]="user.year == 2">2nd</ion-option>
           <ion-option value="3" [selected]="user.year == 3">3rd</ion-option>
@@ -52,7 +52,7 @@
     </ion-item>
 
     <div align="center" style="margin-top:50px;">
-      <button ion-button round [disabled]="isReadyToSave" outline (click)="saveDetails()">Save</button>
+      <button ion-button round [disabled]="isReadyToSave==false" outline (click)="saveDetails()">Save</button>
     </div>
   </div>
 </ion-content>

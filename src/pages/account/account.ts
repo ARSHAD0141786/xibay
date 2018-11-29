@@ -290,6 +290,7 @@ export class PopOverAccount{
       }
     });
     otp_modal.present();
+    this.viewCtrl.dismiss();
   }
 }
 

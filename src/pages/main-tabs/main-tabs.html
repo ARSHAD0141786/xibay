@@ -1,7 +1,7 @@
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
 <ion-header>
-  <ion-navbar no-border-bottom>
+  <ion-toolbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -20,14 +20,21 @@
         <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
                    [(ngModel)]="queryText"
-                   (ionInput)="updateSchedule()"
+                   (ionInput)="searchQuery()"
                    placeholder="Search">
     </ion-searchbar>
+    <div *ngIf="searchList">
+      <ion-list>
+        <ion-item *ngFor="let item of searchList">
+          <h4>{{item.title}}</h4>
+        </ion-item>
+      </ion-list>
+    </div>
   </ion-toolbar>
 </ion-header>
 

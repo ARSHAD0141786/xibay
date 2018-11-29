@@ -64,6 +64,9 @@ year: "4"
 
   networkConnected:boolean;
   refresher: Refresher;
+  queryText:string;
+  segment:string = 'all';
+  searchList:Array<any>;
   public refresher_is_present: boolean = false;
 
   userPostData:any = {
@@ -205,6 +208,22 @@ year: "4"
 
   gotoSecondaryPage() {
     this.navCtrl.push(PostProductPage);
+  }
+
+  searchQuery(){
+    let userPostData:any = {
+      username:this.userData.getUserPostData().username,
+      token:this.userData.getUserPostData().token,
+      query:this.queryText
+    }
+    if(this.queryText.length > 0){
+      this.network.post(userPostData,'search-a-product').then( (result:any) => {
+        console.log(result.data);
+        this.searchList = result.data;
+      });
+    }else{
+      this.searchList = [];
+    }
   }
 
   presentFilter(event:any){

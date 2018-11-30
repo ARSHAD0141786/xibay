@@ -104,8 +104,8 @@ year: "4"
     let use_ful_branch:any = JSON.parse(useful_branch.toString());
     let use_ful_year:any = JSON.parse(useful_year.toString());
     try{
-      let user_branch = this.userData.getUserPostData().branch_name;
-      let user_year = this.userData.getUserPostData().year_name;
+      let user_branch = UserDataProvider.userPostData.branch_name;
+      let user_year = UserDataProvider.userPostData.year_name;
       for(let year of use_ful_year){
         if(year === user_year){
           for(let branch of use_ful_branch){

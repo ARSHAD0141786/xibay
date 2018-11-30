@@ -79,7 +79,7 @@ export class Xibay {
   ];
 
   public user:User;
-  classReference:any;
+  classReference:any = UserDataProvider;
   
   constructor(
     public userData:UserDataProvider,

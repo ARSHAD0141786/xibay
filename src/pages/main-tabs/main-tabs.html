@@ -72,7 +72,7 @@
 
       <ion-card-content>
         <ion-item>
-            <ion-icon [hidden]="isUseful(item.useful_branch,item.useful_year)" ios="ios-star" md="md-star" color="primary" item-end></ion-icon>
+            <ion-icon [hidden]="!isUseful(item.useful_branch,item.useful_year)" ios="ios-star" md="md-star" color="primary" item-end></ion-icon>
             <p style="font-size:18px;" align="center"><b>{{item.title}}</b></p>
         </ion-item>
       </ion-card-content>

@@ -2,24 +2,20 @@
     <h4 padding>Filter</h4>
     
     <ion-item>
-        
     <ion-label>Books</ion-label>
-    <ion-toggle value="1"></ion-toggle>
+    <ion-toggle [(ngModel)]="data.books"></ion-toggle>
     </ion-item>
     <ion-item>
     <ion-label>Papers</ion-label>
-    <ion-toggle value="2"></ion-toggle>
+    <ion-toggle value="data.papers"></ion-toggle>
     </ion-item>
     <ion-item>
     <ion-label>Notes</ion-label>
-    <ion-toggle value="4"></ion-toggle>
+    <ion-toggle value="data.notes"></ion-toggle>
     </ion-item>
     <ion-item>
     <ion-label>Accessories</ion-label>
-    <ion-toggle value="3"></ion-toggle>
+    <ion-toggle value="data.accessories"></ion-toggle>
     </ion-item>
-    <ion-item>
-    <ion-label>Others</ion-label>
-    <ion-toggle value="5"></ion-toggle>
-</ion-item>
+    
 </div>

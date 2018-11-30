@@ -148,6 +148,10 @@ year: "4"
   doInfinite(): Promise<any> { //this function is called to load more data not from scratch
     return new Promise((resolve,reject) => {
         console.log("Start fetching more data : " + this.userPostData.lastCreated);
+        if(this.queryText.length > 0){
+          this.noRecords = true;
+          reject();
+        }
         this.network.post(this.userPostData, 'fetch-main-content').then((result: any) => {
           if (result.data.length > 0) {
             for (let entry of result.data) {
@@ -168,6 +172,8 @@ year: "4"
   }
 
   doRefresh(refresher: Refresher) {
+    this.queryText = '';
+    this.searchList = [];
     this.userPostData.lastCreated = 0;
     this.refresher_is_present = true;
     this.refresher = refresher;
@@ -201,13 +207,31 @@ year: "4"
     root.popToRoot(); */
   }
 
-
   showDescription(item:item) {
+    this.queryText = '';
+    this.searchList = [];
     this.navCtrl.push(DescriptionPage,{item : item});
   }
 
   gotoSecondaryPage() {
+    this.queryText = '';
+    this.searchList = [];
     this.navCtrl.push(PostProductPage);
+  }
+
+  findItem(query:string){
+    this.queryText = query;
+    this.searchList = [];
+    let userPostData:any = {
+      username:this.userData.getUserPostData().username,
+      token:this.userData.getUserPostData().token,
+      query:query
+    }
+    this.network.post(userPostData,'fetch-particular-product').then( (result:any) => {
+      this.items = result.data;
+    },err => {
+      console.log(err);
+    });
   }
 
   searchQuery(){
@@ -238,11 +262,18 @@ year: "4"
   templateUrl:'filterpopover.html'
 })
 export class Filter{
+  data:any={
+    books:false,
+    papers:false,
+    notes:false,
+    accessories:false,
+  }
   constructor(private viewCtrl:ViewController){
 
   }
+  
   close(){
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(this.data);
   }
 }
 

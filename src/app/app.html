@@ -60,10 +60,10 @@
 
     <ion-header no-border>
       <ion-toolbar color="background_white">
-        <ion-item *ngIf="user" no-lines style="text-align: center">
-          <img [src]="user.user_image_url" style="width:80px;height:80px;border-radius: 50%;margin:0px"/>
+        <ion-item *ngIf="classReference && classReference.userPostData" no-lines style="text-align: center">
+          <img [src]="classReference.userPostData.user_image_url" style="width:80px;height:80px;border-radius: 50%;margin:0px"/>
             <div style="text-align: center;margin:0px">
-                <b>{{user.name}}</b><br/>{{user.year_name}}, {{user.branch}}
+                <b>{{classReference.userPostData.name}}</b><br/>{{classReference.userPostData.year_name}}, {{classReference.userPostData.branch}}
             </div>
           </ion-item>
       </ion-toolbar>

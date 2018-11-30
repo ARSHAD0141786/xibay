@@ -79,6 +79,7 @@ export class Xibay {
   ];
 
   public user:User;
+  classReference:any;
   
   constructor(
     public userData:UserDataProvider,
@@ -117,6 +118,7 @@ export class Xibay {
         }
       });
       this.listenToLoginEvents();
+      this.classReference = UserDataProvider;
   }
 
   pushSetup(){

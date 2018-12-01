@@ -118,7 +118,6 @@ firebase.initializeApp({
     FileTransfer,
     FileTransferObject,
     File,
-    Push,
     NetworkEngineProvider,
     LogsServiceProvider,
     NotifyProvider,

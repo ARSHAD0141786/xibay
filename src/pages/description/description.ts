@@ -76,7 +76,7 @@ export class DescriptionPage {
               let Error = d.error.split(':')[0].split('[')[1].split(']')[0];
               console.log(Error);
               if(Error == 23000){
-                this.notify.presentToast("Request already sent.");
+                this.notify.presentToast("You have already requested for this product.");
               }
             }else{
               this.notify.presentToast('Error : '+d.error);

@@ -6,11 +6,11 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()" color="background_white">
+    <ion-segment [(ngModel)]="segment" (ionChange)="changeTab()" color="background_white">
       <ion-segment-button value="all">
         All
       </ion-segment-button>
-      <ion-segment-button value="favorites">
+      <ion-segment-button value="useful">
         Useful for me
       </ion-segment-button>
     </ion-segment>
@@ -72,6 +72,7 @@
 
       <ion-card-content>
         <ion-item>
+            <ion-icon [name]="ofCategory(item.category)" color="secondary" item-start></ion-icon>
             <ion-icon [hidden]="!isUseful(item.useful_branch,item.useful_year)" ios="ios-star" md="md-star" color="primary" item-end></ion-icon>
             <p style="font-size:18px;" align="center"><b>{{item.title}}</b></p>
         </ion-item>
@@ -83,7 +84,7 @@
     </p>
   </div>
 
-  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" *ngIf="!noRecords">
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(fetchMainContent())" *ngIf="!noRecords">
     <ion-infinite-scroll-content 
     loadingText="Loading more data..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>

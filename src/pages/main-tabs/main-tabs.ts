@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NotifyProvider } from '../../providers/notify/notify';
-import { NavController, PopoverController, Refresher } from 'ionic-angular';
+import { NavController, PopoverController, Refresher, Content, NavParams } from 'ionic-angular';
 import { WelcomePage } from '../welcome/welcome';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
@@ -8,7 +8,6 @@ import { DescriptionPage } from '../description/description';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { PostProductPage } from '../post-product/post-product';
 import { item } from '../../interfaces/posted_item';
-import { ViewController } from '../../../node_modules/ionic-angular/navigation/view-controller';
 // import { CameraOptions,Camera } from '@ionic-native/camera';
 
 @Component({
@@ -16,6 +15,7 @@ import { ViewController } from '../../../node_modules/ionic-angular/navigation/v
 })
 export class MainTabsPage {
 
+  @ViewChild(Content) content:Content;
   // @ViewChild('scheduleList', { read: List }) scheduleList: List;
 
   // dayIndex = 0;
@@ -31,6 +31,7 @@ export class MainTabsPage {
   // public photos: any;
   public noRecords: boolean;
   public base64Image: string;
+  public static categories:Array<boolean> = [false,false,false,false,false];
 
   // data from SERVER
   /**
@@ -68,15 +69,14 @@ year: "4"
   segment:string = 'all';
   searchList:Array<any>;
   public refresher_is_present: boolean = false;
-
-  userPostData:any = {
-    username: '',
-    token: '',
-    lastCreated: 0,
-  }
+  lastCreated:number = 0;
+  // userPostData:any = {
+  //   username: '',
+  //   token: '',
+  //   lastCreated: 0,
+  // }
 
  
-
   constructor(
     private notify: NotifyProvider,
     private navCtrl: NavController,
@@ -86,11 +86,13 @@ year: "4"
     public popoverCtrl: PopoverController) {
 
       
-      this.userPostData.username = this.userData.getUserPostData().username;
-      this.userPostData.token = this.userData.getUserPostData().token;
-      this.userPostData.lastCreated = 0;
       this.noRecords = false;
-      this.fetchMainContent();
+      
+      try{
+        this.fetchMainContent();
+      }catch(err){
+        console.log(err);
+      }
       
     
   }
@@ -99,6 +101,18 @@ year: "4"
     let date = new Date(time * 1000);
     return date;
   }
+
+  ofCategory(id){
+    switch(id){
+      case '1':return 'ios-book-outline';//books
+      case '2':return 'ios-paper-outline';//papers
+      case '3':return 'ios-construct-outline';//Accssories
+      case '4':return 'ios-list-box-outline';//notes
+      case '5':return 'ios-filing-outline';//others
+    }
+    return 'ios-help-circle-outline';
+  }
+ 
 
   isUseful(useful_branch:string,useful_year:string){
     let use_ful_branch:any = JSON.parse(useful_branch.toString());
@@ -122,47 +136,74 @@ year: "4"
     }
   }
   
-
-  fetchMainContent() { // when this function is called then it starts loading items from scratch
-    this.networkConnected = NetworkEngineProvider.isConnected;
-    console.log('Connected to internet : ' + this.networkConnected);
-    this.network.post(this.userPostData, 'fetch-main-content').then((result:any) => {
-      if (this.refresher_is_present) {
-        this.refresher.complete();
-      }
-      this.items = [];
-      if (result.data.length > 0) {
-        this.items = result.data;
-        this.noRecords = false;
-        this.userPostData.lastCreated = this.items[this.items.length - 1].created;
-        console.log("Last created : " + this.userPostData.lastCreated);
-      }
-    }, (err) => {
-      if (this.refresher_is_present) {
-        this.refresher.complete();
-      }
-      console.error(err);
-    });
+  changeTab(){
+    this.items = [];
+    this.lastCreated = 0;
+    this.noRecords = false;
+    this.fetchMainContent();
   }
 
-  doInfinite(): Promise<any> { //this function is called to load more data not from scratch
+  // fetchMainContent(fetchUseful?:boolean) { // when this function is called then it starts loading items from scratch
+  //   this.networkConnected = NetworkEngineProvider.isConnected;
+  //   console.log('Connected to internet : ' + this.networkConnected);
+  //   this.network.post(this.userPostData, 'fetch-main-content').then((result:any) => {
+  //     if (this.refresher_is_present) {
+  //       this.refresher.complete();
+  //     }
+  //     this.items = [];
+  //     if (result.data.length > 0) {
+  //       this.items = result.data;
+  //       this.noRecords = false;
+  //       this.userPostData.lastCreated = this.items[this.items.length - 1].created;
+  //       console.log("Last created : " + this.userPostData.lastCreated);
+  //     }
+  //   }, (err) => {
+  //     if (this.refresher_is_present) {
+  //       this.refresher.complete();
+  //     }
+  //     console.error(err);
+  //   });
+  // }
+
+  fetchMainContent(): Promise<any> { //this function is called to load more data not from scratch
     return new Promise((resolve,reject) => {
-        console.log("Start fetching more data : " + this.userPostData.lastCreated);
-        if(this.queryText.length > 0){
+      console.log(MainTabsPage.categories);
+        console.log("Start fetching more data : " + this.lastCreated);
+        if(this.queryText && this.queryText.length > 0){
+          console.log('Setting no more records true');
           this.noRecords = true;
           reject();
         }
-        this.network.post(this.userPostData, 'fetch-main-content').then((result: any) => {
+        let api:string;
+        switch(this.segment){
+          case 'all':api = 'fetch-main-content';break;
+          case 'useful':api='fetch-useful-main-content';break;
+        }
+        let userPostData:any = {
+          username: UserDataProvider.userPostData.username,
+          token:UserDataProvider.userPostData.token,
+          branch:UserDataProvider.userPostData.branch_name,
+          year:UserDataProvider.userPostData.year_name,
+          lastCreated:this.lastCreated,
+          filter:MainTabsPage.categories,
+        }
+        this.network.post(userPostData,api).then((result: any) => {
+          if (this.refresher_is_present) {
+            this.refresher.complete();
+          }
+          if(this.lastCreated == 0){
+            this.items = [];
+          }
           if (result.data.length > 0) {
             for (let entry of result.data) {
               this.items.push(entry);
             }
-            this.userPostData.lastCreated = result.data[result.data.length - 1].created;
+            this.lastCreated = result.data[result.data.length - 1].created;
             resolve();
           } else {
             this.noRecords = true;
             console.log("No more records.");
-            reject();
+            resolve();
           }
         }, (err) => {
           console.log(err);
@@ -171,10 +212,22 @@ year: "4"
     })
   }
 
+  
+  filterPopoverCallBackFunction = function(reference:any){//this function will be called from filter popover page
+    reference.lastCreated = 0;
+    reference.noRecords = false;
+    try{
+      reference.fetchMainContent();
+    }catch(Err){
+      console.log(Err);
+    }
+  }
+
   doRefresh(refresher: Refresher) {
     this.queryText = '';
     this.searchList = [];
-    this.userPostData.lastCreated = 0;
+    this.lastCreated = 0;
+    this.noRecords = false;
     this.refresher_is_present = true;
     this.refresher = refresher;
     this.fetchMainContent();
@@ -219,7 +272,7 @@ year: "4"
     this.navCtrl.push(PostProductPage);
   }
 
-  findItem(query:string){
+  findItem(query:string){//this will call when user tap on search result
     this.queryText = query;
     this.searchList = [];
     let userPostData:any = {
@@ -234,7 +287,7 @@ year: "4"
     });
   }
 
-  searchQuery(){
+  searchQuery(){//this will call when user writes somthing in searchbox
     let userPostData:any = {
       username:this.userData.getUserPostData().username,
       token:this.userData.getUserPostData().token,
@@ -251,7 +304,7 @@ year: "4"
   }
 
   presentFilter(event:any){
-    let filter = this.popoverCtrl.create(Filter);
+    let filter = this.popoverCtrl.create(Filter,{callBackFunction:this.filterPopoverCallBackFunction,objectReference:this});
     filter.present({
       ev:event
     });
@@ -262,18 +315,16 @@ year: "4"
   templateUrl:'filterpopover.html'
 })
 export class Filter{
-  data:any={
-    books:false,
-    papers:false,
-    notes:false,
-    accessories:false,
+  classReference:any = MainTabsPage;
+  callBackFunction:any;
+  objectReference:any;
+  constructor(private navParams:NavParams){
+    this.classReference = MainTabsPage;
+    this.callBackFunction = navParams.get('callBackFunction');
+    this.objectReference = navParams.get('objectReference');
   }
-  constructor(private viewCtrl:ViewController){
-
-  }
-  
-  close(){
-    this.viewCtrl.dismiss(this.data);
+  callBack(){
+    this.callBackFunction(this.objectReference);
   }
 }
 

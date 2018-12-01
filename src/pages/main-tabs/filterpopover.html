@@ -3,19 +3,23 @@
     
     <ion-item>
     <ion-label>Books</ion-label>
-    <ion-toggle [(ngModel)]="data.books"></ion-toggle>
+    <ion-toggle [(ngModel)]="classReference.categories[0]" (ionChange)="callBack()"></ion-toggle>
     </ion-item>
     <ion-item>
     <ion-label>Papers</ion-label>
-    <ion-toggle value="data.papers"></ion-toggle>
+    <ion-toggle [(ngModel)]="classReference.categories[1]" (ionChange)="callBack()"></ion-toggle>
     </ion-item>
     <ion-item>
     <ion-label>Notes</ion-label>
-    <ion-toggle value="data.notes"></ion-toggle>
+    <ion-toggle [(ngModel)]="classReference.categories[3]" (ionChange)="callBack()"></ion-toggle>
     </ion-item>
     <ion-item>
     <ion-label>Accessories</ion-label>
-    <ion-toggle value="data.accessories"></ion-toggle>
+    <ion-toggle [(ngModel)]="classReference.categories[2]" (ionChange)="callBack()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+    <ion-label>Others</ion-label>
+    <ion-toggle [(ngModel)]="classReference.categories[4]" (ionChange)="callBack()"></ion-toggle>
     </ion-item>
     
 </div>

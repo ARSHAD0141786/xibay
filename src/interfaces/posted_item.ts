@@ -2,6 +2,7 @@ export interface item{
     id:number,
     title:string,
     description:string,
+    category?:number,
     category_name:string,
     image_url:string,
     is_hidden:number,

@@ -1,2 +1,2 @@
-# xibay_old
-Old version of xibay before git
+# xibay
+Latest version of Xibay

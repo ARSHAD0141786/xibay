@@ -68,6 +68,7 @@ export class UserDataProvider {
   logout(): void {
     console.log("Logging out");
     // remove all saved data
+    this.events.publish('user:logout');
     UserDataProvider.userPostData = undefined;
     this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove(this.USER_DATA);

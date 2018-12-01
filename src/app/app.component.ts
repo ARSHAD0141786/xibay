@@ -145,7 +145,6 @@ export class Xibay {
   });
    
    pushObject.on('registration').subscribe((registration: any) => {
-     
     console.log('Device registered', registration);
     this.logs.addLog('device registered : '+JSON.stringify(registration));
     var registrationToken:String = registration.registrationId;
@@ -157,8 +156,10 @@ export class Xibay {
      this.logs.addLog('2nd : '+registration.registrationId);
     });
    
-   pushObject.on('error').subscribe(error => {console.error('Error with Push plugin', error);
-  this.logs.addLog('Error with push plugins');});
+    pushObject.on('error').subscribe(error => {
+      console.error('Error with Push plugin', error);
+      this.logs.addLog('Error with push plugins');
+    });
   }
 
   openPage(page: PageInterface) {

@@ -10,12 +10,28 @@ import { Network } from '@ionic-native/network';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
 import { NotifyProvider } from '../notify/notify';
 
+export interface Notification {
+    notification:{
+      title:string,
+      body:string,
+      sound?:'default',
+      click_action?:null,
+      icon:"icon"
+    },
+    data:{
+      click:string,
+      code:number,
+    },
+    to:string,
+    priority:"high",
+    restricted_package_name:"com.xibay.android"
+}
 
 @Injectable()
 export class NetworkEngineProvider {
 
   public static isConnected :boolean;
-public BASE_URL = 'http://192.168.100.14/xibay/public_html/';
+  public BASE_URL = 'http://192.168.100.14/xibay/public_html/';
 // public BASE_URL = 'http://192.168.43.50/xibay/public_html/';
   
 // public authentication = {
@@ -37,6 +53,24 @@ public BASE_URL = 'http://192.168.100.14/xibay/public_html/';
     }
   }
 
+  sendNotificationToParticularPerson(to:string,params:Notification){
+    return new Promise( (resolve,reject) => {
+      let options:any = {
+        'Content-Type':'application/json',
+        'Authorization':'key=AAAAhTcR7T0:APA91bFBrLN3PVG-iXsIc-5nVDf2MRFaBh8NnML38esvBG9sPK5l9mzNzmExyV1oHaffn35Mv0_UEYAr0tLZFZWnRNV4pKwOmqBOE5y6ADNeuafeO_r5-5ZTTJCTQs2MN-KdBASrHpvU1ysTPvKgz6ocmBwhobNwYQ'
+      }
+      let headers = new Headers(options);
+      console.log('TO_FCM : '+to);
+      console.log(params);
+      this.http.post('https://fcm.googleapis.com/fcm/send',params,{headers:headers}).subscribe( res => {
+        console.log(res);
+        resolve();
+      },(err) => {
+        console.log(err);
+        reject();
+      });
+    });
+  }
   
   getConnectionDetails(){
     let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
@@ -100,7 +134,6 @@ public BASE_URL = 'http://192.168.100.14/xibay/public_html/';
                   if(entry.user_image_url){
                     entry.user_image_url = this.BASE_URL+entry.user_image_url;
                   }
-                  
                 }
               }
             }

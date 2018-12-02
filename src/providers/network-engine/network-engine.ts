@@ -12,27 +12,27 @@ import { NotifyProvider } from '../notify/notify';
 import { UserDataProvider } from '../user-data/user-data';
 
 export interface Notification {
-    notification:{
+    notification_body:{
       title:string,
       body:string,
       sound?:'default',
       click_action?:null,
-      icon:"icon"
+      icon?:"icon"
     },
     data:{
-      click:string,
+      click?:string,
       code:number,
     },
-    to:string,
-    priority:"high",
-    restricted_package_name:"com.xibay.android"
+    to_user:string,
+    priority?:"high",
+    restricted_package_name?:"com.xibay.android"
 }
 
 @Injectable()
 export class NetworkEngineProvider {
 
   public static isConnected :boolean;
-  public BASE_URL = 'http://192.168.100.14/xibay/public_html/';
+  public BASE_URL = 'http://localhost/xibay/public_html/';
 // public BASE_URL = 'http://192.168.43.50/xibay/public_html/';
   
 // public authentication = {
@@ -55,14 +55,13 @@ export class NetworkEngineProvider {
     }
   }
 
-  sendNotificationToParticularPerson(to:string,params:Notification){
+  sendNotificationToParticularPerson(params:Notification){
     return new Promise( (resolve,reject) => {
       let options:any = {
         'Content-Type':'application/json',
         'Authorization':'key=AAAAhTcR7T0:APA91bFBrLN3PVG-iXsIc-5nVDf2MRFaBh8NnML38esvBG9sPK5l9mzNzmExyV1oHaffn35Mv0_UEYAr0tLZFZWnRNV4pKwOmqBOE5y6ADNeuafeO_r5-5ZTTJCTQs2MN-KdBASrHpvU1ysTPvKgz6ocmBwhobNwYQ'
       }
       let headers = new Headers(options);
-      console.log('TO_FCM : '+to);
       console.log(params);
       this.http.post('https://fcm.googleapis.com/fcm/send',params,{headers:headers}).subscribe( res => {
         console.log(res);
@@ -246,38 +245,41 @@ export class NetworkEngineProvider {
     // });
 
     //this function is also do the the work of above function
-    (<any>window).FirebasePlugin.onTokenRefresh(function (token) {
-      // save this server-side and use it to push notifications to this device
-      console.log('refresh token');
-      console.log(token);
-      UserDataProvider.fcmToken = token;
-      if(token && UserDataProvider.userPostData && UserDataProvider.userPostData.username && UserDataProvider.userPostData.token){
-        let userPostData:any = {
-          username:UserDataProvider.userPostData.username,
-          token:UserDataProvider.userPostData.token,
-          fcmToken:token,
+    try{
+      (<any>window).FirebasePlugin.onTokenRefresh(function (token) {
+        // save this server-side and use it to push notifications to this device
+        console.log('refresh token');
+        console.log(token);
+        UserDataProvider.fcmToken = token;
+        if(token && UserDataProvider.userPostData && UserDataProvider.userPostData.username && UserDataProvider.userPostData.token){
+          let userPostData:any = {
+            username:UserDataProvider.userPostData.username,
+            token:UserDataProvider.userPostData.token,
+            fcmToken:token,
+          }
+          this.post(userPostData,'update-fcm-token');
         }
-        this.post(userPostData,'update-fcm-token');
-      }
-      
-    }, function (error) {
-      console.error(error);
-    });
-
-    (<any>window).FirebasePlugin.onNotificationOpen(function (notification) {
-      console.log('notification received');
-      console.log(notification);
-      //control the notification here by the tap value
-      //case I : when user is on xibay then three main parameters received : tap:false,title,body
-
-
-      //case II: when user is not on xibay then many main parameters are received : time ,tap,etc.
-
-
-    }, function (error) {
-      console.error(error);
-    });
-
+        
+      }, function (error) {
+        console.error(error);
+      });
+  
+      (<any>window).FirebasePlugin.onNotificationOpen(function (notification) {
+        console.log('notification received');
+        console.log(notification);
+        //control the notification here by the tap value
+        //case I : when user is on xibay then three main parameters received : tap:false,title,body
+  
+  
+        //case II: when user is not on xibay then many main parameters are received : time ,tap,etc.
+  
+  
+      }, function (error) {
+        console.error(error);
+      });
+  
+    }catch(err){
+    console.log(err);
   }
-
+  }
 }

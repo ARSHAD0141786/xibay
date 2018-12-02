@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, PopoverController, AlertController } from 'ionic-angular';
-import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { NetworkEngineProvider, Notification } from '../../providers/network-engine/network-engine';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { item } from '../../interfaces/posted_item';
@@ -70,6 +70,23 @@ export class DescriptionPage {
       this.network.post(userPostData,'send-request').then((d:any)=>{
           if(d.message){
             this.notify.presentToast(d.message);
+            //request sent successfully
+            let notification:Notification = {
+              notification_body:{
+                title:'New Request',
+                body:'You have a new request from '+UserDataProvider.userPostData.username + ' for your posted product '+ this.item.title,
+              },
+              to_user:this.item.user_fcm_token,
+             data:{
+               click:'',
+               code:12
+             },
+            }
+            this.network.sendNotificationToParticularPerson(notification).then( (res) => {
+              console.log(res);
+            },er => {
+              console.log(er);
+            });
           }else if(d.error){
             console.log("D.code : " + d.code);
             if(d.code == 1){ // SQL error

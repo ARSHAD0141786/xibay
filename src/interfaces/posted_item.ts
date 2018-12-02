@@ -14,6 +14,7 @@ export interface item{
     sold_to?:string,
     username_fk?:string,
     user_image_url?:string,
+    user_fcm_token?:string,
     user_branch?:string,
     user_year?:string
     status?:number//only for requests

@@ -11,7 +11,7 @@ import { TutorialsPage } from '../pages/tutorials/tutorials';
 import { CameraPage } from '../pages/camera/camera';
 import { LoginPage } from '../pages/login/login';
 import { AccountPage } from '../pages/account/account';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+// import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { DeveloperPage } from '../pages/developer/developer';
 import { RequestsPage } from '../pages/requests/requests';
@@ -88,7 +88,7 @@ export class Xibay {
     public menu:MenuController,
     public events:Events,
     private logs:LogsServiceProvider,
-    private push: Push,
+    // private push: Push,
     private alertCtrl:AlertController,
     private modalCtrl:ModalController,
     public statusBar: StatusBar, 
@@ -121,46 +121,46 @@ export class Xibay {
       this.classReference = UserDataProvider;
   }
 
-  pushSetup(){
-    this.logs.addLog('inside setup push');
-    const options: PushOptions = {
-      android: {
-        senderID: '572154572093'
-      },
-      ios: {
-          alert: 'true',
-          badge: true,
-          sound: 'false'
-      }
-   };
+  // pushSetup(){
+  //   this.logs.addLog('inside setup push');
+  //   const options: PushOptions = {
+  //     android: {
+  //       senderID: '572154572093'
+  //     },
+  //     ios: {
+  //         alert: 'true',
+  //         badge: true,
+  //         sound: 'false'
+  //     }
+  //  };
    
-   const pushObject: PushObject = this.push.init(options);
+  //  const pushObject: PushObject = this.push.init(options);
   
-   pushObject.on('notification').subscribe((notification: any) => {
-      console.log('Received a notification', notification);
-      this.logs.addLog('Received a notification'+notification);
-  },(error)=> {
-    this.logs.addLog("Notification Error : "+error);
-    console.log("Notification error : "+error);
-  });
+  //  pushObject.on('notification').subscribe((notification: any) => {
+  //     console.log('Received a notification', notification);
+  //     this.logs.addLog('Received a notification'+notification);
+  // },(error)=> {
+  //   this.logs.addLog("Notification Error : "+error);
+  //   console.log("Notification error : "+error);
+  // });
    
-   pushObject.on('registration').subscribe((registration: any) => {
-    console.log('Device registered', registration);
-    this.logs.addLog('device registered : '+JSON.stringify(registration));
-    var registrationToken:String = registration.registrationId;
-     this.storage.set('FCM_TOKEN',registrationToken);
-     this.storage.get('FCM_TOKEN').then((token:String)=>{
-       this.logs.addLog("Get from storage : "+ token);
+  //  pushObject.on('registration').subscribe((registration: any) => {
+  //   console.log('Device registered', registration);
+  //   this.logs.addLog('device registered : '+JSON.stringify(registration));
+  //   var registrationToken:String = registration.registrationId;
+  //    this.storage.set('FCM_TOKEN',registrationToken);
+  //    this.storage.get('FCM_TOKEN').then((token:String)=>{
+  //      this.logs.addLog("Get from storage : "+ token);
   
-     });    
-     this.logs.addLog('2nd : '+registration.registrationId);
-    });
+  //    });    
+  //    this.logs.addLog('2nd : '+registration.registrationId);
+  //   });
    
-    pushObject.on('error').subscribe(error => {
-      console.error('Error with Push plugin', error);
-      this.logs.addLog('Error with push plugins');
-    });
-  }
+  //   pushObject.on('error').subscribe(error => {
+  //     console.error('Error with Push plugin', error);
+  //     this.logs.addLog('Error with push plugins');
+  //   });
+  // }
 
   openPage(page: PageInterface) {
     if(page.logsOut){
@@ -256,7 +256,7 @@ export class Xibay {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.pushSetup();
+      // this.pushSetup();
     });
   }
 }

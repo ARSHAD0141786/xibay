@@ -273,7 +273,7 @@ export class Xibay {
   console.error(error);
 });
 (<any>window).FirebasePlugin.subscribe("registration",(data:any) => {
-  console.log('REgistration');
+  console.log('Registration');
   console.log(data);
 });
 (<any>window).FirebasePlugin.subscribe("notification",(data:any) => {

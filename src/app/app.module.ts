@@ -27,7 +27,6 @@ import { UserDataProvider } from '../providers/user-data/user-data';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { DescriptionPage, PopoverPage } from '../pages/description/description';
 import { AccountPage, PopOverAccount } from '../pages/account/account';
-// import { Push } from '@ionic-native/push';
 
 import * as firebase from 'firebase';
 import { OtpValidationPage } from '../pages/otp-validation/otp-validation';
@@ -110,7 +109,6 @@ firebase.initializeApp({
     PopOverAccount,
   ],
   providers: [
-    // Push,
     StatusBar,
     SplashScreen,
     Camera,

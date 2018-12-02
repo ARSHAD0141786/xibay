@@ -6,15 +6,18 @@ import { User } from '../../interfaces/user';
 @Injectable()
 export class UserDataProvider {
   static userPostData:User;
+  static fcmToken:string;
 
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
   USER_DATA = 'user_data-for-xibay';
+
   constructor(
     public events: Events,
     public storage: Storage) {
     console.log('Hello UserDataProvider Provider');
   }
+
 
   login(result:any): void {
     this.setUserData(result);

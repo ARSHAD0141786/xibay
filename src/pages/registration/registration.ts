@@ -4,6 +4,7 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { NgForm } from '@angular/forms';
+import { UserDataProvider } from '../../providers/user-data/user-data';
 
 // import { WelcomePage } from '../welcome/welcome';
 
@@ -53,6 +54,7 @@ export class RegistrationPage {
     private notify: NotifyProvider,
     private logs: LogsServiceProvider) {
       this.signupOptions.phone_number = this.navParams.get('phone');
+      this.signupOptions.FMC_TOKEN = UserDataProvider.fcmToken;
       console.log('phone number : ' + this.signupOptions.phone_number);
   }
 

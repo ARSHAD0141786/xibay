@@ -250,41 +250,6 @@ export class Xibay {
     return;
   }
 
-  notificationInit(){
-    (<any>window).FirebasePlugin.getToken(function (token) {
-      // save this server-side and use it to push notifications to this device
-      console.log('token');
-      console.log(token);
-    }, function (error) {
-      console.error(error);
-    });
-
-    (<any>window).FirebasePlugin.onTokenRefresh(function (token) {
-      // save this server-side and use it to push notifications to this device
-      console.log('refresh token');
-      console.log(token);
-    }, function (error) {
-      console.error(error);
-    });
-    (<any>window).FirebasePlugin.onNotificationOpen(function (notification) {
-      console.log('notification received');
-      console.log(notification);
-    }, function (error) {
-      console.error(error);
-    });
-    (<any>window).FirebasePlugin.subscribe("registration", (data: any) => {
-      console.log('Registration');
-      console.log(data);
-    });
-    (<any>window).FirebasePlugin.subscribe("notification", (data: any) => {
-      console.log('Notification');
-      console.log(data);
-    });
-    (<any>window).FirebasePlugin.subscribe("error", (data: any) => {
-      console.log('error');
-      console.log(data);
-    });
-  }
 
   platformReady() {
     this.platform.ready().then(() => {
@@ -294,7 +259,6 @@ export class Xibay {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       // this.pushSetup();
-      this.notificationInit();
     });
   }
 }

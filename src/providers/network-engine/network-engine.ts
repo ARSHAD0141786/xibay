@@ -9,6 +9,7 @@ import { Network } from '@ionic-native/network';
 // import { NotifyProvider } from '../notify/notify';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
 import { NotifyProvider } from '../notify/notify';
+import { UserDataProvider } from '../user-data/user-data';
 
 export interface Notification {
     notification:{
@@ -45,7 +46,8 @@ export class NetworkEngineProvider {
     private transfer:FileTransfer,
     private logs:LogsServiceProvider) {
     console.log('Hello NetworkEngineProvider Provider');
-    this.getConnectionDetails();
+    this.connectionSuscribtion();
+    this.notificationInit();
     console.log(this.network.type);
     NetworkEngineProvider.isConnected = navigator.onLine;
     if(NetworkEngineProvider.isConnected == false){
@@ -72,13 +74,13 @@ export class NetworkEngineProvider {
     });
   }
   
-  getConnectionDetails(){
-    let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+  connectionSuscribtion(){
+    this.network.onDisconnect().subscribe(() => {
       console.log('network was disconnected :-(');
       this.notify.presentToast('Network was disconnected :-( ');
       NetworkEngineProvider.isConnected = false;
     });
-    let connectSubscription = this.network.onConnect().subscribe(() => {
+    this.network.onConnect().subscribe(() => {
       console.log('network connected!');
       this.notify.presentToast("You're back online :-)");
       // We just got a connection but we need to wait briefly
@@ -227,6 +229,54 @@ export class NetworkEngineProvider {
       });
     
     });
+  }
+
+  notificationInit(){
+    console.log('initialize notifications');
+
+    // (<any>window).FirebasePlugin.getToken(function (token) {
+    //   // save this server-side and use it to push notifications to this device
+    //   console.log('token');
+    //   if(UserDataProvider.fcmToken){
+    //     this.setFCMToken(token);
+    //   }
+    //   console.log(token);
+    // }, function (error) {
+    //   console.error(error);
+    // });
+
+    //this function is also do the the work of above function
+    (<any>window).FirebasePlugin.onTokenRefresh(function (token) {
+      // save this server-side and use it to push notifications to this device
+      console.log('refresh token');
+      UserDataProvider.fcmToken = token;
+      if(token && UserDataProvider.userPostData.username && UserDataProvider.userPostData.token){
+        let userPostData:any = {
+          username:UserDataProvider.userPostData.username,
+          token:UserDataProvider.userPostData.token,
+          fcmToken:token,
+        }
+        this.post(userPostData,'update-fcm-token');
+      }
+      console.log(token);
+    }, function (error) {
+      console.error(error);
+    });
+
+    (<any>window).FirebasePlugin.onNotificationOpen(function (notification) {
+      console.log('notification received');
+      console.log(notification);
+      //control the notification here by the tap value
+      //case I : when user is on xibay then three main parameters received : tap:false,title,body
+
+
+      //case II: when user is not on xibay then many main parameters are received : time ,tap,etc.
+
+
+    }, function (error) {
+      console.error(error);
+    });
+
   }
 
 }

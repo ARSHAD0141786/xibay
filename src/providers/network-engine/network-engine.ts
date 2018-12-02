@@ -249,8 +249,9 @@ export class NetworkEngineProvider {
     (<any>window).FirebasePlugin.onTokenRefresh(function (token) {
       // save this server-side and use it to push notifications to this device
       console.log('refresh token');
+      console.log(token);
       UserDataProvider.fcmToken = token;
-      if(token && UserDataProvider.userPostData.username && UserDataProvider.userPostData.token){
+      if(token && UserDataProvider.userPostData && UserDataProvider.userPostData.username && UserDataProvider.userPostData.token){
         let userPostData:any = {
           username:UserDataProvider.userPostData.username,
           token:UserDataProvider.userPostData.token,
@@ -258,7 +259,7 @@ export class NetworkEngineProvider {
         }
         this.post(userPostData,'update-fcm-token');
       }
-      console.log(token);
+      
     }, function (error) {
       console.error(error);
     });

@@ -62,6 +62,15 @@ export class LoginPage {
         if (this.responseData.user_data) {
           this.userData.login(this.responseData);
           this.navCtrl.setRoot(MainTabsPage);
+          // here update fmc token because you cannot update it before login
+          if(UserDataProvider.fcmToken && UserDataProvider.userPostData && UserDataProvider.userPostData.username && UserDataProvider.userPostData.token){
+            let userPostData:any = {
+              username:UserDataProvider.userPostData.username,
+              token:UserDataProvider.userPostData.token,
+              fcmToken:UserDataProvider.fcmToken,
+            }
+            this.networkEngine.post(userPostData,'update-fcm-token');
+          }
         }
         else {
           this.notify.presentToast("Something went wrong(See console for error)");

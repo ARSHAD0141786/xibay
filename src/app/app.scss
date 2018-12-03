@@ -12,19 +12,85 @@
 // default Sass variables, belong in "theme/variables.scss".
 //
 .toast-danger-css{
+  width: 80%;
+  margin: auto;
+  height:80%;
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 60px;
+  display: block;
   .toast-wrapper{
-    background-color:#f11515bb;
+    background-color:#f11515e7;
+    border-radius: 30px;
     .toast-container{
       .toast-message{
         color:#ffffffde;
+        font-size: 12px;
       }
       .toast-button{
-        color:black;
+        color:#ffffff;
+        font-size:10px;
+        text-decoration-style: solid;
       }
     }
   }
-  
 }
+
+.toast-default{
+  display: block;
+  left:10%;
+  right:10%;
+  bottom:20px;
+  width: 80%;
+  .toast-wrapper{
+    background-color:#201d1dc7;
+    border-radius: 30px;
+    .toast-container{
+      .toast-message{
+        color:#ffffffde;
+        text-align: center;
+        font-size: 12px;
+      }
+      .toast-button{
+        color:#ffffff;
+        font-size:10px;
+        text-decoration-style: solid;
+      }
+    }
+  }
+}
+.toast-message{
+
+}
+.toast-back-online{
+  .toast-wrapper{
+    background-color:#368607c7;
+    .toast-container{
+      .toast-message{
+        color:#ffffffde;
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+  }  
+}
+.toast-not-online{
+  margin-top:55px;
+  .toast-wrapper{
+    background-color:#d41a1ae7;
+    .toast-container{
+      .toast-message{
+        color:#ffffffde;
+        font-size: 12px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+
+
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.

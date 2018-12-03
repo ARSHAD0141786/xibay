@@ -114,6 +114,7 @@ year: "4"
   isUseful(useful_branch:string,useful_year:string){
     let use_ful_branch:any = JSON.parse(useful_branch.toString());
     let use_ful_year:any = JSON.parse(useful_year.toString());
+    if(!UserDataProvider.userPostData) return;
     try{
       let user_branch = UserDataProvider.userPostData.branch_name;
       let user_year = UserDataProvider.userPostData.year_name;

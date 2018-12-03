@@ -18,8 +18,8 @@
 </ion-header>
 
 <ion-content>
-  <div class="about-header" align="center" style="max-width: 500px;text-align: center;" *ngIf="item">
-    <img [src]="item.image_url" [alt]="Image" imageViewer/>
+  <div class="about-header" align="center" style="max-width: 500px;display: block;margin:auto" *ngIf="item">
+    <img [src]="item.image_url" imageViewer/>
   </div>
   <div padding class="about-info" *ngIf="item">
     <h2>{{item.title}}</h2>

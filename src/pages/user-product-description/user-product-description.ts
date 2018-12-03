@@ -127,7 +127,7 @@ export class UserProductDescriptionPage {
       let notification:Notification = {
         notification:{
           title:'Congratulations !',
-          body:'Your request for the product '+ this.item.title + ' has been accepted by @'+ UserDataProvider.userPostData.username,
+          body:'Your request for the product #'+ this.item.title + ' has been accepted by @'+ UserDataProvider.userPostData.username,
           sound:"default",
           click_action:"",
           icon:"icon"

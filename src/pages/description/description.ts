@@ -70,29 +70,31 @@ export class DescriptionPage {
       this.network.post(userPostData,'send-request').then((d:any)=>{
           if(d.message){
             this.notify.presentToast(d.message);
-            //request sent successfully
-            let notification:Notification = {
-              notification:{
-                title:'New Request',
-                body:'You have a new request from '+UserDataProvider.userPostData.username + ' for your posted product '+ this.item.title,
-                sound:"default",
-                click_action:"",
-                icon:"icon"
-              },
-              data:{
-                click:"",
-                code:12
-              },
-              to:this.item.user_fcm_token,
-              priority:"high",
-              restricted_package_name:"com.xibay.android"
+            if(d.code == 786){
+              //request sent successfully
+              let notification:Notification = {
+                notification:{
+                  title:'New Request',
+                  body:'You have a new request from @'+UserDataProvider.userPostData.username + ' for your posted product #'+ this.item.title,
+                  sound:"default",
+                  click_action:"",
+                  icon:"icon"
+                },
+                data:{
+                  click:"",
+                  code:12
+                },
+                to:this.item.user_fcm_token,
+                priority:"high",
+                restricted_package_name:"com.xibay.android"
 
+              }
+              this.network.sendNotificationToParticularPerson(notification).then( (res) => {
+                console.log(res);
+              },er => {
+                console.log(er);
+              });
             }
-            this.network.sendNotificationToParticularPerson(notification).then( (res) => {
-              console.log(res);
-            },er => {
-              console.log(er);
-            });
           }else if(d.error){
             console.log("D.code : " + d.code);
             if(d.code == 1){ // SQL error

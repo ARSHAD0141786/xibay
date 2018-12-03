@@ -51,9 +51,10 @@ export class OtpValidationPage {
   sendOTP(){
     clearInterval(this.myInterval);//for safety
     console.log('OTP SEND to : '+this.phoneNumber);
-    this.myInterval = setInterval( () => {
-      this.setInnerHtml(1);
-    },300);
+    // this.myInterval = setInterval( () => {
+    //   this.setInnerHtml(1);
+    // },300);
+    this.sendInnerHtml = 'Sending OTP...';
     try{
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         clearInterval(this.myInterval);
@@ -139,6 +140,10 @@ export class OtpValidationPage {
     let userPostData:any = {
       phone_number : this.phoneNumber,
     }
+    if(this.navParams.get('wantUserToExists')==undefined){
+      this.sendOTP();
+      return;
+    }
     this.sendInnerHtml = 'Please wait...';
     this.networkEngine.post(userPostData,'check-phone-number-exists').then( (result:any) => {
       this.sendInnerHtml = 'Send OTP';
@@ -158,7 +163,7 @@ export class OtpValidationPage {
             this.message = 'Sorry! This number is not registered with us';
           }
         }else{
-          this.sendOTP();
+          this.sendOTP();//in case of messaging
         }
       }
     });

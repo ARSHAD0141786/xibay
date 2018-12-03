@@ -40,12 +40,15 @@ export class NetworkEngineProvider {
 //   token:''
 // }
 
+  private static classReference:any;
+
   constructor(public http: Http,
     private notify: NotifyProvider,
     private network: Network,
     private transfer:FileTransfer,
     private logs:LogsServiceProvider) {
     console.log('Hello NetworkEngineProvider Provider');
+    NetworkEngineProvider.classReference = this;
     this.connectionSuscribtion();
     this.notificationInit();
     console.log(this.network.type);
@@ -264,7 +267,7 @@ export class NetworkEngineProvider {
             token:UserDataProvider.userPostData.token,
             fcmToken:token,
           }
-          this.post(userPostData,'update-fcm-token');
+          NetworkEngineProvider.classReference.post(userPostData,'update-fcm-token');
         }
         
       }, function (error) {
@@ -277,12 +280,12 @@ export class NetworkEngineProvider {
         //control the notification here by the tap value
         //case I : when app in foreground then three main parameters received : tap:false,title,body
         if(!notification.tap){
-          this.notify.presentToast('Foreground Notification received : '+JSON.stringify(notification));
+          NetworkEngineProvider.classReference.notify.presentToast('Foreground Notification received : '+JSON.stringify(notification));
         }
   
         //case II: when app in background then many main parameters are received : time ,tap,etc.
         if(notification.tap){
-          this.notification.presentToast('Background notification received : '+JSON.stringify(notification));
+          NetworkEngineProvider.classReference.notify.presentToast('Background notification received : '+JSON.stringify(notification));
         }
   
       }, function (error) {
@@ -290,6 +293,9 @@ export class NetworkEngineProvider {
       });
 
       if(!(UserDataProvider.userPostData && UserDataProvider.userPostData.username)){
+        console.log('Unregister this user from this app');
+        UserDataProvider.fcmToken = null;
+        NetworkEngineProvider.classReference.notify('Unregister this user from receiving notifications');
         (<any>window).FirebasePlugin.unregister();
       }
 

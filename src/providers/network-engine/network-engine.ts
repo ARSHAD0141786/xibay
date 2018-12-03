@@ -277,7 +277,7 @@ export class NetworkEngineProvider {
         // handel notification here
         if(!notification.tap){
           // NetworkEngineProvider.classReference.notify.presentToast('Foreground Notification received : '+JSON.stringify(notification));
-          NetworkEngineProvider.classReference.notify.presentToast(notification.title+'\n'+notification.body,3,null,true);
+          NetworkEngineProvider.classReference.notify.presentToast(notification.title+'  :  '+notification.body,3,null,true);
         }
   
         //case II: when app in background then many main parameters are received : time ,tap,etc.

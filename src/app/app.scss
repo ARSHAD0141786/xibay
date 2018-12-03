@@ -41,8 +41,8 @@
 
 .toast-default{
   .toast-wrapper{
-    background-color:#201d1dc7;
-    border-radius: 30px;
+    background-color:#201d1d;
+    border-radius: 20px 20px 0px 0px;
     .toast-container{
       .toast-message{
         color:#ffffffde;
@@ -83,6 +83,7 @@
 .toast-back-online{
   .toast-wrapper{
     background-color:#3d8a10;
+    border-radius: 10px 10px 0px 0px;
     .toast-container{
       .toast-message{
         color:#ffffffde;
@@ -96,6 +97,7 @@
   margin-top:55px;
   .toast-wrapper{
     background-color:#d41a1a;
+    border-radius: 0px 0px 10px 10px;
     .toast-container{
       .toast-message{
         color:#ffffffde;

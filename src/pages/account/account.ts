@@ -142,19 +142,7 @@ export class AccountPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountPage');
-    let userAuth:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token
-    }
-      
-    this.networkEngine.post(userAuth, 'get-user-data').then( (result: any) => {
-      if(result.data){
-        this.user = result.data[0];
-      }
-    },
-    (err) => {
-      console.error(err);
-    });
+    this.user = UserDataProvider.userPostData;
   }
 
   getPicture() {
@@ -245,7 +233,7 @@ export class AccountPage {
     }
     this.networkEngine.post(data,'update-user-details').then( (result:any) => {
       if(result.code == 786){
-        console.log(result.message);
+        console.log(result.message);22
         this.userData.setUserData(result);
       }else{
         console.log(result);

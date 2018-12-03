@@ -11,6 +11,13 @@
 
 
 <ion-content padding>
+
+    <div align="center" *ngIf="networkConnected == false">
+        <img src="/assets/imgs/no-internet.png" style="max-width: 300px;width:20%;height:20%;max-height: 300px;margin-top: 50px" imageViewer/>
+        <h3>No Network!</h3><br/>
+        <p>You are not connected with our server. Please check your network connection</p>
+      </div>
+
   <div *ngIf="user">
     <div align="center">
       <input type="file" #fileInput style="visibility: hidden;width: 0px; height: 0px;" name="files[]" (change)="processWebImage($event)" />

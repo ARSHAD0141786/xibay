@@ -16,6 +16,7 @@ export class PostedProductsPage {
 
   public classReference = PostedProductsPage;
   refresher:Refresher;
+  networkConnected:boolean;
   refresherPresent:boolean;
   /**
    data item array element from server
@@ -53,18 +54,21 @@ export class PostedProductsPage {
   fetchProducts(){
     this.networkEngine.post(this.userPostData.getUserPostData(),'fetch-my-posted-products').then( (result:any) => {
       PostedProductsPage.posted_products = result.data;
+      this.networkConnected = true;
       if(this.refresherPresent == true){
         this.refresher.complete();
       }
     },err => {
       console.error(err);
+      PostedProductsPage.posted_products = [];
       if(this.refresherPresent == true){
         this.refresher.complete();
       }
+      if(err.status == 0){
+        this.networkConnected = false;
+      }
     });
   }
-
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PostedProductsPage');
@@ -79,6 +83,7 @@ export class PostedProductsPage {
     console.log('open item idex : '+index);
     this.navCtrl.push(UserProductDescriptionPage,{index:index,product:item , callbackFunction : this.requestCallBackFunction});
   }
+
   deleteItem(item:item,index:number){
     let alert = this.alertCtrl.create({
       title:'Are you sure, you want to delete this product ?',

@@ -54,7 +54,8 @@
 
   <div align="center" *ngIf="networkConnected == false">
     <img src="/assets/imgs/no-internet.png" style="max-width: 300px;width:20%;height:20%;max-height: 300px;margin-top: 50px" imageViewer/>
-    <p>No Internet connection!</p>
+    <h3>No Network!</h3><br/>
+    <p>You are not connected with our server. Please check your network connection</p>
   </div>
   <div>
     <ion-card *ngFor="let item of items, let id=index" (click)="showDescription(item)">

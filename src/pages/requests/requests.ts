@@ -14,6 +14,7 @@ export class RequestsPage {
 
   refresherPresent:boolean;
   refresher:Refresher;
+  networkConnected:boolean;
   public requests:Array<item>;
   constructor(public navCtrl: NavController, public navParams: NavParams, private networkEngine: NetworkEngineProvider,private userData: UserDataProvider) {
     this.fetchRequests();
@@ -27,6 +28,7 @@ export class RequestsPage {
 
   fetchRequests(){
     this.networkEngine.post(this.userData.getUserPostData(),'fetch-requested-products').then( (result:any) =>{
+      this.networkConnected = true;
       if(result.data.length > 0){
         this.requests = result.data;
       }
@@ -35,8 +37,12 @@ export class RequestsPage {
       }
     },(err) => {
       console.log(err);
+      this.requests = undefined;
       if(this.refresherPresent == true){
         this.refresher.complete();
+      }
+      if(err.status ==0){
+        this.networkConnected = false;
       }
     });
   }

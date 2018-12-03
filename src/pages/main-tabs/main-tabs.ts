@@ -207,8 +207,10 @@ year: "4"
           }
         }, (err) => {
           console.log(err);
-          this.networkConnected = false;
-          reject();
+          if(this.items.length == 0){
+            this.networkConnected = false;
+          }
+          reject(err);
         }).catch( error => {
           console.log(error);
         });
@@ -219,11 +221,9 @@ year: "4"
   filterPopoverCallBackFunction = function(reference:any){//this function will be called from filter popover page
     reference.lastCreated = 0;
     reference.noRecords = false;
-    try{
-      reference.fetchMainContent();
-    }catch(Err){
-      console.log(Err);
-    }
+    reference.fetchMainContent().catch( error => {
+      console.log(error);
+    });
   }
 
   doRefresh(refresher: Refresher) {
@@ -237,7 +237,10 @@ year: "4"
       console.log(error);
       this.refresher.complete();
       this.refresher_is_present = false;
-      this.networkConnected = false;
+      if(this.items.length == 0){
+        this.networkConnected = false;
+      }
+      
     });
   }
 
@@ -305,6 +308,8 @@ year: "4"
       this.network.post(userPostData,'search-a-product').then( (result:any) => {
         console.log(result.data);
         this.searchList = result.data;
+      }, error => {
+        console.log(error);
       });
     }else{
       this.searchList = [];

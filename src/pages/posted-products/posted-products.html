@@ -15,7 +15,13 @@
         refreshingText="Refreshing..."></ion-refresher-content>
       </ion-refresher>
 
-  <div *ngIf="classReference.posted_products.length == 0" align="center">
+      <div align="center" *ngIf="networkConnected == false">
+        <img src="/assets/imgs/no-internet.png" style="max-width: 300px;width:20%;height:20%;max-height: 300px;margin-top: 50px" imageViewer/>
+        <h3>No Network!</h3><br/>
+        <p>You are not connected with our server. Please check your network connection</p>
+      </div>
+
+  <div *ngIf="classReference.posted_products.length == 0 && networkConnected == true" align="center">
     <h3>OOPs!</h3>
     <p>It Seems you do not post any product yet</p>
     <img src="assets/imgs/sad_boy.jpg"/>

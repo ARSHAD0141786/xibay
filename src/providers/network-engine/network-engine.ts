@@ -124,21 +124,16 @@ export class NetworkEngineProvider {
     return new Promise((resolve, reject) =>{
       let headers = new Headers();
       console.log("POST:"+this.BASE_URL+endingUrl);
-      console.log('Parameters are : ');
       console.log(params);
-      this.logs.addLog("postRequest : "+this.BASE_URL+""+endingUrl);
-      this.logs.addLog(JSON.stringify(params));
-      this.http.post(this.BASE_URL+endingUrl,params, {headers: headers}).
-      subscribe(res =>{
-        console.log('Entered into network engine');
-        let response:any = JSON.parse(JSON.stringify(res));
+      this.http.post(this.BASE_URL+endingUrl,params, {headers: headers}).subscribe(res =>{
         try{
+          let response:any = JSON.parse(JSON.stringify(res));
           if(response.status == 200){
             console.log(JSON.parse(response._body));
             let result = JSON.parse(response._body);
             if(result.data){
               if(result.data.length>0){
-                for(let entry of result.data){
+                for(let entry of result.data){//change the user_image_url because on database whole url is not saved
                   if(entry.image_url){
                     entry.image_url = this.BASE_URL+entry.image_url;
                   }

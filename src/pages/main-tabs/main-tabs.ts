@@ -86,13 +86,10 @@ year: "4"
     public popoverCtrl: PopoverController) {
 
       
-      this.noRecords = false;
-      
-      try{
-        this.fetchMainContent();
-      }catch(err){
-        console.log(err);
-      }
+    this.noRecords = false;  
+    this.fetchMainContent().catch( err => {
+      console.log(err);
+    });
       
     
   }
@@ -140,7 +137,10 @@ year: "4"
     this.items = [];
     this.lastCreated = 0;
     this.noRecords = false;
-    this.fetchMainContent();
+    this.fetchMainContent().catch(error =>{
+      console.log(error);
+      this.networkConnected = false;
+    });
   }
 
   // fetchMainContent(fetchUseful?:boolean) { // when this function is called then it starts loading items from scratch
@@ -165,9 +165,8 @@ year: "4"
   //   });
   // }
 
-  fetchMainContent(): Promise<any> { //this function is called to load more data not from scratch
+  fetchMainContent(): Promise<any> { //this function is called from infinite loading , in constructor , when filter change
     return new Promise((resolve,reject) => {
-      console.log(MainTabsPage.categories);
         console.log("Start fetching more data : " + this.lastCreated);
         if(this.queryText && this.queryText.length > 0){
           console.log('Setting no more records true');
@@ -188,6 +187,7 @@ year: "4"
           filter:MainTabsPage.categories,
         }
         this.network.post(userPostData,api).then((result: any) => {
+          this.networkConnected = true;
           if (this.refresher_is_present) {
             this.refresher.complete();
           }
@@ -207,9 +207,12 @@ year: "4"
           }
         }, (err) => {
           console.log(err);
-          reject(err);
+          this.networkConnected = false;
+          reject();
+        }).catch( error => {
+          console.log(error);
         });
-    })
+    });
   }
 
   
@@ -230,7 +233,12 @@ year: "4"
     this.noRecords = false;
     this.refresher_is_present = true;
     this.refresher = refresher;
-    this.fetchMainContent();
+    this.fetchMainContent().catch( error =>{
+      console.log(error);
+      this.refresher.complete();
+      this.refresher_is_present = false;
+      this.networkConnected = false;
+    });
   }
 
   // showPopOver(){

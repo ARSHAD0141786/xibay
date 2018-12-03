@@ -60,8 +60,27 @@
     }
   }
 }
-.toast-message{
-
+.toast-message-custom{
+  width:80%;
+  margin-left:10%;
+  .toast-wrapper{
+    background-color:#ffffff;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    // border:1px solid #6459598e;
+    .toast-container{
+      .toast-message{
+        color:#000000;
+        font-size: 12px;
+      }
+      .toast-button{
+        color:#000000;
+        font-size:10px;
+        text-decoration-style: solid;
+      }
+    }
+  }
 }
 .toast-back-online{
   .toast-wrapper{

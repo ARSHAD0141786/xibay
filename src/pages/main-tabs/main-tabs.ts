@@ -207,7 +207,7 @@ year: "4"
           }
         }, (err) => {
           console.log(err);
-          reject();
+          reject(err);
         });
     })
   }

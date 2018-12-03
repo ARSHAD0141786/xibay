@@ -76,6 +76,11 @@ export class UserDataProvider {
     this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove(this.USER_DATA);
     this.events.publish('user:logout');
+    try{
+      (<any>window).FirebasePlugin.unregister();
+    }catch(err){
+      console.log(err);
+    }
   };
 
   getUserPostData(){

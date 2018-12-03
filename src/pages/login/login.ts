@@ -70,6 +70,7 @@ export class LoginPage {
               fcmToken:UserDataProvider.fcmToken,
             }
             this.networkEngine.post(userPostData,'update-fcm-token');
+            this.networkEngine.notificationInit();
           }
         }
         else {

@@ -12,20 +12,20 @@ import { NotifyProvider } from '../notify/notify';
 import { UserDataProvider } from '../user-data/user-data';
 
 export interface Notification {
-    notification_body:{
+    notification:{
       title:string,
       body:string,
-      sound?:'default',
-      click_action?:null,
-      icon?:"icon"
+      sound:string,
+      click_action:string,
+      icon:string,
     },
     data:{
-      click?:string,
+      click:string,
       code:number,
     },
-    to_user:string,
-    priority?:"high",
-    restricted_package_name?:"com.xibay.android"
+    to:string,
+    priority:string,
+    restricted_package_name:string,
 }
 
 @Injectable()
@@ -57,18 +57,25 @@ export class NetworkEngineProvider {
 
   sendNotificationToParticularPerson(params:Notification){
     return new Promise( (resolve,reject) => {
-      let options:any = {
-        'Content-Type':'application/json',
-        'Authorization':'key=AAAAhTcR7T0:APA91bFBrLN3PVG-iXsIc-5nVDf2MRFaBh8NnML38esvBG9sPK5l9mzNzmExyV1oHaffn35Mv0_UEYAr0tLZFZWnRNV4pKwOmqBOE5y6ADNeuafeO_r5-5ZTTJCTQs2MN-KdBASrHpvU1ysTPvKgz6ocmBwhobNwYQ'
-      }
-      let headers = new Headers(options);
+      
+      let headers:Headers = new Headers();
+      headers.set('Content-type','application/json');
+      headers.append('Authorization','key=AAAAhTcR7T0:APA91bFBrLN3PVG-iXsIc-5nVDf2MRFaBh8NnML38esvBG9sPK5l9mzNzmExyV1oHaffn35Mv0_UEYAr0tLZFZWnRNV4pKwOmqBOE5y6ADNeuafeO_r5-5ZTTJCTQs2MN-KdBASrHpvU1ysTPvKgz6ocmBwhobNwYQ');
+      
       console.log(params);
-      this.http.post('https://fcm.googleapis.com/fcm/send',params,{headers:headers}).subscribe( res => {
+      this.http.post('https://fcm.googleapis.com/fcm/send',params,{headers:headers}).subscribe( (res:any) => {
         console.log(res);
-        resolve();
+        if(res._body){
+          let response = JSON.parse(res._body);
+          console.log(response);
+          if(response.success == 1 && response.failure == 0){
+            console.log("Notification sent successfully");
+          }
+          resolve(response);
+        }
       },(err) => {
         console.log(err);
-        reject();
+        reject(err);
       });
     });
   }
@@ -268,15 +275,24 @@ export class NetworkEngineProvider {
         console.log('notification received');
         console.log(notification);
         //control the notification here by the tap value
-        //case I : when user is on xibay then three main parameters received : tap:false,title,body
+        //case I : when app in foreground then three main parameters received : tap:false,title,body
+        if(!notification.tap){
+          this.notify.presentToast('Foreground Notification received : '+JSON.stringify(notification));
+        }
   
-  
-        //case II: when user is not on xibay then many main parameters are received : time ,tap,etc.
-  
+        //case II: when app in background then many main parameters are received : time ,tap,etc.
+        if(notification.tap){
+          this.notification.presentToast('Background notification received : '+JSON.stringify(notification));
+        }
   
       }, function (error) {
         console.error(error);
       });
+
+      if(!(UserDataProvider.userPostData && UserDataProvider.userPostData.username)){
+        (<any>window).FirebasePlugin.unregister();
+      }
+
   
     }catch(err){
     console.log(err);

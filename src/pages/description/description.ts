@@ -72,15 +72,21 @@ export class DescriptionPage {
             this.notify.presentToast(d.message);
             //request sent successfully
             let notification:Notification = {
-              notification_body:{
+              notification:{
                 title:'New Request',
                 body:'You have a new request from '+UserDataProvider.userPostData.username + ' for your posted product '+ this.item.title,
+                sound:"default",
+                click_action:"",
+                icon:"icon"
               },
-              to_user:this.item.user_fcm_token,
-             data:{
-               click:'',
-               code:12
-             },
+              data:{
+                click:"",
+                code:12
+              },
+              to:this.item.user_fcm_token,
+              priority:"high",
+              restricted_package_name:"com.xibay.android"
+
             }
             this.network.sendNotificationToParticularPerson(notification).then( (res) => {
               console.log(res);

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
 import { item } from '../../interfaces/posted_item';
 import { UserDataProvider } from '../../providers/user-data/user-data';
-import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { NetworkEngineProvider, Notification } from '../../providers/network-engine/network-engine';
 import { User } from '../../interfaces/user';
 import { NotifyProvider } from '../../providers/notify/notify';
 
@@ -79,7 +79,7 @@ export class UserProductDescriptionPage {
 
   }
 
-  accept(request:any){
+  accept(request:User){
     console.log('accepting request of : ');
     console.log(request);
     let alert = this.alertCtrl.create({
@@ -99,7 +99,7 @@ export class UserProductDescriptionPage {
           handler: ()=> {
             console.log('Accepet request : '+request);
             //call api here
-            this.acceptApiCall(this.item.id,request.request_id,request.username);
+            this.acceptApiCall(this.item.id,request.request_id,request.username,request.FCM_token);
           }
         }
       ]
@@ -107,7 +107,7 @@ export class UserProductDescriptionPage {
     alert.present();
   }
 
-  acceptApiCall(item_id:number,request_id:number,to_username:string){
+  acceptApiCall(item_id:number,request_id:number,to_username:string,user_fcm_token:string){
     let postData:any = {
       username:this.userData.getUserPostData().username,
       token:this.userData.getUserPostData().token,
@@ -123,6 +123,32 @@ export class UserProductDescriptionPage {
       this.callbackFunction(this.isRequestAccepted,this.requests.length,this.itemIndex).then( ()=> {
         this.choosen_user = result.data[0];//this is always one element array because user can only accept one user
       });
+      // send notification to accepted user
+      let notification:Notification = {
+        notification:{
+          title:'Congratulations !',
+          body:'Your request for the product '+ this.item.title + ' has been accepted by @'+ UserDataProvider.userPostData.username,
+          sound:"default",
+          click_action:"",
+          icon:"icon"
+        },
+        data:{
+          click:"",
+          code:12
+        },
+        to:user_fcm_token,
+        priority:"high",
+        restricted_package_name:"com.xibay.android"
+      }
+      this.networkEngine.sendNotificationToParticularPerson(notification).then( (res) => {
+        console.log(res);
+      },er => {
+        console.log(er);
+      });
+
+      //send notification for all rejected users
+
+
     },(err) => {
       console.error(err);
     });

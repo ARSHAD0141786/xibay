@@ -86,12 +86,12 @@ export class NetworkEngineProvider {
   connectionSuscribtion(){
     this.network.onDisconnect().subscribe(() => {
       console.log('network was disconnected :-(');
-      this.notify.presentToast('Network was disconnected :-( ');
+      this.notify.presentToast('No Internet access.',1,3000);
       NetworkEngineProvider.isConnected = false;
     });
     this.network.onConnect().subscribe(() => {
       console.log('network connected!');
-      this.notify.presentToast("You're back online :-)");
+      this.notify.presentToast("You're back online",2,3000);
       // We just got a connection but we need to wait briefly
        // before we determine the connection type. Might need to wait.
       // prior to doing any api requests as well.
@@ -274,8 +274,10 @@ export class NetworkEngineProvider {
         console.log(notification);
         //control the notification here by the tap value
         //case I : when app in foreground then three main parameters received : tap:false,title,body
+        // handel notification here
         if(!notification.tap){
-          NetworkEngineProvider.classReference.notify.presentToast('Foreground Notification received : '+JSON.stringify(notification));
+          // NetworkEngineProvider.classReference.notify.presentToast('Foreground Notification received : '+JSON.stringify(notification));
+          NetworkEngineProvider.classReference.notify.presentToast(notification.title+'\n'+notification.body,3,null,true);
         }
   
         //case II: when app in background then many main parameters are received : time ,tap,etc.

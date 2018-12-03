@@ -47,7 +47,10 @@ export class NotifyProvider {
    presentToast(msg:string) {
     let toast = this.toast.create({
       message: msg,
-      duration: 2000
+      position:'top',
+      showCloseButton:true,
+      closeButtonText:'OK',
+      cssClass:'toast-danger-css'
     });
     console.log("Presenting toast");
     toast.present();

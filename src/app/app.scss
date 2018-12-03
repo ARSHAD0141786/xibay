@@ -11,6 +11,20 @@
 // Shared Sass variables, which can be used to adjust Ionic's
 // default Sass variables, belong in "theme/variables.scss".
 //
+.toast-danger-css{
+  .toast-wrapper{
+    background-color:#f11515bb;
+    .toast-container{
+      .toast-message{
+        color:#ffffffde;
+      }
+      .toast-button{
+        color:black;
+      }
+    }
+  }
+  
+}
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.

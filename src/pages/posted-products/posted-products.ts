@@ -70,6 +70,14 @@ export class PostedProductsPage {
     });
   }
 
+  getImage(){
+    if(UserDataProvider.userPostData.gender == 'F'){
+      return 'assets/imgs/sad_girl.jpg';
+    }else{
+      return 'assets/imgs/sad_boy.jpg';
+    }
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad PostedProductsPage');
   }

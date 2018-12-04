@@ -130,13 +130,20 @@ export class AccountPage {
       username:this.userData.getUserPostData().username,
       token:this.userData.getUserPostData().token
     }
-    this.networkEngine.uploadFile(this.profilePicData,userAuth,'upload-profile-picture').then( (result) => {
+    this.networkEngine.uploadFile(this.profilePicData,userAuth,'upload-profile-picture').then( (result:any) => {
       console.log(result);
-      this.user.user_image_url = this.profilePicData;
+      if(result.code == 786){
+        this.userData.setUserData(result);
+      }else{
+        console.log(result);
+      }
       this.isProfilePicUploading = false;
     },(error) => {
       this.isProfilePicUploading = false;
       alert('Unable to upload photo'+error);
+    }).catch( err => {
+      console.log(err);
+      this.isProfilePicUploading = false;
     });
   }
 
@@ -233,7 +240,7 @@ export class AccountPage {
     }
     this.networkEngine.post(data,'update-user-details').then( (result:any) => {
       if(result.code == 786){
-        console.log(result.message);22
+        console.log(result.message);
         this.userData.setUserData(result);
       }else{
         console.log(result);

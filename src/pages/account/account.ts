@@ -134,6 +134,7 @@ export class AccountPage {
       console.log(result);
       if(result.code == 786){
         this.userData.setUserData(result);
+        this.user.user_image_url = this.profilePicData;
       }else{
         console.log(result);
       }

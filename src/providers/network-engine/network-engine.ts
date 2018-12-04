@@ -215,6 +215,9 @@ export class NetworkEngineProvider {
             this.logs.addLog('File uploaded successfully');
             this.logs.addLog(result.message);
             if(result.code == 786){
+              if(result.user_data && result.user_data.user_image_url){
+                result.user_data.user_image_url = this.BASE_URL + result.user_data.user_image_url;
+              }
               resolve(result);
             }else{
               reject(result);

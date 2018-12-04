@@ -134,8 +134,7 @@ year: "4"
     }
   }
   
-  changeTab(){
-    this.items = [];
+  changeTab(){//value of tab is changed by ngModel in html file
     this.lastCreated = 0;
     this.noRecords = false;
     this.fetchMainContent().catch(error =>{

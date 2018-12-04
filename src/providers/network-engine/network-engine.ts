@@ -210,14 +210,18 @@ export class NetworkEngineProvider {
       fileTransfer.upload(uploadFile,  this.BASE_URL + link, options)
         .then((data:any) => {
           console.log(data);
-          console.log(data.response);
-          let result:any = JSON.parse(data.response);
-          this.logs.addLog('File uploaded successfully');
-          this.logs.addLog(result.message);
-          if(result.code == 786){
-            resolve(result);
-          }else{
-            reject(result);
+          try{
+            let result:any = JSON.parse(data.response);
+            this.logs.addLog('File uploaded successfully');
+            this.logs.addLog(result.message);
+            if(result.code == 786){
+              resolve(result);
+            }else{
+              reject(result);
+            }
+          }catch(error){
+            console.log(error);
+            reject(error);
           }
       }, (err) => {
         console.log(err);

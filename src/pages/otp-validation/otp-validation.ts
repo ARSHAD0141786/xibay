@@ -73,7 +73,9 @@ export class OtpValidationPage {
     try{
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         this.otpStatus = 4;
+        console.log('inside verify phone number');
         this.logs.addLog("Firebase Auth : "+credentials);
+        console.log(credentials);
         this.verificationId = credentials.verificationId;
         //common stuff
         this.message=null;
@@ -81,12 +83,14 @@ export class OtpValidationPage {
         this.otpStatus = 3;
         this.message = error;
         this.logs.addLog("Error : "+error);
+        console.log(error);
       });
     }catch(err){
       this.otpStatus = 3;
       console.log(err);
       this.message = err;
     }
+    console.log('outside verify phone number');
     
   }
 

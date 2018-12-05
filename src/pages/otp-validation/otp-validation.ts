@@ -11,7 +11,7 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
 })
 export class OtpValidationPage {
 
-  // @ViewChild('phoneNumberInput') phoneNumberInput;
+  @ViewChild('phoneNumberInput') phoneNumberInput;
   verificationId: any;
   code: string="";
   phoneNumber: string="";
@@ -71,8 +71,11 @@ export class OtpValidationPage {
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
     try{
+      this.phoneNumberInput.disabled = true;
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         this.otpStatus = 4;
+        this.phoneNumberInput.disabled = false;
+        this.phoneNumberInput.nativeElement.click();
         console.log('inside verify phone number');
         this.logs.addLog("Firebase Auth : "+credentials);
         console.log(credentials);
@@ -81,12 +84,14 @@ export class OtpValidationPage {
         this.message=null;
       },(error)=>{
         this.otpStatus = 3;
+        this.phoneNumberInput.disabled = false;
         this.message = error;
         this.logs.addLog("Error : "+error);
         console.log(error);
       });
     }catch(err){
       this.otpStatus = 3;
+      this.phoneNumberInput.disabled = false;
       console.log(err);
       this.message = err;
     }
@@ -125,7 +130,9 @@ export class OtpValidationPage {
       this.sendOTP();
       return;
     }
+    this.phoneNumberInput.disabled = true;
     this.networkEngine.post(userPostData,'check-phone-number-exists').then( (result:any) => {
+      this.phoneNumberInput.disabled = false;
       if(result.code ==786){
         this.isPhoneNumberExists = true;
       }else{
@@ -148,8 +155,10 @@ export class OtpValidationPage {
     }, error => {
       this.otpStatus = 0;
       console.log(error);
+      this.phoneNumberInput.disabled = false;
     }).catch(error => {
       console.log(error);
+      this.phoneNumberInput.disabled = false;
       this.otpStatus = 0;
     });
   }

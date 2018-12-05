@@ -15,11 +15,9 @@ export class AboutPage {
     console.log('ionViewDidLoad AboutPage');
   }
 
-  showDevelopers(event){
-    let popover = this.popoverCtrl.create('DeveloperPopoverPage');
-    popover.present({
-      ev: event,
-    });
+  showDevelopers(){
+    let popover = this.popoverCtrl.create(DeveloperPopoverPage);
+    popover.present();
   }
 
 }

@@ -39,7 +39,7 @@ import { PostProductPage } from '../pages/post-product/post-product';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { RequestAcceptedPage } from '../pages/request-accepted/request-accepted';
 import { MessagingPage } from '../pages/messaging/messaging';
-import { AboutPage } from '../pages/about/about';
+import { AboutPage, DeveloperPopoverPage } from '../pages/about/about';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDOH8r5j6evr4npYDYFVUd5wleuUuH_cz4",
@@ -72,7 +72,8 @@ firebase.initializeApp({
     Filter,
     AboutPage,
     MessagingPage,
-    PopOverAccount
+    PopOverAccount,
+    DeveloperPopoverPage,
   ],
   imports: [
     BrowserModule,
@@ -108,6 +109,7 @@ firebase.initializeApp({
     AboutPage,
     MessagingPage,
     PopOverAccount,
+    DeveloperPopoverPage,
   ],
   providers: [
     StatusBar,

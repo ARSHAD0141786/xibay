@@ -76,6 +76,7 @@ export class OtpValidationPage {
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         classReference.otpStatus = 4;
         classReference.phoneNumberInput.disabled = false;
+        classReference.phoneNumberInput.nativeElement.click();
         console.log('inside verify phone number');
         classReference.logs.addLog("Firebase Auth : "+credentials);
         console.log(credentials);

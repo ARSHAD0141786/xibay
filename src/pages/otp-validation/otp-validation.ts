@@ -11,7 +11,7 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
 })
 export class OtpValidationPage {
 
-  @ViewChild('phoneNumberInput') phoneNumberInput;
+  // @ViewChild('phoneNumberInput') phoneNumberInput;
   verificationId: any;
   code: string="";
   phoneNumber: string="";
@@ -164,7 +164,6 @@ export class OtpValidationPage {
     this.message = null;
     this.canEditPhoneNumber = true;
     if(this.navParams.get('phone')){
-      this.phoneNumberInput.disabled = true;
       this.phoneNumber = this.navParams.get('phone');
       this.canEditPhoneNumber = false;
       this.validatePhoneNumber();

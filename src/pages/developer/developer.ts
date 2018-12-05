@@ -40,9 +40,9 @@ export class DeveloperPage {
   testDB(){
     this.notify.presentLoading("Please wait...");
     this.networkEngine.get("test-db").then((result:string) => {
-      this.responseData = JSON.parse(JSON.parse(result)._body);
-      this.logs.addLog("Response :"+JSON.stringify(this.responseData));
-      console.log(this.responseData);
+      console.log(result);
+      this.notify.closeLoading();
+      this.logs.addLog(result);
       this.notify.presentToast("Success");
     }, (err:any) => {
       //Connection failed message

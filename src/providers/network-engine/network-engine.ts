@@ -104,11 +104,12 @@ export class NetworkEngineProvider {
     // return this.http.get(BASE_URL+endingUrl).timeout(3000);
     return new Promise((resolve,reject) => {
       this.logs.addLog("Generating promise");
-      this.http.get(this.BASE_URL + endingUrl).
-      subscribe( res => {
+      let headers = new Headers();
+      this.http.get(this.BASE_URL + endingUrl,{headers:headers}).
+      subscribe( (res:any) => {
         console.log('network engine res');
         this.logs.addLog("res");
-        resolve(JSON.stringify(res));
+        resolve(JSON.parse(res._body));
       }, (err) =>{
         console.log('network engine err');
         this.logs.addLog("err");        

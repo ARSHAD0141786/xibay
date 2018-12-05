@@ -3,7 +3,6 @@ import { Nav, Platform, MenuController, Events, ModalController, AlertController
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import * as firebase from 'firebase';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { MainTabsPage } from '../pages/main-tabs/main-tabs';
@@ -72,9 +71,9 @@ export class Xibay {
 
   permanentPages:PageInterface[] = [
     {title:'Tutorials',name:'TutorialsPage',component:TutorialsPage,icon:'ios-photos-outline'},
-    {title:'FAQ ?',name:'faq',component:TutorialsPage,icon:'ios-help-circle-outline'},
+    {title:'FAQ ?',name:'FaqPage',component:'FaqPage',icon:'ios-help-circle-outline'},
     {title:'Message to developer',name:'MessagingPage',component:MessagingPage,icon:'ios-chatbubbles-outline'},
-    {title:'Terms & Policies',name:'termsAndPolicies',component:TutorialsPage,icon:'ios-copy-outline'},
+    {title:'Terms & Policies',name:'TermsAndPoliciesPage',component:"TermsAndPoliciesPage",icon:'ios-copy-outline'},
     {title:'About',name:'AboutPage',component:AboutPage,image_icon:'assets/imgs/logo.png'},
     {title:'Developer',name:'DeveloperPage',component:DeveloperPage,icon:'ios-construct-outline'}
   ];

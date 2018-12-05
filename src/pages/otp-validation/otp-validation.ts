@@ -15,15 +15,33 @@ export class OtpValidationPage {
   verificationId: any;
   code: string="";
   phoneNumber: string="";
-  isOTPSent:boolean;
-  sendInnerHtml:string;
-  verifyInnerHtml:string;
-  counter:number=0;
+  
+  
+  //otp status 
+  /**
+   * 0 : not initialize anything
+   * 1 : verifying phone number in database
+   * 2 : otp send initialize
+   * 3 : otp not sent successfully
+   * 4 : otp sent successfully
+   * 5 : otp verifying
+   * 6 : otp verified successfully
+   * 7 : otp not verified successfully
+   */
+  otpStatus:number = 0;
+  btnText:any = [
+    "Send OTP",
+    "Please wait...",
+    "Sending OTP...",
+    "Send OTP",
+    "Verify OTP",
+    "Verifying OTP...",
+    "Verified",
+    "Verify OTP"
+  ]
+  
   message:string;
-  myInterval:any;
   canEditPhoneNumber:boolean;
-  timeLeft:number;
-  resendInterval:any;
   isPhoneNumberExists:boolean;
 
   constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, public navParams: NavParams,private logs:LogsServiceProvider,private viewCtrl: ViewController) {
@@ -35,104 +53,62 @@ export class OtpValidationPage {
     if(this.phoneNumber.length < 10 || this.phoneNumber.length > 10){
       this.message='Invalid Phone number';
     }else{
+      this.otpStatus = 1;
       this.checkNumberInDatabase();
     }
   }
 
   validateOTP(){
     if(this.code.length < 6 || this.code.length > 6){
-      this.message = 'Invalid OTP';
+      this.message = 'Invalid OTP! It must be a 6-digit number';
     }else{
+      this.otpStatus = 5;
       this.message = null;
       this.verifyOTP();
     }
   }
 
   sendOTP(){
-    clearInterval(this.myInterval);//for safety
     console.log('OTP SEND to : '+this.phoneNumber);
-    // this.myInterval = setInterval( () => {
-    //   this.setInnerHtml(1);
-    // },300);
-    this.sendInnerHtml = 'Sending OTP...';
     try{
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-        clearInterval(this.myInterval);
+        this.otpStatus = 4;
         this.logs.addLog("Firebase Auth : "+credentials);
         this.verificationId = credentials.verificationId;
         //common stuff
-        this.counter = 0;
-        this.isOTPSent = true;
         this.message=null;
-        this.startResendTimeout();
       },(error)=>{
+        this.otpStatus = 3;
         this.message = error;
         this.logs.addLog("Error : "+error);
-        //common stuff
-        this.sendInnerHtml = 'Send Otp';
-        this.counter = 0;
-        clearInterval(this.myInterval);
       });
     }catch(err){
+      this.otpStatus = 3;
       console.log(err);
       this.message = err;
     }
     
   }
 
-  startResendTimeout(){
-    this.resendInterval = setInterval( () => {
-      this.timeLeft--;
-      if(this.timeLeft == 1800000){
-        clearInterval(this.resendInterval);
-      }
-    },1000);
-  }
-
-  setInnerHtml(i:number){
-    if(i==1){
-      switch(this.counter%4){
-        case 0: this.sendInnerHtml = 'Sending.';break;
-        case 1: this.sendInnerHtml = 'Sending..';break;
-        case 2: this.sendInnerHtml = 'Sending...';break;
-        case 3: this.sendInnerHtml = 'Sending';break;
-      }
-    }else{
-      switch(this.counter%4){
-        case 0: this.verifyInnerHtml = 'Verifying.';break;
-        case 1: this.verifyInnerHtml = 'Verifying..';break;
-        case 2: this.verifyInnerHtml = 'Verifying...';break;
-        case 3: this.verifyInnerHtml = 'Verifying';break;
-      }
-    }
-    this.counter++;
-  }
-
   verifyOTP(){
-    this.myInterval = setInterval( () => {
-      this.setInnerHtml(2);
-    },500);
-    
     try{
       let signInCredential = firebase.auth.PhoneAuthProvider.credential(this.verificationId,this.code);
       firebase.auth().signInWithCredential(signInCredential).then((info)=>{
         console.log(info);
+        this.otpStatus = 6;
         this.logs.addLog(""+info);
         this.message = 'Successfully verified OTP';
-        this.verifyInnerHtml = 'Verify OTP';
-        clearInterval(this.myInterval);
-        clearInterval(this.resendInterval);
+       
         this.viewCtrl.dismiss(this.phoneNumber);
       },(error)=>{
         this.message = 'Wrong OTP';
-        this.verifyInnerHtml = 'Verify OTP';
-        clearInterval(this.myInterval);
+        this.otpStatus = 7;
         this.logs.addLog(error);
       });
     }catch(err){
+      this.otpStatus = 7;
       this.message = err;
       console.log(err);
-      clearInterval(this.myInterval);
     }
   }
 
@@ -141,12 +117,11 @@ export class OtpValidationPage {
       phone_number : this.phoneNumber,
     }
     if(this.navParams.get('wantUserToExists')==undefined){
+      this.otpStatus = 2;
       this.sendOTP();
       return;
     }
-    this.sendInnerHtml = 'Please wait...';
     this.networkEngine.post(userPostData,'check-phone-number-exists').then( (result:any) => {
-      this.sendInnerHtml = 'Send OTP';
       if(result.code ==786){
         this.isPhoneNumberExists = true;
       }else{
@@ -154,16 +129,16 @@ export class OtpValidationPage {
       }
       console.log("Want user to exists : " + this.navParams.get('wantUserToExists'));
       if(this.navParams.get('wantUserToExists') == this.isPhoneNumberExists){
+        this.otpStatus = 2;
         this.sendOTP();
       }else{
+        this.otpStatus = 0;
         if(this.navParams.get('wantUserToExists')!=undefined){
           if(this.isPhoneNumberExists){
             this.message = 'This number is already registered';
           }else{
             this.message = 'Sorry! This number is not registered with us';
           }
-        }else{
-          this.sendOTP();//in case of messaging
         }
       }
     });
@@ -176,12 +151,8 @@ export class OtpValidationPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OtpValidationPage');
-    this.sendInnerHtml = 'Send OTP';
-    this.verifyInnerHtml = 'Verify OTP';
-    this.isOTPSent = false;
     this.message = null;
     this.canEditPhoneNumber = true;
-    this.timeLeft = 1800000+90*1000;// 2min = 120 sec = 120000milisec
     if(this.navParams.get('phone')){
       this.phoneNumberInput.disabled = true;
       this.phoneNumber = this.navParams.get('phone');
@@ -191,13 +162,8 @@ export class OtpValidationPage {
   }
 
   editPhoneNumber(){
-    this.sendInnerHtml = 'Send OTP';
-    this.verifyInnerHtml = 'Verify OTP';
-    this.isOTPSent = false;
     this.message = null;
-    clearInterval(this.myInterval);
-    this.timeLeft = 2*60;
-    clearInterval(this.resendInterval);
+    this.otpStatus = 0;
   }
 
 

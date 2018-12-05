@@ -6,25 +6,25 @@
 
 
 <ion-content padding>
-  <div *ngIf="!isOTPSent" align="center">
+  <div *ngIf="otpStatus <= 3" align="center">
     <p>Please enter your phone number <b>without</b> using country code and click on SEND OTP button. After that an OTP will be send on your phone number to authenticate the correct phone number.<br/><span style="font-size: 10px;">*Charges may apply.</span></p>
     <ion-note>Like : "9290XXXXXX"</ion-note>
     <ion-input type="number" #phoneNumberInput placeholder="Phone number" [(ngModel)]="phoneNumber"></ion-input>
     <p *ngIf="message" style="color: crimson;font-size: 14px">{{message}}</p>
     <p></p>
-    <button ion-button (click)="validatePhoneNumber()" round outline [disabled]="sendInnerHtml != 'Send OTP'" >{{sendInnerHtml}}</button>    
+    <button ion-button (click)="validatePhoneNumber()" round outline [disabled]="otpStatus == 1 || otpStatus == 2" >{{btnText[otpStatus]}}</button>    
   </div>
 
-  <div *ngIf="isOTPSent">
+  <div *ngIf="otpStatus >= 4">
     <p>We have sent a 6-digit OTP to the phone number <b>"{{this.phoneNumber}}"</b>. In case OTP not received then click on Resend OTP button or change phone number in case of wrong number entered.</p>
     <ion-input type="number" placeholder="Enter OTP" [(ngModel)]="code"></ion-input>
     <p *ngIf="message" style="color: crimson;font-size: 14px">{{message}}</p>
     <ion-row>
       <ion-col>
-        <button ion-button block (click)="validateOTP()" round outline [disabled]="verifyInnerHtml != 'Verify OTP'">{{verifyInnerHtml}}</button>
+        <button ion-button block (click)="validateOTP()" round outline [disabled]="otpStatus == 5 || otpStatus == 6">{{btnText[otpStatus]}}</button>
       </ion-col>
       <ion-col>
-        <button ion-button block (click)="sendOTP()" round outline [disabled]="timeLeft > 0"><span *ngIf="timeLeft == 0">Resend OTP</span><span *ngIf="timeLeft>0">{{timeLeft | date:'mm:ss'}}</span></button>
+        <button ion-button block (click)="sendOTP()" round outline [disabled]="timeLeft > 0">Resend OTP</button>
         </ion-col>
     </ion-row>
     <p><a *ngIf="canEditPhoneNumber==true" (click)="editPhoneNumber()">Change phone number?</a></p>

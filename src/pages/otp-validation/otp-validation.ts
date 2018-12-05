@@ -70,23 +70,23 @@ export class OtpValidationPage {
 
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
+    let classReference = this;
     try{
       this.phoneNumberInput.disabled = true;
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-        this.otpStatus = 4;
-        this.phoneNumberInput.disabled = false;
-        this.phoneNumberInput.nativeElement.click();
+        classReference.otpStatus = 4;
+        classReference.phoneNumberInput.disabled = false;
         console.log('inside verify phone number');
-        this.logs.addLog("Firebase Auth : "+credentials);
+        classReference.logs.addLog("Firebase Auth : "+credentials);
         console.log(credentials);
-        this.verificationId = credentials.verificationId;
+        classReference.verificationId = credentials.verificationId;
         //common stuff
-        this.message=null;
+        classReference.message=null;
       },(error)=>{
-        this.otpStatus = 3;
-        this.phoneNumberInput.disabled = false;
-        this.message = error;
-        this.logs.addLog("Error : "+error);
+        classReference.otpStatus = 3;
+        classReference.phoneNumberInput.disabled = false;
+        classReference.message = error;
+        classReference.logs.addLog("Error : "+error);
         console.log(error);
       });
     }catch(err){

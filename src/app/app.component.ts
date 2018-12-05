@@ -8,10 +8,8 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { MainTabsPage } from '../pages/main-tabs/main-tabs';
 import { UserDataProvider } from '../providers/user-data/user-data';
 import { TutorialsPage } from '../pages/tutorials/tutorials';
-import { CameraPage } from '../pages/camera/camera';
 import { LoginPage } from '../pages/login/login';
 import { AccountPage } from '../pages/account/account';
-// import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { DeveloperPage } from '../pages/developer/developer';
 import { RequestsPage } from '../pages/requests/requests';
@@ -55,7 +53,6 @@ export class Xibay {
   loggedInPages:PageInterface[] = [
     {title:'User Info',name:'AccountPage',component:AccountPage,icon:'ios-contact-outline'},
     {title:'Logout',name:'LoginPage',component:LoginPage,icon:'ios-log-out-outline',logsOut:true},
-    {title:'Notification',name:'NotificationsPage',component:'NotificationsPage',icon:'ios-notifications-outline'}
   ];
 
   //logout pages
@@ -66,7 +63,6 @@ export class Xibay {
   loggedOutPages:PageInterface[] = [
     {title:'Login',name:'LoginPage',component:LoginPage,icon:'ios-log-in-outline'},
     {title:'Sign Up',component:RegistrationPage,name:'RegistrationPage',icon:'ios-clipboard-outline'},
-    {title:'Support',name:'CameraPage',component:CameraPage,icon:'ios-redo-outline'}
   ];
 
   permanentPages:PageInterface[] = [

@@ -107,17 +107,18 @@ export class NetworkEngineProvider {
       let headers = new Headers();
       this.http.get(this.BASE_URL + endingUrl,{headers:headers}).
       subscribe( (res:any) => {
-        console.log('network engine res');
-        this.logs.addLog("res");
-        resolve(JSON.parse(res._body));
-      }, (err) =>{
+        try{
+          console.log(res);
+          resolve(JSON.parse(res._body));
+        }catch(error){
+          console.log(error);
+          reject(error);
+        }
+      }, err =>{
         console.log('network engine err');
         this.logs.addLog("err");        
         reject(err);
-      }, () => {
-        console.log('Success network request');
-        this.logs.addLog("Clean");        
-      });
+      })
     });
   }
 

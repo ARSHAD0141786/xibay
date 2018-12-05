@@ -141,6 +141,12 @@ export class OtpValidationPage {
           }
         }
       }
+    }, error => {
+      this.otpStatus = 0;
+      console.log(error);
+    }).catch(error => {
+      console.log(error);
+      this.otpStatus = 0;
     });
   }
 

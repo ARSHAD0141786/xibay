@@ -86,7 +86,7 @@ export class NetworkEngineProvider {
   connectionSuscribtion(){
     this.network.onDisconnect().subscribe(() => {
       console.log('network was disconnected :-(');
-      this.notify.presentToast('No Internet access.',1,3000);
+      this.notify.presentToast('You are offline.Please check your network connection',1,3000);
       NetworkEngineProvider.isConnected = false;
     });
     this.network.onConnect().subscribe(() => {

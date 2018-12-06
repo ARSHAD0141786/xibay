@@ -105,23 +105,10 @@ export class OtpValidationPage {
     try{
       this.phoneNumberInput.disabled = true;
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-        try{
-          this.otpStatus = 4;
-          console.log('inside verify phone number ' + this.otpStatus);
-          this.logs.addLog("Firebase Auth : "+credentials);
-          console.log(credentials);
-          this.phoneNumberInput.disabled = false;
-          this.verificationId = credentials.verificationId;
-          //common stuff
-          this.message=null;
-        }catch(err){
-          console.log(err);
-          console.log(this.otpStatus);
-          this.otpStatus = 4;
-        }finally{
-          console.log(this.otpStatus);
-          this.otpStatus = 4;
-        }
+        this.verificationId = credentials.verificationId;
+        this.message = null;
+        this.otpStatus = 4;
+        console.log(credentials);
       },(error)=>{
         this.otpStatus = 3;
         this.phoneNumberInput.disabled = false;

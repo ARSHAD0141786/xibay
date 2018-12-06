@@ -28,7 +28,7 @@ export class OtpValidationPage {
    * 6 : otp verified successfully
    * 7 : otp not verified successfully
    */
-  static otpStatus:number = 0;
+  otpStatus:number = 0;
   btnText:any = [
     "Send OTP",
     "Please wait...",
@@ -53,7 +53,7 @@ export class OtpValidationPage {
     if(this.phoneNumber.length < 10 || this.phoneNumber.length > 10){
       this.message='Invalid Phone number';
     }else{
-      OtpValidationPage.otpStatus = 1;
+      this.otpStatus = 1;
       this.checkNumberInDatabase();
     }
   }
@@ -62,7 +62,7 @@ export class OtpValidationPage {
     if(this.code.length < 6 || this.code.length > 6){
       this.message = 'Invalid OTP! It must be a 6-digit number';
     }else{
-      OtpValidationPage.otpStatus = 5;
+      this.otpStatus = 5;
       this.message = null;
       this.verifyOTP();
     }
@@ -70,27 +70,29 @@ export class OtpValidationPage {
 
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
-    let classReference = this;
+    setTimeout( () => {
+      this.otpStatus = 4;
+    },5000);
     try{
       this.phoneNumberInput.disabled = true;
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-        OtpValidationPage.otpStatus = 4;
-        classReference.phoneNumberInput.disabled = false;
-        classReference.phoneNumberInput.nativeElement.click();
+        this.otpStatus = 0;
+        this.phoneNumberInput.disabled = false;
         console.log('inside verify phone number');
+        this.logs.addLog("Firebase Auth : "+credentials);
         console.log(credentials);
-        classReference.verificationId = credentials.verificationId;
+        this.verificationId = credentials.verificationId;
         //common stuff
-        classReference.message=null;
+        this.message=null;
       },(error)=>{
-        OtpValidationPage.otpStatus = 3;
-        classReference.phoneNumberInput.disabled = false;
-        classReference.message = error;
-        classReference.logs.addLog("Error : "+error);
+        this.otpStatus = 3;
+        this.phoneNumberInput.disabled = false;
+        this.message = error;
+        this.logs.addLog("Error : "+error);
         console.log(error);
       });
     }catch(err){
-      OtpValidationPage.otpStatus = 3;
+      this.otpStatus = 3;
       this.phoneNumberInput.disabled = false;
       console.log(err);
       this.message = err;
@@ -104,18 +106,18 @@ export class OtpValidationPage {
       let signInCredential = firebase.auth.PhoneAuthProvider.credential(this.verificationId,this.code);
       firebase.auth().signInWithCredential(signInCredential).then((info)=>{
         console.log(info);
-        OtpValidationPage.otpStatus = 6;
+        this.otpStatus = 6;
         this.logs.addLog(""+info);
         this.message = 'Successfully verified OTP';
        
         this.viewCtrl.dismiss(this.phoneNumber);
       },(error)=>{
         this.message = 'Wrong OTP';
-        OtpValidationPage.otpStatus = 7;
+        this.otpStatus = 7;
         this.logs.addLog(error);
       });
     }catch(err){
-      OtpValidationPage.otpStatus = 7;
+      this.otpStatus = 7;
       this.message = err;
       console.log(err);
     }
@@ -126,7 +128,7 @@ export class OtpValidationPage {
       phone_number : this.phoneNumber,
     }
     if(this.navParams.get('wantUserToExists')==undefined){
-      OtpValidationPage.otpStatus = 2;
+      this.otpStatus = 2;
       this.sendOTP();
       return;
     }
@@ -140,10 +142,10 @@ export class OtpValidationPage {
       }
       console.log("Want user to exists : " + this.navParams.get('wantUserToExists'));
       if(this.navParams.get('wantUserToExists') == this.isPhoneNumberExists){
-        OtpValidationPage.otpStatus = 2;
+        this.otpStatus = 2;
         this.sendOTP();
       }else{
-        OtpValidationPage.otpStatus = 0;
+        this.otpStatus = 0;
         if(this.navParams.get('wantUserToExists')!=undefined){
           if(this.isPhoneNumberExists){
             this.message = 'This number is already registered';
@@ -153,13 +155,13 @@ export class OtpValidationPage {
         }
       }
     }, error => {
-      OtpValidationPage.otpStatus = 0;
+      this.otpStatus = 0;
       console.log(error);
       this.phoneNumberInput.disabled = false;
     }).catch(error => {
       console.log(error);
       this.phoneNumberInput.disabled = false;
-      OtpValidationPage.otpStatus = 0;
+      this.otpStatus = 0;
     });
   }
 
@@ -181,7 +183,7 @@ export class OtpValidationPage {
 
   editPhoneNumber(){
     this.message = null;
-    OtpValidationPage.otpStatus = 0;
+    this.otpStatus = 0;
   }
 
 

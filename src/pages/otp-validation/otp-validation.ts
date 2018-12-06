@@ -43,6 +43,8 @@ export class OtpValidationPage{
   message:string;
   canEditPhoneNumber:boolean;
   isPhoneNumberExists:boolean;
+  resendInterval:any;
+  resendBtnDisabled:boolean=false;
 
   constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, public navParams: NavParams,private logs:LogsServiceProvider,private viewCtrl: ViewController) {
     
@@ -103,6 +105,11 @@ export class OtpValidationPage{
     console.log('OTP SEND to : '+this.phoneNumber);
     this.phoneNumberInput.disabled = true;
     this.otpStatus = 4;
+    this.resendBtnDisabled = true;
+    clearInterval(this.resendInterval);
+    this.resendInterval = setTimeout( () => {
+      this.resendBtnDisabled = false;
+    },4000);
     try{
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         this.verificationId = credentials.verificationId;
@@ -131,8 +138,8 @@ export class OtpValidationPage{
         this.otpStatus = 6;
         this.logs.addLog(""+info);
         this.message = 'Successfully verified OTP';
-       
         this.viewCtrl.dismiss(this.phoneNumber);
+        clearInterval(this.resendInterval);
       },(error)=>{
         this.message = 'Wrong OTP';
         this.otpStatus = 7;
@@ -207,6 +214,7 @@ export class OtpValidationPage{
     this.message = null;
     this.phoneNumberInput.disabled = false;
     this.otpStatus = 0;
+    clearInterval(this.resendInterval);
   }
 
 

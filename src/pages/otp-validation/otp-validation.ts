@@ -109,6 +109,10 @@ export class OtpValidationPage {
         this.verificationId = credentials.verificationId;
         //common stuff
         
+        setTimeout( () => {
+          this.phoneNumberInput.click();
+          this.phoneNumberInput.nativeElement.click();
+        },4000);
         this.message=null;
       },(error)=>{
         this.otpStatus = 3;

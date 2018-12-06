@@ -71,19 +71,22 @@ export class OtpValidationPage {
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
     
+   
+
     try{
       this.phoneNumberInput.disabled = true;
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
+        setTimeout( () => {
+          this.otpStatus = 4;
+        },4000);
         console.log('inside verify phone number');
         this.logs.addLog("Firebase Auth : "+credentials);
         console.log(credentials);
+        this.phoneNumberInput.disabled = false;
         this.verificationId = credentials.verificationId;
         //common stuff
+        
         this.message=null;
-        setTimeout( () => {
-          this.otpStatus = 4;
-          this.phoneNumberInput.disabled = false;
-        },1000);
       },(error)=>{
         this.otpStatus = 3;
         this.phoneNumberInput.disabled = false;

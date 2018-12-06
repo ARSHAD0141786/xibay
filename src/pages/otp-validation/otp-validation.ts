@@ -71,36 +71,10 @@ export class OtpValidationPage{
   }
 
   resendOTP(){
-    this.otpStatus = 4;
-    this.btnTextResendOtp = 'Resedning OTP...';
-    try{
-      (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-        this.otpStatus = 4;
-        console.log('inside verify phone number');
-        this.logs.addLog("Firebase Auth : "+credentials);
-        console.log(credentials);
-        this.btnTextResendOtp = 'Resend OTP';
-        this.phoneNumberInput.disabled = false;
-        this.verificationId = credentials.verificationId;
-        //common stuff
-        this.message='OTP sent successfully';
-      },(error)=>{
-        this.btnTextResendOtp = 'Resend OTP';
-        this.otpStatus = 4;
-        this.phoneNumberInput.disabled = false;
-        this.message = error;
-        this.logs.addLog("Error : "+error);
-        console.log(error);
-      });
-    }catch(err){
-      this.btnTextResendOtp = 'Resend OTP';
-      this.otpStatus = 4;
-      this.phoneNumberInput.disabled = false;
-      console.log(err);
-      this.message = err;
-    }
+    this.sendOTP();
   }
 
+  //do something of app crash when no internet access
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
     this.phoneNumberInput.disabled = true;

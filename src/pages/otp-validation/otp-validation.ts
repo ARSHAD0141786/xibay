@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ErrorHandler } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import * as firebase from 'firebase';
@@ -9,14 +9,13 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
   selector: 'page-otp-validation',
   templateUrl: 'otp-validation.html',
 })
-export class OtpValidationPage {
+export class OtpValidationPage{
 
   @ViewChild('phoneNumberInput') phoneNumberInput;
   verificationId: any;
   code: string="";
   phoneNumber: string="";
-  
-  
+
   //otp status 
   /**
    * 0 : not initialize anything
@@ -104,19 +103,23 @@ export class OtpValidationPage {
     console.log('OTP SEND to : '+this.phoneNumber);
     this.phoneNumberInput.disabled = true;
     this.otpStatus = 4;
-    (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-      this.verificationId = credentials.verificationId;
-      this.message = null;
-      console.log(this);
-      console.log(credentials);
-    },(error)=>{
+    try{
+      (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
+        this.verificationId = credentials.verificationId;
+        this.message = null;
+        console.log(this);
+        console.log(credentials);
+      },(error)=>{
+        this.otpStatus = 3;
+        this.message = error;
+        this.logs.addLog("Error : "+error);
+        console.log(error);
+      });
+    }catch(err){
+      console.log(err);
       this.otpStatus = 3;
-      this.message = error;
-      this.logs.addLog("Error : "+error);
-      console.log(error);
-    });
-    console.log('outside verify phone number');
-    
+      this.message = err;
+    }
   }
 
   verifyOTP(){
@@ -201,6 +204,7 @@ export class OtpValidationPage {
 
   editPhoneNumber(){
     this.message = null;
+    this.phoneNumberInput.disabled = false;
     this.otpStatus = 0;
   }
 

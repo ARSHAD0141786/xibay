@@ -102,11 +102,11 @@ export class OtpValidationPage{
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
     this.phoneNumberInput.disabled = true;
-    this.otpStatus = 4;
     try{
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         this.verificationId = credentials.verificationId;
         this.message = null;
+        this.otpStatus = 4;
         console.log(this);
         console.log(credentials);
       },(error)=>{
@@ -116,6 +116,7 @@ export class OtpValidationPage{
         console.log(error);
       });
     }catch(err){
+      this.phoneNumberInput.disabled = false;
       console.log(err);
       this.otpStatus = 3;
       this.message = err;

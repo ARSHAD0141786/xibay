@@ -6,7 +6,7 @@
 
 
 <ion-content padding>
-  <div *ngIf="otpStatus <= 3" align="center">
+  <div [hidden]="otpStatus >= 4" align="center">
     <p>Please enter your phone number <b>without</b> using country code and click on SEND OTP button. After that an OTP will be send on your phone number to authenticate the correct phone number.<br/><span style="font-size: 10px;">*Charges may apply.</span></p>
     <ion-note>Like : "9290XXXXXX"</ion-note>
     <ion-input type="number" #phoneNumberInput [disabled]="canEditPhoneNumber == false"  placeholder="Phone number" [(ngModel)]="phoneNumber"></ion-input>
@@ -15,7 +15,7 @@
     <button ion-button (click)="validatePhoneNumber()" round outline [disabled]="otpStatus == 1 || otpStatus == 2" >{{btnText[otpStatus]}}</button>    
   </div>
 
-  <div *ngIf="otpStatus >= 4">
+  <div [hidden]="otpStatus <= 3">
     <p>We have sent a 6-digit OTP to the phone number <b>"{{this.phoneNumber}}"</b>. In case OTP not received then click on Resend OTP button or change phone number in case of wrong number entered.</p>
     <ion-input type="number" placeholder="Enter OTP" [(ngModel)]="code"></ion-input>
     <p *ngIf="message" style="color: crimson;font-size: 14px">{{message}}</p>

@@ -67,8 +67,8 @@ export class Xibay {
 
   permanentPages:PageInterface[] = [
     {title:'Tutorials',name:'TutorialsPage',component:TutorialsPage,icon:'ios-photos-outline'},
+    {title:'Xibay Support',name:'MessagingPage',component:MessagingPage,icon:'ios-redo-outline'},
     {title:'FAQ ?',name:'FaqPage',component:'FaqPage',icon:'ios-help-circle-outline'},
-    {title:'Message to developer',name:'MessagingPage',component:MessagingPage,icon:'ios-chatbubbles-outline'},
     {title:'Terms & Policies',name:'TermsAndPoliciesPage',component:"TermsAndPoliciesPage",icon:'ios-copy-outline'},
     {title:'About',name:'AboutPage',component:AboutPage,image_icon:'assets/imgs/logo.png'},
     {title:'Developer',name:'DeveloperPage',component:DeveloperPage,icon:'ios-construct-outline'}

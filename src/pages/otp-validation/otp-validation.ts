@@ -117,6 +117,10 @@ export class OtpValidationPage {
         }catch(err){
           console.log(err);
           console.log(this.otpStatus);
+          this.otpStatus = 4;
+        }finally{
+          console.log(this.otpStatus);
+          this.otpStatus = 4;
         }
       },(error)=>{
         this.otpStatus = 3;

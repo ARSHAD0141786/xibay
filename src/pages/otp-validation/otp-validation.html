@@ -24,7 +24,7 @@
         <button ion-button block (click)="validateOTP()" round outline [disabled]="otpStatus == 5 || otpStatus == 6">{{btnText[otpStatus]}}</button>
       </ion-col>
       <ion-col>
-        <button ion-button block (click)="sendOTP()" round outline >Resend OTP</button>
+        <button ion-button block (click)="resendOTP()" round outline >Resend OTP</button>
         </ion-col>
     </ion-row>
     <p><a *ngIf="canEditPhoneNumber==true" (click)="editPhoneNumber()">Change phone number?</a></p>

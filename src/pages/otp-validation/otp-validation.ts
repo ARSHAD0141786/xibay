@@ -27,6 +27,7 @@ export class OtpValidationPage {
    * 5 : otp verifying
    * 6 : otp verified successfully
    * 7 : otp not verified successfully
+   * 8 : resending OTP
    */
   otpStatus:number = 0;
   btnText:any = [
@@ -37,7 +38,8 @@ export class OtpValidationPage {
     "Verify OTP",
     "Verifying OTP...",
     "Verified",
-    "Verify OTP"
+    "Verify OTP",
+    "Resending OTP..."
   ]
   
   message:string;
@@ -68,6 +70,32 @@ export class OtpValidationPage {
     }
   }
 
+  resendOTP(){
+    this.otpStatus = 8;
+    try{
+      (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
+        this.otpStatus = 4;
+        console.log('inside verify phone number');
+        this.logs.addLog("Firebase Auth : "+credentials);
+        console.log(credentials);
+        this.phoneNumberInput.disabled = false;
+        this.verificationId = credentials.verificationId;
+        //common stuff
+        this.message='OTP sent successfully';
+      },(error)=>{
+        this.otpStatus = 4;
+        this.phoneNumberInput.disabled = false;
+        this.message = error;
+        this.logs.addLog("Error : "+error);
+        console.log(error);
+      });
+    }catch(err){
+     this.otpStatus = 4;
+     this.phoneNumberInput.disabled = false;
+     console.log(err);
+     this.message = err;
+    }
+  }
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
     
@@ -76,9 +104,7 @@ export class OtpValidationPage {
     try{
       this.phoneNumberInput.disabled = true;
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-        setTimeout( () => {
-          this.otpStatus = 4;
-        },4000);
+       this.otpStatus = 4;
         console.log('inside verify phone number');
         this.logs.addLog("Firebase Auth : "+credentials);
         console.log(credentials);

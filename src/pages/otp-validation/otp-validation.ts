@@ -98,9 +98,6 @@ export class OtpValidationPage {
   }
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
-    
-   
-
     try{
       this.phoneNumberInput.disabled = true;
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{

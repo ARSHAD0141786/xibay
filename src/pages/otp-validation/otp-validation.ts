@@ -76,6 +76,10 @@ export class OtpValidationPage{
 
   //do something of app crash when no internet access
   sendOTP(){
+    if(!NetworkEngineProvider.isConnected){
+      this.message = 'No network! Please check network connection.'
+      return;
+    }
     console.log('OTP SEND to : '+this.phoneNumber);
     this.phoneNumberInput.disabled = true;
     this.otpStatus = 4;
@@ -83,7 +87,7 @@ export class OtpValidationPage{
     clearInterval(this.resendInterval);
     this.resendInterval = setTimeout( () => {
       this.resendBtnDisabled = false;
-    },4000);
+    },90000);
     try{
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         this.verificationId = credentials.verificationId;

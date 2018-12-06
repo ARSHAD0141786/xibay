@@ -102,27 +102,19 @@ export class OtpValidationPage {
 
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
-    try{
-      this.phoneNumberInput.disabled = true;
-      (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-        this.verificationId = credentials.verificationId;
-        this.message = null;
-        console.log(this);
-        this.otpStatus = 4;
-        console.log(credentials);
-      },(error)=>{
-        this.otpStatus = 3;
-        this.phoneNumberInput.disabled = false;
-        this.message = error;
-        this.logs.addLog("Error : "+error);
-        console.log(error);
-      });
-    }catch(err){
+    this.phoneNumberInput.disabled = true;
+    this.otpStatus = 4;
+    (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
+      this.verificationId = credentials.verificationId;
+      this.message = null;
+      console.log(this);
+      console.log(credentials);
+    },(error)=>{
       this.otpStatus = 3;
-      this.phoneNumberInput.disabled = false;
-      console.log(err);
-      this.message = err;
-    }
+      this.message = error;
+      this.logs.addLog("Error : "+error);
+      console.log(error);
+    });
     console.log('outside verify phone number');
     
   }

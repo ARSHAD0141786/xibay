@@ -107,6 +107,7 @@ export class OtpValidationPage {
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         this.verificationId = credentials.verificationId;
         this.message = null;
+        console.log(this);
         this.otpStatus = 4;
         console.log(credentials);
       },(error)=>{

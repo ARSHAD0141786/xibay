@@ -18,7 +18,7 @@ export class TutorialsPage {
   tutorials = [
     {
       title: "Welcome to XIBAY",
-      description: "Xibay - E<b>X</b>change <b>I</b>n <b>B</b>etter w<b>AY</b>.<br/>Find everything you need for your <b>engineering</b>",
+      description: "Xibay - E<b>X</b>change <b>I</b>n <b>B</b>etter w<b>AY</b>.<br/>Find almost everything you need for your <b>engineering</b>",
       image: "assets/imgs/tuts/first.jpg",
     },
     {
@@ -33,7 +33,7 @@ export class TutorialsPage {
     },
     {
       title: "We gurantee for security",
-      description: "<b>XIBAY</b> team always look forward for the security and easiness of their family.<br/>Trust us and play we <b>care</b> for you.",
+      description: "<b>XIBAY</b> team always look forward for the security and easiness of their family.<br/>Trust us and enjoy we <b>care</b> for you.",
       image: "assets/imgs/tuts/secure.jpg",
     }
   ];

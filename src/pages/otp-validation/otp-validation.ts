@@ -27,7 +27,6 @@ export class OtpValidationPage {
    * 5 : otp verifying
    * 6 : otp verified successfully
    * 7 : otp not verified successfully
-   * 8 : resending OTP
    */
   otpStatus:number = 0;
   btnText:any = [
@@ -39,9 +38,9 @@ export class OtpValidationPage {
     "Verifying OTP...",
     "Verified",
     "Verify OTP",
-    "Resending OTP..."
   ]
   
+  btnTextResendOtp:string = 'Resend OTP';
   message:string;
   canEditPhoneNumber:boolean;
   isPhoneNumberExists:boolean;
@@ -71,18 +70,21 @@ export class OtpValidationPage {
   }
 
   resendOTP(){
-    this.otpStatus = 8;
+    this.otpStatus = 4;
+    this.btnTextResendOtp = 'Resedning OTP...';
     try{
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
         this.otpStatus = 4;
         console.log('inside verify phone number');
         this.logs.addLog("Firebase Auth : "+credentials);
         console.log(credentials);
+        this.btnTextResendOtp = 'Resend OTP';
         this.phoneNumberInput.disabled = false;
         this.verificationId = credentials.verificationId;
         //common stuff
         this.message='OTP sent successfully';
       },(error)=>{
+        this.btnTextResendOtp = 'Resend OTP';
         this.otpStatus = 4;
         this.phoneNumberInput.disabled = false;
         this.message = error;
@@ -90,29 +92,26 @@ export class OtpValidationPage {
         console.log(error);
       });
     }catch(err){
-     this.otpStatus = 4;
-     this.phoneNumberInput.disabled = false;
-     console.log(err);
-     this.message = err;
+      this.btnTextResendOtp = 'Resend OTP';
+      this.otpStatus = 4;
+      this.phoneNumberInput.disabled = false;
+      console.log(err);
+      this.message = err;
     }
   }
+
   sendOTP(){
     console.log('OTP SEND to : '+this.phoneNumber);
     try{
       this.phoneNumberInput.disabled = true;
       (<any>window).FirebasePlugin.verifyPhoneNumber('+91' + this.phoneNumber,60,(credentials)=>{
-       this.otpStatus = 4;
-        console.log('inside verify phone number');
+        this.otpStatus = 4;
+        console.log('inside verify phone number ' + this.otpStatus);
         this.logs.addLog("Firebase Auth : "+credentials);
         console.log(credentials);
         this.phoneNumberInput.disabled = false;
         this.verificationId = credentials.verificationId;
         //common stuff
-        
-        setTimeout( () => {
-          this.phoneNumberInput.click();
-          this.phoneNumberInput.nativeElement.click();
-        },4000);
         this.message=null;
       },(error)=>{
         this.otpStatus = 3;

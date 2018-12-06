@@ -78,6 +78,7 @@ export class OtpValidationPage{
   sendOTP(){
     if(!NetworkEngineProvider.isConnected){
       this.message = 'No network! Please check network connection.'
+      this.otpStatus = 0;
       return;
     }
     console.log('OTP SEND to : '+this.phoneNumber);

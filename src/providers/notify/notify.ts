@@ -1,44 +1,49 @@
 import { Injectable } from '@angular/core';
-import { LoadingController,ToastController,AlertController } from 'ionic-angular';
-import { LogsServiceProvider } from '../logs-service/logs-service';
+import { LoadingController,ToastController } from 'ionic-angular';
 
 @Injectable()
 export class NotifyProvider {
   private loader: any;
-  private loading_is_present = false;
+  private waiting:any;
   constructor(
     private loading:LoadingController,
-    private alert:AlertController,
     private toast:ToastController,
-    private logs:LogsServiceProvider
   ) {
-    this.logs.addLog("NotifyProvider Started");
     console.log('Hello NotifyProvider Provider');
   }
 
-  presentLoading(msg:string){
-    if(this.loading_is_present==true){
-      return;
+  presentWaiting(){
+    this.waiting = this.loading.create({
+      showBackdrop:true,
+      enableBackdropDismiss:false,
+    });
+    this.waiting.present();
+    console.log('waiting');
+  }
+  closeWaiting(){
+    try{
+      console.log('close waiting');
+      this.waiting.dismiss();
+    }catch(error){
+      console.log(error);
     }
+  }
+
+  presentLoading(msg:string){
     this.loader = this.loading.create({
       content:msg,
       showBackdrop:true,
       enableBackdropDismiss:true,
       dismissOnPageChange	: true,
     });
-    this.loading_is_present = true;
     console.log("Presenting loading");
     this.loader.present();
    }
  
    closeLoading(){
-    if(this.loading_is_present){
-      console.log("Dismiss loading");
-      this.loading_is_present = false;
-      this.loader.dismiss();
-    }
     try{
-      
+      console.log("Dismiss loading");
+      this.loader.dismiss();
     }catch(e){
       console.log(e);
     }

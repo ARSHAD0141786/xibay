@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { NavController, PopoverController, Refresher, Content, NavParams } from 'ionic-angular';
-import { WelcomePage } from '../welcome/welcome';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { DescriptionPage } from '../description/description';
@@ -16,51 +15,9 @@ import { item } from '../../interfaces/posted_item';
 export class MainTabsPage {
 
   @ViewChild(Content) content:Content;
-  // @ViewChild('scheduleList', { read: List }) scheduleList: List;
-
-  // dayIndex = 0;
-  // queryText = '';
-  // segment = 'all';
-  // excludeTracks: any = [];
-  // shownSessions: any = [];
-  // groups: any = [];
-  // confDate: string;
-
-  // tab1Root = PrimaryMainPage;
-  // tab2Root = SecondaryMainPage;
-  // public photos: any;
   public noRecords: boolean;
   public base64Image: string;
   public static categories:Array<boolean> = [false,false,false,false,false];
-
-  // data from SERVER
-  /**
-   * branch: "4"
-created: "1531428994"
-description: "By William Stallings"
-image_url: "http://localhost/xibay/public_html/photo/img-20180712-5b47c082a1c53ionicfile.jpg"
-is_hidden: "0"
-title: "OPERATING SYSTEM"
-useful_branch: "["Computer Science","ECC","Information Technology"]"
-useful_year: "["3rd","Final"]"
-user_image_url: null
-username: "u"
-year: "4"
-   */
-
-  // public items: Array<{
-  //   username:string,
-  //   year:string,
-  //   branch:string,
-  //   user_image_url:string,
-  //   title: string,
-  //   description: string,
-  //   image_url: string,
-  //   useful_year?: string,
-  //   useful_branch?: string,
-  //   created: string,
-  // }> = [];
-
   public items:Array<item> = [];
 
   networkConnected:boolean;
@@ -70,13 +27,7 @@ year: "4"
   searchList:Array<any>;
   public refresher_is_present: boolean = false;
   lastCreated:number = 0;
-  // userPostData:any = {
-  //   username: '',
-  //   token: '',
-  //   lastCreated: 0,
-  // }
-
- 
+  
   constructor(
     private notify: NotifyProvider,
     private navCtrl: NavController,
@@ -143,28 +94,6 @@ year: "4"
     });
   }
 
-  // fetchMainContent(fetchUseful?:boolean) { // when this function is called then it starts loading items from scratch
-  //   this.networkConnected = NetworkEngineProvider.isConnected;
-  //   console.log('Connected to internet : ' + this.networkConnected);
-  //   this.network.post(this.userPostData, 'fetch-main-content').then((result:any) => {
-  //     if (this.refresher_is_present) {
-  //       this.refresher.complete();
-  //     }
-  //     this.items = [];
-  //     if (result.data.length > 0) {
-  //       this.items = result.data;
-  //       this.noRecords = false;
-  //       this.userPostData.lastCreated = this.items[this.items.length - 1].created;
-  //       console.log("Last created : " + this.userPostData.lastCreated);
-  //     }
-  //   }, (err) => {
-  //     if (this.refresher_is_present) {
-  //       this.refresher.complete();
-  //     }
-  //     console.error(err);
-  //   });
-  // }
-
   fetchMainContent(): Promise<any> { //this function is called from infinite loading , in constructor , when filter change
     return new Promise((resolve,reject) => {
         console.log("Start fetching more data : " + this.lastCreated);
@@ -186,10 +115,15 @@ year: "4"
           lastCreated:this.lastCreated,
           filter:MainTabsPage.categories,
         }
+        if(this.lastCreated == 0 && this.refresher_is_present==false){
+          this.notify.presentWaiting();
+        }
         this.network.post(userPostData,api).then((result: any) => {
           this.networkConnected = true;
+          this.notify.closeWaiting();
           if (this.refresher_is_present) {
             this.refresher.complete();
+            this.refresher_is_present = false;
           }
           if(this.lastCreated == 0){
             this.items = [];
@@ -207,11 +141,13 @@ year: "4"
           }
         }, (err) => {
           console.log(err);
+          this.notify.closeWaiting();
           if(this.items.length == 0){
             this.networkConnected = false;
           }
           reject(err);
         }).catch( error => {
+          this.notify.closeWaiting();
           console.log(error);
         });
     });
@@ -291,10 +227,13 @@ year: "4"
       token:this.userData.getUserPostData().token,
       query:query
     }
+    this.notify.presentLoading('Searching...');
     this.network.post(userPostData,'fetch-particular-product').then( (result:any) => {
       this.items = result.data;
+      this.notify.closeLoading();
     },err => {
       console.log(err);
+      this.notify.closeLoading();
     });
   }
 

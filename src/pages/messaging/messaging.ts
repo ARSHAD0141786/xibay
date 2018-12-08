@@ -163,8 +163,16 @@ export class MessagingPage {
   }
 
   fetchAllMessagesInitially(phoneNumber){
-    let userPostData:any = {
-      phone_number:phoneNumber,
+    let userPostData:any;
+    if(this.navParams.get('isDeveloper')){
+       userPostData = {
+        phone_number:phoneNumber,
+        requestedBy:'developer'
+      } 
+    }else{
+       userPostData = {
+        phone_number:phoneNumber,
+      }
     }
     this.networkEngine.post(userPostData,'show-message').then((result:any) =>{
       if(result.code == 786 && result.data.length > 0){

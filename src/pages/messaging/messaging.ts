@@ -34,15 +34,12 @@ export class MessagingPage {
   }
 
   sendMessage(){
-    console.log(this.input);
-    try{
+    try{      
       this.input.setFocus();
-      this.input.focus = true;
-      this.input.ionFocus = true;
     }catch(err){
       console.log(err);
     }
-    return;
+    // return;
     if(this.navParams.get('isDeveloper')){
       this.sendMessageAsADeveloper();  
     }else{
@@ -61,6 +58,7 @@ export class MessagingPage {
       lastTime:this.lastTime,
       phoneNumber:this.phone
     }
+    console.log(this.lastTime);
     this.networkEngine.post(userPostData,'fetch-more-messages').then( (result:any) =>{
         if(result.code == 786 && result.data.length > 0){
           for(let x of result.data){
@@ -99,6 +97,7 @@ export class MessagingPage {
   sendMessageAsADeveloper(){
     let time = new Date().getTime()/1000;
     console.log(time);
+    clearInterval(this.handler);
     let message:Message = {
       message:this.query,align:'left',time:time,status:-1
     };
@@ -116,12 +115,15 @@ export class MessagingPage {
         this.lastTime = result.time;
         this.messages[index].time = result.time;
       }
+      this.startHandler();
     },err => {
       //notify developer
       this.messages[index].message = 'Resend this message !';
       console.log(err);
+      this.startHandler();
     }).catch( err => {
       console.log(err);
+      this.startHandler();
       this.messages[index].message = 'Resend this message !';
     });
     this.scrollDown();
@@ -130,6 +132,7 @@ export class MessagingPage {
   sendMessageAsIndividual(){
     let time = new Date().getTime()/1000;
     console.log(time);
+    clearInterval(this.handler);
     let message:Message = {
       message:this.query,align:'right',time:time,status:-1
     };
@@ -146,11 +149,14 @@ export class MessagingPage {
         this.messages[index].time = result.time;
         this.lastTime = result.time;
       }
+      this.startHandler();
     },err=>{
       console.log(err);
       this.messages[index].message = 'Resend this message !';
+      this.startHandler();
     }).catch( err => {
       console.log(err);
+      this.startHandler();
       this.messages[index].message = 'Resend this message !';
     });
     this.scrollDown();
@@ -194,6 +200,10 @@ export class MessagingPage {
       console.log(err);
       this.navCtrl.pop();
     });
+    this.startHandler();
+  }
+
+  startHandler(){
     this.handler = setInterval( () => {
       this.checkForNewMessages();
     },800);

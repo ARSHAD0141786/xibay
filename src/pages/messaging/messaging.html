@@ -19,7 +19,7 @@
 <ion-footer padding>
   <div class="type-box">
     <div class="input-message">
-      <ion-textarea #input  spellcheck="true" autoComplete="true" autocorrect="true" (keyup.enter)="sendMessage()" placeholder="Say something..." rows="1" [(ngModel)]="query" ></ion-textarea>
+      <ion-textarea #input  spellcheck="true" autoComplete="true" autocorrect="true" (focus)="scrollDown()"  (keyup.enter)="sendMessage()" placeholder="Say something..." rows="1" [(ngModel)]="query" ></ion-textarea>
     </div>
     <div class="send-button" (click)="sendMessage()">
       <ion-icon name="ios-send-outline"></ion-icon>

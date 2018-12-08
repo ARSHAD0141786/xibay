@@ -51,7 +51,14 @@ export class MessagingPage {
             this.messages.push(x);
           }
           this.lastTime = this.messages[this.messages.length - 1].time;
+        }else{
+          console.log(result);
         }
+    },err => {
+      console.log(err);
+    }).catch( err => {
+      console.log('Catch exception');
+      console.log(err);
     });
   }
 
@@ -89,6 +96,8 @@ export class MessagingPage {
     this.networkEngine.post(userPostData,'send-message-as-a-developer').then( (result:any) => {
       if(result.code == 786){
         this.messages[index].status = 1;
+        this.lastTime = result.time;
+        this.messages[index].time = result.time;
       }
     },err => {
       //notify developer
@@ -117,6 +126,7 @@ export class MessagingPage {
       if(result.code == 786){
         this.messages[index].status = 1;
         this.messages[index].time = result.time;
+        this.lastTime = result.time;
       }
     },err=>{
       console.log(err);
@@ -156,7 +166,7 @@ export class MessagingPage {
     });
     this.handler = setInterval( () => {
       this.checkForNewMessages();
-    },20000);
+    },800);
   }
 
   ionViewDidLoad() {

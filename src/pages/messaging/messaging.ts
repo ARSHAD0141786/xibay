@@ -25,6 +25,7 @@ export class MessagingPage {
   @ViewChild('input') input;
   @ViewChild('content') content;
   query:string;
+  isNetworkCallInProgress:boolean = false;
   phone:string;//this is used to fetch messages only
   lastTime:number=0;
   handler:any;//this will handel thread of new messages
@@ -54,13 +55,18 @@ export class MessagingPage {
   }
 
   checkForNewMessages(){
+    if(this.isNetworkCallInProgress){
+      return;
+    }
+    this.isNetworkCallInProgress = true;
     let userPostData:any = {
       lastTime:this.lastTime,
       phoneNumber:this.phone
     }
     console.log(this.lastTime);
+    
     this.networkEngine.post(userPostData,'fetch-more-messages').then( (result:any) =>{
-        if(result.code == 786 && result.data.length > 0){
+        if(result.code == 786 && result.data.length > 0 && this.isNetworkCallInProgress){
           for(let x of result.data){
             this.messages.push(x);
           }
@@ -69,11 +75,14 @@ export class MessagingPage {
         }else{
           console.log(result);
         }
+        this.isNetworkCallInProgress = false;
     },err => {
       console.log(err);
+      this.isNetworkCallInProgress = false;
     }).catch( err => {
       console.log('Catch exception');
       console.log(err);
+      this.isNetworkCallInProgress = false;
     });
   }
 
@@ -88,6 +97,7 @@ export class MessagingPage {
   }
 
   myColor(status:number){
+    console.log(status);
     switch(status){
       case 2: return 'secondary';
       default: return 'dark';
@@ -95,6 +105,7 @@ export class MessagingPage {
   }
 
   sendMessageAsADeveloper(){
+    this.isNetworkCallInProgress = true;
     let time = new Date().getTime()/1000;
     console.log(time);
     clearInterval(this.handler);
@@ -114,6 +125,7 @@ export class MessagingPage {
         this.messages[index].status = 1;
         this.lastTime = result.time;
         this.messages[index].time = result.time;
+        this.isNetworkCallInProgress = false;
       }
       this.startHandler();
     },err => {
@@ -121,15 +133,18 @@ export class MessagingPage {
       this.messages[index].message = 'Resend this message !';
       console.log(err);
       this.startHandler();
+      this.isNetworkCallInProgress = false;
     }).catch( err => {
       console.log(err);
       this.startHandler();
+      this.isNetworkCallInProgress = false;
       this.messages[index].message = 'Resend this message !';
     });
     this.scrollDown();
   }
 
   sendMessageAsIndividual(){
+    this.isNetworkCallInProgress = true;
     let time = new Date().getTime()/1000;
     console.log(time);
     clearInterval(this.handler);
@@ -148,15 +163,18 @@ export class MessagingPage {
         this.messages[index].status = 1;
         this.messages[index].time = result.time;
         this.lastTime = result.time;
+        this.isNetworkCallInProgress = false;
       }
       this.startHandler();
     },err=>{
       console.log(err);
       this.messages[index].message = 'Resend this message !';
       this.startHandler();
+      this.isNetworkCallInProgress = false;
     }).catch( err => {
       console.log(err);
       this.startHandler();
+      this.isNetworkCallInProgress = false;
       this.messages[index].message = 'Resend this message !';
     });
     this.scrollDown();

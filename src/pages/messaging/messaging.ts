@@ -34,6 +34,7 @@ export class MessagingPage {
   }
 
   sendMessage(){
+    this.input.focus();
     if(this.navParams.get('isDeveloper')){
       this.sendMessageAsADeveloper();  
     }else{

@@ -34,7 +34,15 @@ export class MessagingPage {
   }
 
   sendMessage(){
-    this.input.focus();
+    console.log(this.input);
+    try{
+      this.input.setFocus();
+      this.input.focus = true;
+      this.input.ionFocus = true;
+    }catch(err){
+      console.log(err);
+    }
+    return;
     if(this.navParams.get('isDeveloper')){
       this.sendMessageAsADeveloper();  
     }else{

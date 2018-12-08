@@ -36,6 +36,9 @@ export class DeveloperPage {
   showLogs(){
     this.navCtrl.push(DebugLogsPage);
   }
+  openMessages(){
+    this.navCtrl.push('AllMessagesPage');
+  }
   
   testDB(){
     this.notify.presentLoading("Please wait...");

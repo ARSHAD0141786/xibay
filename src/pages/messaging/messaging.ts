@@ -30,7 +30,7 @@ export class MessagingPage {
   handler:any;//this will handel thread of new messages
   messages:Array<Message>;
   constructor(public navCtrl: NavController,private userData:UserDataProvider, private networkEngine:NetworkEngineProvider, public navParams: NavParams,private modalCtrl:ModalController) {
-    
+    this.messages = [];
   }
 
   sendMessage(){
@@ -41,17 +41,23 @@ export class MessagingPage {
     }
   }
 
+  scrollDown(){
+    setTimeout( () => {
+      this.content.scrollToBottom();
+    },200);
+  }
+
   checkForNewMessages(){
     let userPostData:any = {
       lastTime:this.lastTime,
       phoneNumber:this.phone
     }
     this.networkEngine.post(userPostData,'fetch-more-messages').then( (result:any) =>{
-        if(result.code == 786){
+        if(result.code == 786 && result.data.length > 0){
           for(let x of result.data){
             this.messages.push(x);
           }
-          this.content.scrollToBottom(300);
+          this.scrollDown();
           this.lastTime = this.messages[this.messages.length - 1].time;
         }else{
           console.log(result);
@@ -89,7 +95,6 @@ export class MessagingPage {
     };
     this.input.value = null;
     this.messages.push(message);
-    this.content.scrollToBottom(300);
     let userPostData:any = {
       phone_number:this.navParams.get('phoneNumber'),
       message:message.message,
@@ -110,6 +115,7 @@ export class MessagingPage {
       console.log(err);
       this.messages[index].message = 'Resend this message !';
     });
+    this.scrollDown();
   }
 
   sendMessageAsIndividual(){
@@ -120,7 +126,6 @@ export class MessagingPage {
     };
     this.input.value = null;
     this.messages.push(message);
-    this.content.scrollToBottom(300);
     let userPostData:any = {
       phone_number:this.phone,
       message:message.message,
@@ -139,6 +144,7 @@ export class MessagingPage {
       console.log(err);
       this.messages[index].message = 'Resend this message !';
     });
+    this.scrollDown();
   }
 
   convertTime(time){
@@ -161,10 +167,12 @@ export class MessagingPage {
       phone_number:phoneNumber,
     }
     this.networkEngine.post(userPostData,'show-message').then((result:any) =>{
-      this.messages = result.data;
-      this.lastTime = this.messages[this.messages.length-1].time;
-      console.log('Last messages from : '+this.lastTime);
-      this.content.scrollToBottom(300);
+      if(result.code == 786 && result.data.length > 0){
+        this.messages = result.data;
+        this.lastTime = this.messages[this.messages.length-1].time;
+        console.log('Last messages from : '+this.lastTime);
+        this.scrollDown();
+      }
     },(err) => {
       console.log(err);
       this.navCtrl.pop();

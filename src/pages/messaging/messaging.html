@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content #content>
     <div class="canvas" [align]="convertDir(m.align)" *ngFor="let m of messages">
       <div class="message-box" >
         {{m.message}}

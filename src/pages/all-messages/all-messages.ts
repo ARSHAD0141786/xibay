@@ -10,18 +10,17 @@ import { MessagingPage } from '../messaging/messaging';
 })
 export class AllMessagesPage {
 
+  // TODO:: secure this page and remove this line
+
+  passcode:string;
+  handler:any//this handler fetches all messages after each 2000 secs;
   public messages:Array<any>;
   constructor(public navCtrl: NavController, public navParams: NavParams,private networkEngine:NetworkEngineProvider) {
   }
 
-  openMessages(phoneNumber:number){
-    this.navCtrl.push(MessagingPage,{phoneNumber:phoneNumber,isDeveloper:true,passcode:'0786'});
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AllMessagesPage');
+  fetchAllMessages(){
     let userPostData:any = {
-      passcode:'0786',
+      passcode:this.passcode,
     }
     this.networkEngine.post(userPostData,'fetch-all-messages-as-a-developer').then( (res:any) => {
       if(res.code == 786){
@@ -32,6 +31,28 @@ export class AllMessagesPage {
     },err => {
       console.log(err);
     });
+  }
+
+  openMessages(phoneNumber:number){
+    this.navCtrl.push(MessagingPage,{phoneNumber:phoneNumber,isDeveloper:true,passcode:'0786'});
+  }
+
+  ionViewWillEnter(){
+    console.log('all messages page loaded');
+    this.handler = setInterval( ()=>{ 
+      this.fetchAllMessages();
+    },2000);
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad AllMessagesPage');
+    this.passcode = '0786';//this will receive by developer
+    this.fetchAllMessages();
+  }
+
+  ionViewDidLeave(){
+    console.log('Leaving all messages page');
+    clearInterval(this.handler);
   }
 
 }

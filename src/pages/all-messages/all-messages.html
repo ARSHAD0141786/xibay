@@ -13,7 +13,7 @@
     <ion-list>
       <ion-item *ngFor="let message of messages" (click)="openMessages(message.phone_number)">
         <h3>{{message.phone_number}}</h3>
-        <p item-end>{{message.sent}}</p>
+        <ion-badge item-end>{{message.sent}}</ion-badge>
       </ion-item>
     </ion-list>
   </div>

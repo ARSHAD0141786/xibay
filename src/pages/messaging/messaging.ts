@@ -23,6 +23,7 @@ export interface Message{
 })
 export class MessagingPage {
   @ViewChild('input') input;
+  @ViewChild('content') content;
   query:string;
   phone:string;//this is used to fetch messages only
   lastTime:number=0;
@@ -50,6 +51,7 @@ export class MessagingPage {
           for(let x of result.data){
             this.messages.push(x);
           }
+          this.content.scrollToBottom(300);
           this.lastTime = this.messages[this.messages.length - 1].time;
         }else{
           console.log(result);
@@ -66,16 +68,16 @@ export class MessagingPage {
     switch(status){
       case -1:return 'md-time';
       case 0: return 'md-checkmark';
-      case 1: return 'md-done-all';
+      case 1: return 'md-checkmark';
+      case 2: return 'md-done-all';
       default: return 'md-done-all';
     }
   }
 
   myColor(status:number){
     switch(status){
-      case 0: return 'light';
-      case 1: return 'light';
-      case 2: return 'primary';
+      case 2: return 'secondary';
+      default: return 'dark';
     }
   }
 
@@ -87,6 +89,7 @@ export class MessagingPage {
     };
     this.input.value = null;
     this.messages.push(message);
+    this.content.scrollToBottom(300);
     let userPostData:any = {
       phone_number:this.navParams.get('phoneNumber'),
       message:message.message,
@@ -117,6 +120,7 @@ export class MessagingPage {
     };
     this.input.value = null;
     this.messages.push(message);
+    this.content.scrollToBottom(300);
     let userPostData:any = {
       phone_number:this.phone,
       message:message.message,
@@ -160,6 +164,7 @@ export class MessagingPage {
       this.messages = result.data;
       this.lastTime = this.messages[this.messages.length-1].time;
       console.log('Last messages from : '+this.lastTime);
+      this.content.scrollToBottom(300);
     },(err) => {
       console.log(err);
       this.navCtrl.pop();

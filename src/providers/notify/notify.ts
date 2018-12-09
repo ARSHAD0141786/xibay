@@ -13,6 +13,7 @@ export class NotifyProvider {
   }
 
   presentWaiting(){
+    return;
     this.waiting = this.loading.create({
       showBackdrop:true,
       enableBackdropDismiss:false,

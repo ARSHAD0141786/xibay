@@ -14,7 +14,7 @@ export interface Message{
   message:string,
   align:string,
   time:number,
-  status:number
+  status:string,
 }
 @IonicPage()
 @Component({
@@ -86,20 +86,18 @@ export class MessagingPage {
     });
   }
 
-  myIcon(status:number){
+  myIcon(status:string){
     switch(status){
-      case -1:return 'md-time';
-      case 0: return 'md-checkmark';
-      case 1: return 'md-checkmark';
-      case 2: return 'md-done-all';
-      default: return 'md-done-all';
+      case '-1':return 'md-time';
+      case '0': return 'md-checkmark';
+      case '1': return 'md-checkmark';
+      case '2': return 'md-done-all';
     }
   }
 
-  myColor(status:number){
-    console.log(status);
+  myColor(status:string){
     switch(status){
-      case 2: return 'secondary';
+      case '2': return 'secondary';
       default: return 'dark';
     }
   }
@@ -110,7 +108,7 @@ export class MessagingPage {
     console.log(time);
     clearInterval(this.handler);
     let message:Message = {
-      message:this.query,align:'left',time:time,status:-1
+      message:this.query,align:'left',time:time,status:'-1'
     };
     this.input.value = null;
     this.messages.push(message);
@@ -122,7 +120,7 @@ export class MessagingPage {
     let index:number = this.messages.length - 1;
     this.networkEngine.post(userPostData,'send-message-as-a-developer').then( (result:any) => {
       if(result.code == 786){
-        this.messages[index].status = 1;
+        this.messages[index].status = '1';
         this.lastTime = result.time;
         this.messages[index].time = result.time;
         this.isNetworkCallInProgress = false;
@@ -149,7 +147,7 @@ export class MessagingPage {
     console.log(time);
     clearInterval(this.handler);
     let message:Message = {
-      message:this.query,align:'right',time:time,status:-1
+      message:this.query,align:'right',time:time,status:'-1'
     };
     this.input.value = null;
     this.messages.push(message);
@@ -160,7 +158,7 @@ export class MessagingPage {
     let index:number = this.messages.length - 1;
     this.networkEngine.post(userPostData,'send-message').then( (result:any) => {
       if(result.code == 786){
-        this.messages[index].status = 1;
+        this.messages[index].status = '1';
         this.messages[index].time = result.time;
         this.lastTime = result.time;
         this.isNetworkCallInProgress = false;

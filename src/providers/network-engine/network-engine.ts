@@ -32,8 +32,8 @@ export interface Notification {
 export class NetworkEngineProvider {
 
   public static isConnected :boolean;
-  public BASE_URL = 'http://localhost/xibay/public_html/';
-// public BASE_URL = 'http://192.168.43.50/xibay/public_html/';
+  // public BASE_URL = 'http://localhost/xibay/public_html/';
+public BASE_URL = 'http://192.168.43.50/xibay/public_html/';
   
 // public authentication = {
 //   username:'',

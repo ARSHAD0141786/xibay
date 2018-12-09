@@ -13,12 +13,12 @@ export class NotifyProvider {
   }
 
   presentWaiting(){
-    return;
-    this.waiting = this.loading.create({
-      showBackdrop:true,
-      enableBackdropDismiss:false,
-    });
-    this.waiting.present();
+    
+    // this.waiting = this.loading.create({
+    //   showBackdrop:true,
+    //   enableBackdropDismiss:false,
+    // });
+    // this.waiting.present();
     console.log('waiting');
   }
   closeWaiting(){

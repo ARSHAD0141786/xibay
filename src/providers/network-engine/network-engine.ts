@@ -10,6 +10,7 @@ import { Network } from '@ionic-native/network';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer';
 import { NotifyProvider } from '../notify/notify';
 import { UserDataProvider } from '../user-data/user-data';
+import { NetworkUrls } from './networkUrls';
 
 export interface Notification {
     notification:{
@@ -32,8 +33,6 @@ export interface Notification {
 export class NetworkEngineProvider {
 
   public static isConnected :boolean;
-  public BASE_URL = 'http://localhost/xibay/public_html/';
-// public BASE_URL = 'http://192.168.43.50/xibay/public_html/';
   
 // public authentication = {
 //   username:'',
@@ -100,11 +99,11 @@ export class NetworkEngineProvider {
   }
 
   get(endingUrl:string){
-    this.logs.addLog("getRequest : "+this.BASE_URL+""+endingUrl);
-    // return this.http.get(BASE_URL+endingUrl).timeout(3000);
+    this.logs.addLog("getRequest : "+NetworkUrls.BASE_URL+""+endingUrl);
+    // return this.httpNetworkUrls.BASE_URL+endingUrl).timeout(3000);
     return new Promise((resolve,reject) => {
       this.logs.addLog("Generating promise");
-      this.http.get(this.BASE_URL + endingUrl).subscribe( (res:any) => {
+      this.http.get(NetworkUrls.BASE_URL + endingUrl).subscribe( (res:any) => {
         try{
           console.log(res);
           if(res._body){
@@ -129,9 +128,9 @@ export class NetworkEngineProvider {
       let headers = new Headers();
       headers.set('Content-type','application/json');
       headers.append('Authorization','username='+UserDataProvider.userPostData.username+'&token='+UserDataProvider.userPostData.token);
-      console.log("POST:"+this.BASE_URL+endingUrl);
+      console.log("POST:"+NetworkUrls.BASE_URL+endingUrl);
       console.log(params);
-      this.http.post(this.BASE_URL+endingUrl,params, {headers: headers}).subscribe(res =>{
+      this.http.post(NetworkUrls.BASE_URL+endingUrl,params, {headers: headers}).subscribe(res =>{
         try{
           let response:any = JSON.parse(JSON.stringify(res));
           if(response.status == 200){
@@ -141,16 +140,16 @@ export class NetworkEngineProvider {
               if(result.data.length>0){
                 for(let entry of result.data){//change the user_image_url because on database whole url is not saved
                   if(entry.image_url){
-                    entry.image_url = this.BASE_URL+entry.image_url;
+                    entry.image_url = NetworkUrls.BASE_URL+entry.image_url;
                   }
                   if(entry.user_image_url){
-                    entry.user_image_url = this.BASE_URL+entry.user_image_url;
+                    entry.user_image_url = NetworkUrls.BASE_URL+entry.user_image_url;
                   }
                 }
               }
             }
             if(result.user_data && result.user_data.user_image_url){
-              result.user_data.user_image_url = this.BASE_URL+ result.user_data.user_image_url;
+              result.user_data.user_image_url = NetworkUrls.BASE_URL+ result.user_data.user_image_url;
             }
             resolve(result);
           }else{
@@ -172,8 +171,8 @@ export class NetworkEngineProvider {
 
   changeBaseUrl(url:string){
     if(url != ""){
-      this.BASE_URL = 'http://'+url+'/xibay/public_html/';
-      this.logs.addLog('Base url changed to : '+this.BASE_URL);
+      NetworkUrls.BASE_URL = 'http://'+url+'/xibay/public_html/';
+      this.logs.addLog('Base url changed to : '+NetworkUrls.BASE_URL);
     } 
   }
 
@@ -211,9 +210,9 @@ export class NetworkEngineProvider {
       if(uploadLink){
         link = uploadLink;
       }
-      console.log('Upload link : '+this.BASE_URL+link);
-      this.logs.addLog('Upload link : '+this.BASE_URL+link);
-      fileTransfer.upload(uploadFile,  this.BASE_URL + link, options)
+      console.log('Upload link : '+NetworkUrls.BASE_URL+link);
+      this.logs.addLog('Upload link : '+NetworkUrls.BASE_URL+link);
+      fileTransfer.upload(uploadFile,  NetworkUrls.BASE_URL + link, options)
         .then((data:any) => {
           console.log(data);
           try{
@@ -222,7 +221,7 @@ export class NetworkEngineProvider {
             this.logs.addLog(result.message);
             if(result.code == 786){
               if(result.user_data && result.user_data.user_image_url){
-                result.user_data.user_image_url = this.BASE_URL + result.user_data.user_image_url;
+                result.user_data.user_image_url = NetworkUrls.BASE_URL + result.user_data.user_image_url;
               }
               resolve(result);
             }else{

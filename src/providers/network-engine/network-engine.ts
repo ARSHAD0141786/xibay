@@ -121,8 +121,10 @@ export class NetworkEngineProvider {
   post(params,endingUrl){
     return new Promise((resolve, reject) =>{
       let headers = new Headers();
-      headers.set('Content-type','application/json');
-      headers.append('Authorization','username='+UserDataProvider.userPostData.username+'&token='+UserDataProvider.userPostData.token);
+      if(UserDataProvider.userPostData != undefined){
+        headers.set('Content-type','application/json');
+        headers.append('Authorization',UserDataProvider.userPostData.username+'&'+UserDataProvider.userPostData.token);
+      }
       console.log("POST:"+NetworkUrls.BASE_URL+endingUrl);
       console.log(params);
       this.http.post(NetworkUrls.BASE_URL+endingUrl,params, {headers: headers}).subscribe(res =>{

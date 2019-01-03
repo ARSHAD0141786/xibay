@@ -7,6 +7,7 @@ import { MainTabsPage } from '../main-tabs/main-tabs';
 import { RegistrationPage } from '../registration/registration';
 import { NgForm } from '@angular/forms';
 import { UserDataProvider } from '../../providers/user-data/user-data';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -56,7 +57,7 @@ export class LoginPage {
     if (form.valid) {
       this.notify.presentLoading("Please wait...");
       this.logs.addLog(JSON.stringify(this.loginOptions));
-      this.networkEngine.post(this.loginOptions, "login-for-xibay").then((result:any) => {
+      this.networkEngine.post(this.loginOptions, NetworkUrls.LOGIN).then((result:any) => {
         this.notify.closeLoading();
         this.responseData = result;
         if (this.responseData.user_data) {
@@ -68,7 +69,7 @@ export class LoginPage {
               token:UserDataProvider.userPostData.token,
               fcmToken:UserDataProvider.fcmToken,
             }
-            this.networkEngine.post(userPostData,'update-fcm-token');
+            this.networkEngine.post(userPostData,NetworkUrls.UPDATE_FCM);
             this.networkEngine.notificationInit();
           }
           this.navCtrl.setRoot(MainTabsPage);

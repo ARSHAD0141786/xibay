@@ -18,7 +18,6 @@ export class UserDataProvider {
     console.log('Hello UserDataProvider Provider');
   }
 
-
   login(result:any): void {
     this.setUserData(result);
     this.storage.set(this.HAS_LOGGED_IN, true);

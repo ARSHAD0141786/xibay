@@ -5,6 +5,7 @@ import { NetworkEngineProvider } from '../../providers/network-engine/network-en
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { User } from '../../interfaces/user';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -130,7 +131,7 @@ export class AccountPage {
       username:this.userData.getUserPostData().username,
       token:this.userData.getUserPostData().token
     }
-    this.networkEngine.uploadFile(this.profilePicData,userAuth,'upload-profile-picture').then( (result:any) => {
+    this.networkEngine.uploadFile(this.profilePicData,this,userAuth,NetworkUrls.UPLOAD_PROFILE_PIC).then( (result:any) => {
       console.log(result);
       if(result.code == 786){
         this.userData.setUserData(result);
@@ -232,14 +233,14 @@ export class AccountPage {
     }
     
     let data:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token,
+      // username:this.userData.getUserPostData().username,
+      // token:this.userData.getUserPostData().token,
       branch:this.user.branch,
       phone:this.user.phone_number,
       year:this.user.year,
       name:this.user.name,
     }
-    this.networkEngine.post(data,'update-user-details').then( (result:any) => {
+    this.networkEngine.post(data,NetworkUrls.UPDATE_USER_DETAILS).then( (result:any) => {
       if(result.code == 786){
         console.log(result.message);
         this.userData.setUserData(result);
@@ -251,15 +252,12 @@ export class AccountPage {
     });
   }
 
-
   presentMore(event:any){
     let popover = this.popoverCtrl.create(PopOverAccount,{username:this.user.username,phoneNumber:this.user.phone_number});
     popover.present({
       ev:event
     });
   }
-
-
 }
 
 

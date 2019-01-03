@@ -22,7 +22,6 @@ import { HttpModule } from '@angular/http';
 import { LogsServiceProvider } from '../providers/logs-service/logs-service';
 import { NotifyProvider } from '../providers/notify/notify';
 import { MainTabsPage, Filter } from '../pages/main-tabs/main-tabs';
-import { CameraPage } from '../pages/camera/camera';
 import { UserDataProvider } from '../providers/user-data/user-data';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { DescriptionPage, PopoverPage } from '../pages/description/description';
@@ -59,7 +58,6 @@ firebase.initializeApp({
     TutorialsPage,
     DebugLogsPage,
     MainTabsPage,
-    CameraPage,
     DescriptionPage,
     AccountPage,
     DeveloperPage,
@@ -95,7 +93,6 @@ firebase.initializeApp({
     TutorialsPage,
     DebugLogsPage,
     MainTabsPage,
-    CameraPage,
     DescriptionPage,
     AccountPage,
     DeveloperPage,

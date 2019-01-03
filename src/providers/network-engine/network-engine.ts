@@ -34,11 +34,6 @@ export class NetworkEngineProvider {
 
   public static isConnected :boolean;
   
-// public authentication = {
-//   username:'',
-//   token:''
-// }
-
   private static classReference:any;
 
   constructor(public http: Http,

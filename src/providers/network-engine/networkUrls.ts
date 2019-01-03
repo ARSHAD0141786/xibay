@@ -13,4 +13,5 @@ export class NetworkUrls{
     public static CHANGE_PASSWORD:string='change-password';
     public static UPDATE_FCM:string='update-fcm-token';
     public static GET_USER_DATA:string='get-user-data';
+    public static UPLOAD_PROFILE_PIC:string='upload-profile-picture';
 }

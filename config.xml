@@ -89,5 +89,4 @@
     <allow-navigation href="http://192.168.43.50:8100" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
-    <engine name="android" spec="~7.0.0" />
 </widget>

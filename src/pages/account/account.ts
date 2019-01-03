@@ -130,7 +130,7 @@ export class AccountPage {
     this.networkEngine.uploadFile(this.profilePicData,NetworkUrls.UPLOAD_PROFILE_PIC).then( (result:any) => {
       console.log(result);
       if(result.code == 786){
-        this.userData.setUserData(result);
+        this.userData.changeUserImageUrl(result.user_image_url);
         this.user.user_image_url = this.profilePicData;
       }else{
         console.log(result);

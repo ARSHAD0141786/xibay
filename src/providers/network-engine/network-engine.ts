@@ -213,6 +213,9 @@ export class NetworkEngineProvider {
               if(result.user_data && result.user_data.user_image_url){
                 result.user_data.user_image_url = NetworkUrls.BASE_URL + result.user_data.user_image_url;
               }
+              if(result.user_image_url){
+                result.user_image_url = NetworkUrls.BASE_URL + result.user_image_url;
+              }
               resolve(result);
             }else{
               reject(result);

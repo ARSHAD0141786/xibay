@@ -27,8 +27,8 @@ export class UserDataProvider {
   setUserData(result:any){
     let user_data = result.user_data;
     let user:User = {
-      username:user_data.username,
       token:result.token,
+      username:user_data.username,
       name:user_data.name,
       phone_number:user_data.phone_number,
       branch:user_data.branch,
@@ -59,6 +59,23 @@ export class UserDataProvider {
     }
     UserDataProvider.userPostData = user;
     this.storage.set(this.USER_DATA,user);
+  }
+
+  changeUserImageUrl(imageUrl:string){//function calls from account.ts while changing user account picture
+    let currentUser = UserDataProvider.userPostData;//just copying previous data and add new image url entry
+    let user:any = {
+      user_data:{
+        username:currentUser.username,
+        name:currentUser.name,
+        phone_number:currentUser.phone_number,
+        branch:currentUser.branch,
+        gender:currentUser.gender,
+        year:currentUser.year,
+        user_image_url:imageUrl
+      },
+      token:currentUser.token
+    }
+    this.setUserData(user);
   }
 
   // this function will invoke when user is registered

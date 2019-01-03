@@ -5,6 +5,7 @@ import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { NotifyProvider } from '../../providers/notify/notify';
 import { NgForm } from '@angular/forms';
 import { UserDataProvider } from '../../providers/user-data/user-data';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 // import { WelcomePage } from '../welcome/welcome';
 
@@ -55,6 +56,7 @@ export class RegistrationPage {
     private logs: LogsServiceProvider) {
       this.signupOptions.phone_number = this.navParams.get('phone');
       this.signupOptions.FMC_TOKEN = UserDataProvider.fcmToken;
+      console.log('FCM TOKEN : '+this.signupOptions.FMC_TOKEN);
       console.log('phone number : ' + this.signupOptions.phone_number);
   }
 
@@ -75,7 +77,7 @@ export class RegistrationPage {
       this.notify.presentLoading("Please wait...");
       this.logs.addLog(JSON.stringify(this.signupOptions));
       let responseData:any;
-      this.networkEngine.post(this.signupOptions, "create-user-for-xibay").then((result:any) => {
+      this.networkEngine.post(this.signupOptions, NetworkUrls.REGISTER_USER).then((result:any) => {
         responseData = result;
         this.logs.addLog("Response :"+JSON.stringify(responseData));
         console.log(responseData);

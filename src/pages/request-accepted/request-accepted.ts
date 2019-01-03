@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { item } from '../../interfaces/posted_item';
 import { User } from '../../interfaces/user';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
-import { UserDataProvider } from '../../providers/user-data/user-data';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -14,15 +14,15 @@ export class RequestAcceptedPage {
 
   private item:item;
   public user:User;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private networkEngine:NetworkEngineProvider,private userData:UserDataProvider) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    private networkEngine:NetworkEngineProvider) {
     this.item = navParams.get('item');
     console.log(this.item);
     let userPostData:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token,
       item_id:this.item.id
     }
-    this.networkEngine.post(userPostData,'fetch-request-accepted-user-details').then( (result:any) => {
+    this.networkEngine.post(userPostData,NetworkUrls.FETCH_ACCEPTED_USER_DETAILS).then( (result:any) => {
       this.user = result.data[0];
     });
 

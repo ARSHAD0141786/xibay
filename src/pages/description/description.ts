@@ -5,6 +5,7 @@ import { NotifyProvider } from '../../providers/notify/notify';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { item } from '../../interfaces/posted_item';
 import { ViewController } from '../../../node_modules/ionic-angular/navigation/view-controller';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -21,7 +22,7 @@ export class DescriptionPage {
     public navCtrl: NavController,
     private network:NetworkEngineProvider,
     private popoverCtrl:PopoverController,
-    private userData:UserDataProvider,
+    // private userData:UserDataProvider,
     public menu:MenuController,
     private notify:NotifyProvider,
     public navParams: NavParams) {
@@ -62,12 +63,10 @@ export class DescriptionPage {
 
   sendRequest(){
       let userPostData:any = {
-        username:this.userData.getUserPostData().username,
-        token : this.userData.getUserPostData().token,
         item_id : this.item.id,
         to_username : this.item.username_fk
       }
-      this.network.post(userPostData,'send-request').then((d:any)=>{
+      this.network.post(userPostData,NetworkUrls.SEND_REQUEST).then((d:any)=>{
           if(d.message){
             this.notify.presentToast(d.message);
             if(d.code == 786){
@@ -130,11 +129,9 @@ export class PopoverPage {
         {text:'No',role:'cancel'},
         {text:'Yes',handler: () => {
           let userPostData :any = {
-            username:this.userPostData.getUserPostData().username,
-            token:this.userPostData.getUserPostData().token,
             item_id:this.navParams.get('item_id'),
           }
-          this.networkEngine.post(userPostData,'report-a-product').then( (result:any) => {
+          this.networkEngine.post(userPostData,NetworkUrls.REPORT_PRODUCT).then( (result:any) => {
             if(result.code == 786){
               console.log('Product reported successfully');
             }else{

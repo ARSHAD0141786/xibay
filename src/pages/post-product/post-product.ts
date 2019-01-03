@@ -5,6 +5,8 @@ import { IonicPage, NavController, ViewController, ActionSheetController, ModalC
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
+import { NotifyProvider } from '../../providers/notify/notify';
 @IonicPage()
 @Component({
   selector: 'page-post-product',
@@ -16,8 +18,17 @@ export class PostProductPage {
   item: any;
   form: FormGroup;
 
-  constructor(public navCtrl: NavController,private logs:LogsServiceProvider ,private networkEngine:NetworkEngineProvider, private userData:UserDataProvider ,public mdlCtrl:ModalController, public actionSheetCtrl: ActionSheetController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
-    this.form = formBuilder.group({
+  constructor(public navCtrl: NavController,
+    private logs:LogsServiceProvider ,
+    private networkEngine:NetworkEngineProvider, 
+    private notify:NotifyProvider,
+    public mdlCtrl:ModalController, 
+    public actionSheetCtrl: ActionSheetController, 
+    public viewCtrl: ViewController, 
+    formBuilder: FormBuilder, 
+    public camera: Camera) {
+    
+      this.form = formBuilder.group({
       productPic: ['', Validators.required],
       title: ['', Validators.required],
       description:['',Validators.required],
@@ -39,10 +50,6 @@ export class PostProductPage {
   postProduct(){
     this.isFormSubmitted = true;
     if(this.form.valid){
-      let userAuth:any = {
-        username:this.userData.getUserPostData().username,
-        token:this.userData.getUserPostData().token
-      }
       let imageFile:any = this.form.controls['productPic'].value;
       let postFormData:any = {
         title:this.form.value.title,
@@ -51,11 +58,21 @@ export class PostProductPage {
         useful_year:this.form.value.useful_year,
         useful_branch:this.form.value.useful_branch
       }
-      this.networkEngine.uploadFile(imageFile,userAuth,null,postFormData).then( (result:any) => {
-          this.navCtrl.pop();
+      this.notify.presentLoading('Posting your product...');
+      this.networkEngine.uploadFile(imageFile,NetworkUrls.POST_A_PRODUCT,postFormData).then( (result:any) => {
+        this.notify.closeLoading();
+        console.log(result);
+        this.notify.presentToast('You have successfully posted your produt. Please refresh to see your product.',null,4000);
+        this.navCtrl.pop();
       },err => {
+        this.notify.closeLoading();
         console.error(err);
-      });
+        this.notify.presentToast(err);
+      }).catch(error=>{
+        console.log(error);
+        this.notify.closeLoading();
+        this.notify.presentToast(error);
+      }); 
     }
   }
 

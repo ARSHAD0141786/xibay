@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 /**
  * Generated class for the FaqPage page.
@@ -28,7 +29,7 @@ export class FaqPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FaqPage');
-    this.networkEngine.get('faq-file').then( (result:any) => {
+    this.networkEngine.get(NetworkUrls.FETCH_FAQ_FILE).then( (result:any) => {
       console.log(result);
       this.data = result;
     } , error => {

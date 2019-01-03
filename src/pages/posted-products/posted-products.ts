@@ -5,6 +5,7 @@ import { UserProductDescriptionPage } from '../user-product-description/user-pro
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
 import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NotifyProvider } from '../../providers/notify/notify';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -40,7 +41,11 @@ export class PostedProductsPage {
 
  static posted_products:item[] = [];
   
-  constructor(public navCtrl: NavController,private notify:NotifyProvider,private userPostData:UserDataProvider, public navParams: NavParams,private networkEngine:NetworkEngineProvider,private alertCtrl:AlertController) {
+  constructor(public navCtrl: NavController,
+    private notify:NotifyProvider,
+    public navParams: NavParams,
+    private networkEngine:NetworkEngineProvider,
+    private alertCtrl:AlertController) {
     
     this.fetchProducts();
   }
@@ -52,7 +57,7 @@ export class PostedProductsPage {
   }
 
   fetchProducts(){
-    this.networkEngine.post(this.userPostData.getUserPostData(),'fetch-my-posted-products').then( (result:any) => {
+    this.networkEngine.post(null,NetworkUrls.FETCH_MY_POSTED_PRODUCTS).then( (result:any) => {
       PostedProductsPage.posted_products = result.data;
       this.networkConnected = true;
       if(this.refresherPresent == true){
@@ -109,11 +114,9 @@ export class PostedProductsPage {
           handler: ()=> {
             console.log('deleting item...');
             let postData:any = {
-              username : this.userPostData.getUserPostData().username,
-              token : this.userPostData.getUserPostData().token,
               item_id : item.id
             }
-            this.networkEngine.post(postData,'delete-a-posted-product').then( (result:any) => {
+            this.networkEngine.post(postData,NetworkUrls.DELETE_MY_POSTED_PRODUCT).then( (result:any) => {
               if(result.code == 786){
                 this.notify.presentToast(result.message);
                 PostedProductsPage.posted_products.splice(index,1);

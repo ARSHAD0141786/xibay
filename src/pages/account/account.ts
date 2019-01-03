@@ -127,11 +127,7 @@ export class AccountPage {
 
   uploadProfilePic(){
     this.isProfilePicUploading = true;
-    let userAuth:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token
-    }
-    this.networkEngine.uploadFile(this.profilePicData,this,userAuth,NetworkUrls.UPLOAD_PROFILE_PIC).then( (result:any) => {
+    this.networkEngine.uploadFile(this.profilePicData,NetworkUrls.UPLOAD_PROFILE_PIC).then( (result:any) => {
       console.log(result);
       if(result.code == 786){
         this.userData.setUserData(result);
@@ -233,8 +229,6 @@ export class AccountPage {
     }
     
     let data:any = {
-      // username:this.userData.getUserPostData().username,
-      // token:this.userData.getUserPostData().token,
       branch:this.user.branch,
       phone:this.user.phone_number,
       year:this.user.year,

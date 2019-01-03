@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Refresher} from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
-import { UserDataProvider } from '../../providers/user-data/user-data';
 import { item } from '../../interfaces/posted_item';
 import { RequestAcceptedPage } from '../request-accepted/request-accepted';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -16,7 +16,9 @@ export class RequestsPage {
   refresher:Refresher;
   networkConnected:boolean;
   public requests:Array<item>;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private networkEngine: NetworkEngineProvider,private userData: UserDataProvider) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private networkEngine: NetworkEngineProvider) {
     this.fetchRequests();
   }
 
@@ -27,7 +29,7 @@ export class RequestsPage {
   }
 
   fetchRequests(){
-    this.networkEngine.post(this.userData.getUserPostData(),'fetch-requested-products').then( (result:any) =>{
+    this.networkEngine.post(null,NetworkUrls.FETCH_MY_REQUESTS).then( (result:any) =>{
       this.networkConnected = true;
       if(result.data.length > 0){
         this.requests = result.data;

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import * as firebase from 'firebase';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -46,7 +47,11 @@ export class OtpValidationPage{
   resendInterval:any;
   resendBtnDisabled:boolean=false;
 
-  constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, public navParams: NavParams,private logs:LogsServiceProvider,private viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController,
+    private networkEngine:NetworkEngineProvider, 
+    public navParams: NavParams,
+    private logs:LogsServiceProvider,
+    private viewCtrl: ViewController) {
     
   }
 
@@ -141,7 +146,7 @@ export class OtpValidationPage{
       return;
     }
     this.phoneNumberInput.disabled = true;
-    this.networkEngine.post(userPostData,'check-phone-number-exists').then( (result:any) => {
+    this.networkEngine.post(userPostData,NetworkUrls.CHECK_PHN_EXISTS).then( (result:any) => {
       this.phoneNumberInput.disabled = false;
       if(result.code ==786){
         this.isPhoneNumberExists = true;

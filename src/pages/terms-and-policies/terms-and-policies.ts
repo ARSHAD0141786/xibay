@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 /**
  * Generated class for the TermsAndPoliciesPage page.
@@ -24,7 +25,7 @@ export class TermsAndPoliciesPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TermsAndPoliciesPage');
-    this.networkEngine.get('terms-and-policies').then( (result:any) => {
+    this.networkEngine.get(NetworkUrls.FETCH_TERMS_AND_POLICIES).then( (result:any) => {
       console.log(result);
       this.data = result;
     },error => {

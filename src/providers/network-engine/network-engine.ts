@@ -48,7 +48,7 @@ export class NetworkEngineProvider {
     console.log(this.network.type);
     NetworkEngineProvider.isConnected = navigator.onLine;
     if(NetworkEngineProvider.isConnected == false){
-      this.notify.presentToast('No Internet access! Please connect to Internet');
+      this.notify.presentToast('No network access! Please check your Internet connection.');
     }
   }
 
@@ -173,29 +173,26 @@ export class NetworkEngineProvider {
     } 
   }
 
-  uploadFile(uploadFile:any,userAuth:any,uploadLink?:string,formData?:any) {
-    this.logs.addLog('Uploading file....');
+  uploadFile(uploadFile:any,uploadLink:string,formData?:any) {
     return new Promise( (resolve,reject) => {
-      this.logs.addLog('Uploading file 2....');
-      console.log(userAuth);
       if(formData){
         console.log(formData);
       }
-      this.logs.addLog(JSON.stringify(userAuth));
-      this.logs.addLog(JSON.stringify(formData));
       const fileTransfer: FileTransferObject = this.transfer.create();
       let data = {
         form_data:formData,
-        username:userAuth.username,
-        token:userAuth.token
       };
       let uploadData = JSON.stringify(data);
+      let auth:string=null;
+      if(UserDataProvider.userPostData != undefined){
+        auth=UserDataProvider.userPostData.username+'&'+UserDataProvider.userPostData.token;
+      }
       let options: FileUploadOptions = {
         fileKey: 'ionicfile',
         fileName: 'ionicfile',
         chunkedMode: false,
         mimeType: "image/jpeg",
-        headers: {},
+        headers: {Authorization:auth},
         params:{
           uploadData
         }
@@ -203,13 +200,9 @@ export class NetworkEngineProvider {
       this.logs.addLog(JSON.stringify(options));
       console.log(JSON.stringify(options));
       console.log(options);
-      let link:string = 'upload-file-with-data';
-      if(uploadLink){
-        link = uploadLink;
-      }
-      console.log('Upload link : '+NetworkUrls.BASE_URL+link);
-      this.logs.addLog('Upload link : '+NetworkUrls.BASE_URL+link);
-      fileTransfer.upload(uploadFile,  NetworkUrls.BASE_URL + link, options)
+      
+      console.log('Upload link : '+NetworkUrls.BASE_URL+uploadLink);
+      fileTransfer.upload(uploadFile,  NetworkUrls.BASE_URL + uploadLink, options)
         .then((data:any) => {
           console.log(data);
           try{
@@ -265,13 +258,13 @@ export class NetworkEngineProvider {
         console.log('refresh token');
         console.log(token);
         UserDataProvider.fcmToken = token;
-        if(token && UserDataProvider.userPostData && UserDataProvider.userPostData.username && UserDataProvider.userPostData.token){
+        if(token && UserDataProvider.userPostData){
           let userPostData:any = {
-            username:UserDataProvider.userPostData.username,
-            token:UserDataProvider.userPostData.token,
+            // username:UserDataProvider.userPostData.username,
+            // token:UserDataProvider.userPostData.token,
             fcmToken:token,
           }
-          NetworkEngineProvider.classReference.post(userPostData,'update-fcm-token');
+          NetworkEngineProvider.classReference.post(userPostData,NetworkUrls.UPDATE_FCM);
         }
         
       }, function (error) {

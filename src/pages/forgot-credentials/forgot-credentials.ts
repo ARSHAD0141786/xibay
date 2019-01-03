@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { NetworkEngineProvider } from '../../providers/network-engine/network-engine';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,11 @@ export class ForgotCredentialsPage {
   type:string;
   ott:string;
   message:string;
-  constructor(public navCtrl: NavController,private networkEngine:NetworkEngineProvider, public navParams: NavParams,private viewCtrl:ViewController) {
+
+  constructor(public navCtrl: NavController,
+    private networkEngine:NetworkEngineProvider, 
+    public navParams: NavParams,
+    private viewCtrl:ViewController) {
    
   }
 
@@ -53,13 +58,13 @@ export class ForgotCredentialsPage {
       phone: this.navParams.get('phone')
     }
     console.log('Find user : '+this.username);
-    this.networkEngine.post(userPostData,'check-user-with-phone-and-username').then( (result:any) => {
+    this.networkEngine.post(userPostData,NetworkUrls.CHECK_USER_WITH_PHN_AND_USERNAME).then( (result:any) => {
       if(result.code == 786){
         this.ott = result.ott;
         this.isUserFound = true;
         this.message = null;
       }else{
-        this.message = 'Invalid username. In case if you forgot your username then contact XIBAY team, from contact section in menu';
+        this.message = 'Invalid username. In case if you forgot your username then contact XIBAY team, from Xibay support section in menu';
       }
     },(err) => {
       this.message = err;
@@ -78,14 +83,13 @@ export class ForgotCredentialsPage {
         ott:this.ott,
         new_password:this.newPassword.trim()
       }
-      this.networkEngine.post(userPostData,'change-password').then( (result:any) => {
+      this.networkEngine.post(userPostData,NetworkUrls.CHANGE_PASSWORD).then( (result:any) => {
         if(result.code == 786){
           this.message = 'Password changed successfully';
           this.viewCtrl.dismiss();
         }else{
           this.message = 'Password not changed. Please try again later!'
         }
-        
       },(err) => {
         this.message = err;
       });

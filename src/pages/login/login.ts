@@ -63,10 +63,8 @@ export class LoginPage {
         if (this.responseData.user_data) {
           this.userData.login(this.responseData);
           // here update fmc token because you cannot update it before login
-          if(UserDataProvider.fcmToken && UserDataProvider.userPostData && UserDataProvider.userPostData.username && UserDataProvider.userPostData.token){
+          if(UserDataProvider.fcmToken && UserDataProvider.userPostData){
             let userPostData:any = {
-              username:UserDataProvider.userPostData.username,
-              token:UserDataProvider.userPostData.token,
               fcmToken:UserDataProvider.fcmToken,
             }
             this.networkEngine.post(userPostData,NetworkUrls.UPDATE_FCM);

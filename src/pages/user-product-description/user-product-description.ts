@@ -5,6 +5,7 @@ import { UserDataProvider } from '../../providers/user-data/user-data';
 import { NetworkEngineProvider, Notification } from '../../providers/network-engine/network-engine';
 import { User } from '../../interfaces/user';
 import { NotifyProvider } from '../../providers/notify/notify';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 
 @IonicPage()
 @Component({
@@ -20,7 +21,11 @@ export class UserProductDescriptionPage {
   private requests:Array<User>=[];
   private choosen_user:User;
 
-  constructor(public navCtrl: NavController,private notify:NotifyProvider, private userData:UserDataProvider,private networkEngine:NetworkEngineProvider, private alertCtrl:AlertController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+    private notify:NotifyProvider, 
+    private networkEngine:NetworkEngineProvider, 
+    private alertCtrl:AlertController, 
+    public navParams: NavParams) {
     this.item = this.navParams.get('product');
     console.log(this.item);
     this.itemIndex = this.navParams.get('index');
@@ -35,11 +40,9 @@ export class UserProductDescriptionPage {
 
   fetchChoosenUser(item_id:number){
     let postData:any = {
-      username:this.userData.getUserPostData().username,
-      token : this.userData.getUserPostData().token,
       item_id:item_id
     }
-    this.networkEngine.post(postData,'fetch-choosen-user-for-a-product').then( (result:any) => {
+    this.networkEngine.post(postData,NetworkUrls.FEECT_CHOOSEN_USER).then( (result:any) => {
       this.isRequestAccepted = true;
       this.choosen_user = result.data[0];//this is always one element array because user can only accept one user
     },err => {
@@ -49,11 +52,9 @@ export class UserProductDescriptionPage {
 
   fetchRequests(){
     let postData:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token,
       item_id:this.item.id
     }
-    this.networkEngine.post(postData,'fetch-requests-for-a-product').then( (result:any) => {
+    this.networkEngine.post(postData,NetworkUrls.FETCH_REQUESTS_FOR_A_PRODUCT).then( (result:any) => {
       this.requests = result.data;
     },err => {
       console.error(err);
@@ -109,14 +110,12 @@ export class UserProductDescriptionPage {
 
   acceptApiCall(item_id:number,request_id:number,to_username:string,user_fcm_token:string){
     let postData:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token,
       item_id:item_id,
       request_id:request_id,
       to_username:to_username
     }
 
-    this.networkEngine.post(postData,'accept-request').then( (result:any) => {
+    this.networkEngine.post(postData,NetworkUrls.ACCEPT_A_REQUEST).then( (result:any) => {
       console.log(result);
       this.isRequestAccepted = true;
       this.item.is_hidden = 1;

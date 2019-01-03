@@ -7,6 +7,7 @@ import { DescriptionPage } from '../description/description';
 import { LogsServiceProvider } from '../../providers/logs-service/logs-service';
 import { PostProductPage } from '../post-product/post-product';
 import { item } from '../../interfaces/posted_item';
+import { NetworkUrls } from '../../providers/network-engine/networkUrls';
 // import { CameraOptions,Camera } from '@ionic-native/camera';
 
 @Component({
@@ -35,7 +36,6 @@ export class MainTabsPage {
     private network: NetworkEngineProvider,
     private logs: LogsServiceProvider,
     public popoverCtrl: PopoverController) {
-
       
     this.noRecords = false;  
     this.fetchMainContent().catch( err => {
@@ -102,14 +102,12 @@ export class MainTabsPage {
           this.noRecords = true;
           reject();
         }
-        let api:string;
+        let endUrl:string;
         switch(this.segment){
-          case 'all':api = 'fetch-main-content';break;
-          case 'useful':api='fetch-useful-main-content';break;
+          case 'all':endUrl = NetworkUrls.FETCH_MAIN_CONTENT;break;
+          case 'useful':endUrl=NetworkUrls.FETCH_USEFUL_MAIN_CONTENT;break;
         }
         let userPostData:any = {
-          username: UserDataProvider.userPostData.username,
-          token:UserDataProvider.userPostData.token,
           branch:UserDataProvider.userPostData.branch_name,
           year:UserDataProvider.userPostData.year_name,
           lastCreated:this.lastCreated,
@@ -118,7 +116,7 @@ export class MainTabsPage {
         if(this.lastCreated == 0 && this.refresher_is_present==false){
           this.notify.presentWaiting();
         }
-        this.network.post(userPostData,api).then((result: any) => {
+        this.network.post(userPostData,endUrl).then((result: any) => {
           this.networkConnected = true;
           this.notify.closeWaiting();
           if (this.refresher_is_present) {
@@ -223,12 +221,10 @@ export class MainTabsPage {
     this.queryText = query;
     this.searchList = [];
     let userPostData:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token,
       query:query
     }
     this.notify.presentLoading('Searching...');
-    this.network.post(userPostData,'fetch-particular-product').then( (result:any) => {
+    this.network.post(userPostData,NetworkUrls.FETCH_PARTICULAR_PRODUCT).then( (result:any) => {
       this.items = result.data;
       this.notify.closeLoading();
     },err => {
@@ -239,12 +235,10 @@ export class MainTabsPage {
 
   searchQuery(){//this will call when user writes somthing in searchbox
     let userPostData:any = {
-      username:this.userData.getUserPostData().username,
-      token:this.userData.getUserPostData().token,
       query:this.queryText
     }
     if(this.queryText.length > 0){
-      this.network.post(userPostData,'search-a-product').then( (result:any) => {
+      this.network.post(userPostData,NetworkUrls.SEARCH_A_PRODUCT).then( (result:any) => {
         console.log(result.data);
         this.searchList = result.data;
       }, error => {

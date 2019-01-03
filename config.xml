@@ -2,7 +2,7 @@
 <widget id="com.xibay.android" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Xibay</name>
     <description>An awesome Ionic/Cordova app.</description>
-    <author email="arshadmohammed0141@gmail.com" href="md-arshad.herokapp.com">Mohammed Arshad</author>
+    <author email="arshadmohammed0141@gmail.com" href="md-arshad.herokuapp.com">Mohammed Arshad</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -90,5 +90,5 @@
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-firebase" spec="https://github.com/jestcastro/cordova-plugin-firebase.git" />
-    <engine name="android" spec="~7.0.0" />
+    <engine name="android" spec="7.0.0" />
 </widget>
